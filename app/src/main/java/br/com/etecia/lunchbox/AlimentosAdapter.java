@@ -34,16 +34,20 @@ public class AlimentosAdapter extends RecyclerView.Adapter<AlimentosAdapter.Alim
     @Override
     public void onBindViewHolder(@NonNull AlimentoViewHolder holder, int position) {
         FoodItem alimento = alimentos.get(position);
+
+        // Preenche as informações do alimento
         holder.textFoodName.setText(alimento.getName());
         holder.textFoodDescription.setText(alimento.getDescription());
-        // Supondo que a URL da imagem está em alimento.getImageUrl()
+
+        // Carrega a imagem usando Glide
         Glide.with(holder.itemView.getContext())
                 .load(alimento.getImageUrl())
                 .into(holder.imageFood);
 
+        // Define o clique no item
         holder.itemView.setOnClickListener(v -> {
             if (listener != null) {
-                listener.onAlimentoClick(alimento);
+                listener.onAlimentoClick(alimento);  // Passa o item clicado para o listener
             }
         });
     }
@@ -53,11 +57,13 @@ public class AlimentosAdapter extends RecyclerView.Adapter<AlimentosAdapter.Alim
         return alimentos.size();
     }
 
+    // Método para atualizar a lista de alimentos e notificar o RecyclerView
     public void setAlimentos(List<FoodItem> alimentos) {
         this.alimentos = alimentos;
         notifyDataSetChanged();
     }
 
+    // ViewHolder interno que representa cada item de alimento
     public static class AlimentoViewHolder extends RecyclerView.ViewHolder {
         ImageView imageFood;
         TextView textFoodName;

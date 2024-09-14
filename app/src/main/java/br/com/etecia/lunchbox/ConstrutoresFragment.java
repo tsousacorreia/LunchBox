@@ -5,7 +5,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast; // Adicionar import para Toast
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -27,10 +27,16 @@ public class ConstrutoresFragment extends Fragment implements OnAlimentoClickLis
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_construtores, container, false);
+
+        // Inicializa o RecyclerView
         recyclerView = view.findViewById(R.id.recycler_view_construtores);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+
+        // Configura o adapter e o listener para cliques nos alimentos
         adapter = new AlimentosAdapter(this);
         recyclerView.setAdapter(adapter);
+
+        // Carrega os alimentos da API
         loadConstrutores();
         return view;
     }
@@ -62,9 +68,11 @@ public class ConstrutoresFragment extends Fragment implements OnAlimentoClickLis
 
     @Override
     public void onAlimentoClick(FoodItem alimento) {
-        // Notificar a activity ou fragmento responsável pela lancheira
+        // Notifica a atividade ou fragmento responsável pela lancheira que um alimento foi selecionado
         if (listener != null) {
             listener.onAlimentoSelected(alimento);
+        } else {
+            showError("Listener de seleção de alimentos não está configurado.");
         }
     }
 
@@ -74,18 +82,20 @@ public class ConstrutoresFragment extends Fragment implements OnAlimentoClickLis
         if (context instanceof OnAlimentoSelectedListener) {
             listener = (OnAlimentoSelectedListener) context;
         } else {
-            throw new RuntimeException(context.toString() + " must implement OnAlimentoSelectedListener");
+            throw new RuntimeException(context.toString() + " deve implementar OnAlimentoSelectedListener");
         }
     }
 
     @Override
     public void onDetach() {
         super.onDetach();
-        listener = null;
+        listener = null; // Evita leaks de memória
     }
 
     private void showError(String message) {
-        // Exibindo a mensagem de erro
-        Toast.makeText(getContext(), message, Toast.LENGTH_LONG).show();
+        // Verifica se o contexto está disponível antes de tentar exibir o Toast
+        if (getContext() != null) {
+            Toast.makeText(getContext(), message, Toast.LENGTH_LONG).show();
+        }
     }
 }
