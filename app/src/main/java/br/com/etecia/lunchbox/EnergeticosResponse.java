@@ -5,7 +5,7 @@ import java.util.List;
 public class EnergeticosResponse {
     private boolean error;
     private String message;
-    private List<FoodItem> energeticos;
+    private List<Alimentos> energeticos;
 
     public boolean isError() {
         return error;
@@ -15,7 +15,7 @@ public class EnergeticosResponse {
         return message;
     }
 
-    public List<FoodItem> getEnergeticos() {
+    public List<Alimentos> getEnergeticos() {
         return energeticos;
     }
 }

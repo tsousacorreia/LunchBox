@@ -1,10 +1,10 @@
 package br.com.etecia.lunchbox;
 
-public class FoodItem {
+public class Alimentos {
     private int id;
     private String nome;
     private String descricao;
-    private String imagem_url;
+    private String imagemUrl;
 
     // Getters e setters
     public int getId() {
@@ -20,6 +20,6 @@ public class FoodItem {
     }
 
     public String getImageUrl() {
-        return imagem_url;
+        return imagemUrl;
     }
 }

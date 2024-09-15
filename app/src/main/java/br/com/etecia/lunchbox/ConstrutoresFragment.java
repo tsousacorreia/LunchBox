@@ -67,7 +67,7 @@ public class ConstrutoresFragment extends Fragment implements OnAlimentoClickLis
     }
 
     @Override
-    public void onAlimentoClick(FoodItem alimento) {
+    public void onAlimentoClick(Alimentos alimento) {
         // Notifica a atividade ou fragmento responsável pela lancheira que um alimento foi selecionado
         if (listener != null) {
             listener.onAlimentoSelected(alimento);

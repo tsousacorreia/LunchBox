@@ -1,11 +1,8 @@
 package br.com.etecia.lunchbox;
 
-import java.util.List;
-
-public class ReguladoresResponse {
+public class DefaultResponse {
     private boolean error;
     private String message;
-    private List<Alimentos> reguladores;
 
     public boolean isError() {
         return error;
@@ -13,9 +10,5 @@ public class ReguladoresResponse {
 
     public String getMessage() {
         return message;
-    }
-
-    public List<Alimentos> getReguladores() {
-        return reguladores;
     }
 }

@@ -30,7 +30,7 @@ public class MainActivity extends AppCompatActivity implements OnAlimentoSelecte
     }
 
     @Override
-    public void onAlimentoSelected(FoodItem alimento) {
+    public void onAlimentoSelected(Alimentos alimento) {
         // Implementação do que fazer quando um alimento for selecionado.
         // Exemplo: Adicionar o alimento à lancheira
         LancheiraFragment lancheiraFragment = (LancheiraFragment) getSupportFragmentManager()

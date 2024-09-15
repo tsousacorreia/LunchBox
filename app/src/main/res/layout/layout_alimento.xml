@@ -1,14 +1,12 @@
-<?xml version="1.0" encoding="utf-8"?>
-<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.cardview.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="8dp"
-    android:padding="8dp"
-    app:cardCornerRadius="8dp"
-    app:cardElevation="4dp"
-    tools:context=".AlimentosAdapter">
+    android:padding="16dp"
+    app:cardCornerRadius="12dp"
+    app:cardElevation="2dp">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -20,6 +18,8 @@
             android:layout_width="64dp"
             android:layout_height="64dp"
             android:layout_marginEnd="16dp"
+            android:background="@drawable/rounded_image"
+            android:clipToOutline="true"
             android:contentDescription="Imagem"
             android:scaleType="centerCrop" />
 
@@ -34,15 +34,17 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Nome do Alimento"
-                android:textSize="16sp"
-                android:textStyle="bold" />
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:textColor="@color/primaryTextColor" />
 
             <TextView
                 android:id="@+id/text_food_description"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Descrição do Alimento"
-                android:textSize="14sp" />
+                android:textSize="14sp"
+                android:textColor="@color/secondaryTextColor" />
 
         </LinearLayout>
 

@@ -16,7 +16,7 @@ import java.util.List;
 
 public class AlimentosAdapter extends RecyclerView.Adapter<AlimentosAdapter.AlimentoViewHolder> {
 
-    private List<FoodItem> alimentos = new ArrayList<>();
+    private List<Alimentos> alimentos = new ArrayList<>();
     private OnAlimentoClickListener listener;
 
     public AlimentosAdapter(OnAlimentoClickListener listener) {
@@ -33,7 +33,7 @@ public class AlimentosAdapter extends RecyclerView.Adapter<AlimentosAdapter.Alim
 
     @Override
     public void onBindViewHolder(@NonNull AlimentoViewHolder holder, int position) {
-        FoodItem alimento = alimentos.get(position);
+        Alimentos alimento = alimentos.get(position);
 
         // Preenche as informações do alimento
         holder.textFoodName.setText(alimento.getName());
@@ -58,7 +58,7 @@ public class AlimentosAdapter extends RecyclerView.Adapter<AlimentosAdapter.Alim
     }
 
     // Método para atualizar a lista de alimentos e notificar o RecyclerView
-    public void setAlimentos(List<FoodItem> alimentos) {
+    public void setAlimentos(List<Alimentos> alimentos) {
         this.alimentos = alimentos;
         notifyDataSetChanged();
     }

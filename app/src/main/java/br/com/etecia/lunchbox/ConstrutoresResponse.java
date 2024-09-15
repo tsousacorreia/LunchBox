@@ -5,7 +5,7 @@ import java.util.List;
 public class ConstrutoresResponse {
     private boolean error;
     private String message;
-    private List<FoodItem> construtores;
+    private List<Alimentos> construtores;
 
     public boolean isError() {
         return error;
@@ -15,7 +15,7 @@ public class ConstrutoresResponse {
         return message;
     }
 
-    public List<FoodItem> getConstrutores() {
+    public List<Alimentos> getConstrutores() {
         return construtores;
     }
 }

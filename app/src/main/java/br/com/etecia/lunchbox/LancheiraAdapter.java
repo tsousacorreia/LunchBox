@@ -9,49 +9,66 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
+
 import java.util.List;
 
 public class LancheiraAdapter extends RecyclerView.Adapter<LancheiraAdapter.LancheiraViewHolder> {
 
-    private List<FoodItem> alimentosNaLancheira;
+    private List<Alimentos> alimentosNaLancheira;
 
-    public LancheiraAdapter(List<FoodItem> alimentosNaLancheira) {
+    public LancheiraAdapter(List<Alimentos> alimentosNaLancheira) {
         this.alimentosNaLancheira = alimentosNaLancheira;
     }
 
     @NonNull
     @Override
     public LancheiraViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        // Inflar o layout de item da lancheira
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.layout_alimento, parent, false);
         return new LancheiraViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull LancheiraViewHolder holder, int position) {
-        FoodItem alimento = alimentosNaLancheira.get(position);
-        holder.nomeAlimento.setText(alimento.getName());
-        holder.descricaoAlimento.setText(alimento.getDescription());
+        // Obter o alimento atual na lancheira
+        Alimentos alimento = alimentosNaLancheira.get(position);
 
-        // Aqui você pode carregar a imagem, se houver uma URL
-        // Por exemplo: Picasso.get().load(alimento.getImagemUrl()).into(holder.imagemAlimento);
+        // Definir os dados do alimento
+        holder.textFoodName.setText(alimento.getName());
+        holder.textFoodDescription.setText(alimento.getDescription());
+
+        // Carrega a imagem usando Glide
+        Glide.with(holder.itemView.getContext())
+                .load(alimento.getImageUrl())
+                .into(holder.imageFood);
     }
 
     @Override
     public int getItemCount() {
+        // Retorna o número de alimentos na lancheira
         return alimentosNaLancheira.size();
+    }
+
+    // Método para remover um item específico da lista
+    public void removerItem(int position) {
+        if (position >= 0 && position < alimentosNaLancheira.size()) {
+            alimentosNaLancheira.remove(position);
+            notifyItemRemoved(position);  // Notificar a RecyclerView que o item foi removido
+        }
     }
 
     static class LancheiraViewHolder extends RecyclerView.ViewHolder {
 
-        TextView nomeAlimento;
-        TextView descricaoAlimento;
-        ImageView imagemAlimento;
+        TextView textFoodName;
+        TextView textFoodDescription;
+        ImageView imageFood;
 
         public LancheiraViewHolder(@NonNull View itemView) {
             super(itemView);
-            nomeAlimento = itemView.findViewById(R.id.text_food_name);
-            descricaoAlimento = itemView.findViewById(R.id.text_food_description);
-            imagemAlimento = itemView.findViewById(R.id.image_food);
+            textFoodName = itemView.findViewById(R.id.text_food_name);
+            textFoodDescription = itemView.findViewById(R.id.text_food_description);
+            imageFood = itemView.findViewById(R.id.image_food);
         }
     }
 }
