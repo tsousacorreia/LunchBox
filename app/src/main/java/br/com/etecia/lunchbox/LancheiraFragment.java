@@ -24,47 +24,48 @@ public class LancheiraFragment extends Fragment implements OnAlimentoSelectedLis
     private LancheiraAdapter adapter;
     private List<Alimentos> alimentosNaLancheira;
     private Button btnFinalizarLancheira;
-    private Button btnLimparLancheira;  // Botão para limpar lancheira
+    private Button btnLimparLancheira;
+    private String nomeLancheira;
+    private String dataLancheira;
+    private int perfilId;
+    private DatabaseHelper databaseHelper;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_lancheira, container, false);
 
+        if (getArguments() != null) {
+            nomeLancheira = getArguments().getString("nome_lancheira");
+            dataLancheira = getArguments().getString("data_lancheira");
+            perfilId = getArguments().getInt("perfil_id");
+        }
+
         recyclerView = view.findViewById(R.id.recycler_view_lancheira);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-
-        // Adicionando o divisor entre os itens do RecyclerView
         recyclerView.addItemDecoration(new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL));
 
-        // Inicializar a lista de alimentos na lancheira
         alimentosNaLancheira = new ArrayList<>();
-
-        // Configurar o adaptador da lancheira
         adapter = new LancheiraAdapter(alimentosNaLancheira);
         recyclerView.setAdapter(adapter);
 
-        // Adicionar swipe para remover itens
         ItemTouchHelper itemTouchHelper = new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
             @Override
             public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
-                return false;  // Não permitimos mover itens
+                return false;
             }
 
             @Override
             public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
-                // Remover o item da posição
                 int position = viewHolder.getAdapterPosition();
                 removerAlimentoDaLancheira(position);
             }
         });
         itemTouchHelper.attachToRecyclerView(recyclerView);
 
-        // Configurar o botão de finalizar lancheira
         btnFinalizarLancheira = view.findViewById(R.id.btn_finalizar_lancheira);
         btnFinalizarLancheira.setOnClickListener(v -> finalizarLancheira());
 
-        // Configurar o botão de limpar lancheira
         btnLimparLancheira = view.findViewById(R.id.btn_limpar_lancheira);
         btnLimparLancheira.setOnClickListener(v -> limparLancheira());
 
@@ -75,35 +76,48 @@ public class LancheiraFragment extends Fragment implements OnAlimentoSelectedLis
         if (alimentosNaLancheira.isEmpty()) {
             Toast.makeText(getContext(), "Adicione alimentos à lancheira antes de finalizar", Toast.LENGTH_SHORT).show();
         } else {
-            // Lógica para finalizar a lancheira, ex: salvar no banco ou exibir resumo
-            Toast.makeText(getContext(), "Lancheira finalizada!", Toast.LENGTH_SHORT).show();
+            // Salvar a lancheira no banco de dados local
+            long lancheiraId = salvarLancheira();
+            if (lancheiraId != -1) {
+                // Salvar alimentos da lancheira
+                for (Alimentos alimento : alimentosNaLancheira) {
+                    salvarAlimentoNaLancheira(lancheiraId, alimento.getId());
+                }
+                Toast.makeText(getContext(), "Lancheira finalizada e salva!", Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(getContext(), "Erro ao salvar a lancheira", Toast.LENGTH_SHORT).show();
+            }
         }
     }
 
-    // Método para limpar todos os alimentos da lancheira
+    private long salvarLancheira() {
+        return databaseHelper.addLancheira(nomeLancheira, dataLancheira, perfilId);
+    }
+
+    private void salvarAlimentoNaLancheira(long lancheiraId, int alimentoId) {
+        databaseHelper.addAlimentoNaLancheira(lancheiraId, alimentoId);
+    }
+
     private void limparLancheira() {
         if (!alimentosNaLancheira.isEmpty()) {
-            alimentosNaLancheira.clear();  // Limpa a lista de alimentos
-            adapter.notifyDataSetChanged();  // Notifica o adaptador da mudança
+            alimentosNaLancheira.clear();
+            adapter.notifyDataSetChanged();
             Toast.makeText(getContext(), "Lancheira limpa!", Toast.LENGTH_SHORT).show();
         } else {
             Toast.makeText(getContext(), "A lancheira já está vazia", Toast.LENGTH_SHORT).show();
         }
     }
 
-    // Implementação do método da interface OnAlimentoSelectedListener
     @Override
     public void onAlimentoSelected(Alimentos alimento) {
-        adicionarAlimentoALancheira(alimento);  // Adiciona o alimento à lancheira
+        adicionarAlimentoALancheira(alimento);
     }
 
-    // Método para adicionar alimentos à lancheira
     public void adicionarAlimentoALancheira(Alimentos alimento) {
         alimentosNaLancheira.add(alimento);
         adapter.notifyDataSetChanged();
     }
 
-    // Método para remover alimentos da lancheira
     public void removerAlimentoDaLancheira(int position) {
         if (position >= 0 && position < alimentosNaLancheira.size()) {
             alimentosNaLancheira.remove(position);

@@ -15,6 +15,16 @@
         android:theme="@style/Theme.LunchBox"
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
+        <!-- Tela de Splash -->
+        <activity
+            android:name=".SplashActivity"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <!-- Outras Activities -->
         <activity
             android:name=".CalendarioLancheiraActivity"
             android:exported="false" />
@@ -22,17 +32,8 @@
             android:name=".LancheiraSetupActivity"
             android:exported="false" />
         <activity
-            android:name=".AdicionarPerfilActivity"
-            android:exported="false" />
-        <activity
             android:name=".MainActivity"
-            android:exported="true">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
+            android:exported="false" />
     </application>
 
 </manifest>
