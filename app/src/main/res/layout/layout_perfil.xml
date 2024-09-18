@@ -1,27 +1,78 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="wrap_content"
     android:layout_height="wrap_content"
+    android:layout_gravity="center"
     android:layout_margin="8dp"
-    android:orientation="vertical">
+    android:padding="8dp"
+    app:cardCornerRadius="16dp"
+    app:cardElevation="6dp">
 
-    <TextView
-        android:id="@+id/text_nome_perfil"
+    <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="16sp"
-        android:textStyle="bold" />
+        android:gravity="center_horizontal"
+        android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/text_idade_perfil"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        <!-- Imagem de Avatar -->
+        <ImageView
+            android:id="@+id/image_avatar_perfil"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_gravity="center"
+            android:layout_marginBottom="8dp"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:scaleType="centerCrop"
+            android:src="@drawable/ic_avatar_placeholder" />
 
-    <TextView
-        android:id="@+id/text_preferencias_perfil"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="4dp"
-        android:textSize="14sp" />
+        <!-- Nome do Perfil -->
+        <TextView
+            android:id="@+id/text_nome_perfil"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="Nome da Criança"
+            android:textColor="@color/black"
+            android:textSize="18sp"
+            android:textStyle="bold" />
 
-</LinearLayout>
+        <!-- Idade do Perfil -->
+        <TextView
+            android:id="@+id/text_idade_perfil"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:text="Idade: 5 anos"
+            android:textColor="@color/gray"
+            android:textSize="14sp" />
+
+        <!-- View para expandir -->
+        <LinearLayout
+            android:id="@+id/container_preferencias"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:orientation="vertical"
+            android:visibility="gone">
+
+            <!-- Preferências Alimentares -->
+            <TextView
+                android:id="@+id/text_preferencias_perfil"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Sem lactose, gosta de frutas"
+                android:textColor="@color/gray"
+                android:textSize="14sp" />
+
+            <Button
+                android:id="@+id/btn_selecionar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Montar lancheira"
+                android:layout_gravity="center"
+                android:layout_marginTop="8dp" />
+        </LinearLayout>
+
+    </LinearLayout>
+</androidx.cardview.widget.CardView>

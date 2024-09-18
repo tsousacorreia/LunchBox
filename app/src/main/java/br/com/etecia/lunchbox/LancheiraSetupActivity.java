@@ -1,15 +1,12 @@
 package br.com.etecia.lunchbox;
 
 import android.content.Intent;
-import android.database.Cursor;
 import android.os.Bundle;
 import android.view.View;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.RadioButton;
-import android.widget.RadioGroup;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
@@ -23,10 +20,9 @@ import java.util.List;
 
 public class LancheiraSetupActivity extends AppCompatActivity {
 
-    private CardView cardPerfil, cardDiaSemana, cardPerfisExistentes;
+    private CardView cardCriarNovoPerfil, cardPerfil, cardPerfisExistentes;
     private EditText editNome, editIdade, editPreferencias;
-    private Button btnCriarPerfil, btnFinalizarDia;
-    private RadioGroup radioGroupDias;
+    private Button btnCriarPerfil;
     private RecyclerView recyclerViewPerfis;
 
     private PerfilAdapter perfilAdapter;
@@ -40,24 +36,29 @@ public class LancheiraSetupActivity extends AppCompatActivity {
         setContentView(R.layout.activity_lancheira_setup);
 
         // Inicializando as views
+        cardCriarNovoPerfil = findViewById(R.id.card_criar_novo_perfil);
         cardPerfil = findViewById(R.id.card_perfil);
-        cardDiaSemana = findViewById(R.id.card_dia_semana);
         cardPerfisExistentes = findViewById(R.id.card_perfis_existentes);
         editNome = findViewById(R.id.edit_nome);
         editIdade = findViewById(R.id.edit_idade);
         editPreferencias = findViewById(R.id.edit_preferencias);
         btnCriarPerfil = findViewById(R.id.btn_criar_perfil);
-        radioGroupDias = findViewById(R.id.radio_group_dias);
-        btnFinalizarDia = findViewById(R.id.btn_finalizar_dia);
         recyclerViewPerfis = findViewById(R.id.recycler_view_perfis);
 
         // Inicializa a lista de perfis e o adapter
         perfis = new ArrayList<>();
-        perfilAdapter = new PerfilAdapter(perfis, perfil -> {
-            // Lógica para seleção de perfil existente
-            perfilSelecionado = perfil;  // Guarda o perfil selecionado
-            Toast.makeText(this, "Perfil selecionado: " + perfil.getNome(), Toast.LENGTH_SHORT).show();
-            toggleCardVisibility(cardPerfisExistentes, cardDiaSemana);
+        perfilAdapter = new PerfilAdapter(perfis, new PerfilAdapter.PerfilClickListener() {
+            @Override
+            public void onPerfilClick(Perfil perfil) {
+                perfilSelecionado = perfil;
+                Toast.makeText(LancheiraSetupActivity.this, "Perfil selecionado: " + perfil.getNome(), Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onSelecionarClick(Perfil perfil) {
+                perfilSelecionado = perfil;
+                abrirMontagemLancheira(perfilSelecionado);
+            }
         });
         recyclerViewPerfis.setLayoutManager(new LinearLayoutManager(this));
         recyclerViewPerfis.setAdapter(perfilAdapter);
@@ -75,15 +76,9 @@ public class LancheiraSetupActivity extends AppCompatActivity {
             }
         });
 
-        // Lógica para finalizar a seleção do dia da semana
-        btnFinalizarDia.setOnClickListener(v -> {
-            int selectedDayId = radioGroupDias.getCheckedRadioButtonId();
-            if (selectedDayId != -1) {
-                String diaSelecionado = getSelectedDay(selectedDayId);
-                finalizarSelecaoDia(diaSelecionado);
-            } else {
-                Toast.makeText(this, "Por favor, selecione um dia.", Toast.LENGTH_SHORT).show();
-            }
+        // Lógica para exibir o card de criação de perfil ao clicar no cardCriarNovoPerfil
+        cardCriarNovoPerfil.setOnClickListener(v -> {
+            toggleCardVisibility(cardCriarNovoPerfil, cardPerfil);
         });
     }
 
@@ -97,7 +92,13 @@ public class LancheiraSetupActivity extends AppCompatActivity {
     // Método para criar um perfil e salvar no banco de dados local
     private void criarPerfil() {
         String nome = editNome.getText().toString();
-        int idade = Integer.parseInt(editIdade.getText().toString());
+        int idade;
+        try {
+            idade = Integer.parseInt(editIdade.getText().toString());
+        } catch (NumberFormatException e) {
+            Toast.makeText(LancheiraSetupActivity.this, "Idade inválida", Toast.LENGTH_SHORT).show();
+            return;
+        }
         String preferencias = editPreferencias.getText().toString();
 
         long id = databaseHelper.addPerfil(nome, idade, preferencias);
@@ -112,27 +113,14 @@ public class LancheiraSetupActivity extends AppCompatActivity {
         }
     }
 
-    // Método para finalizar a seleção do dia e avançar para a montagem da lancheira
-    private void finalizarSelecaoDia(String dia) {
-        if (perfilSelecionado != null) {
-            // Passa os dados para a MainActivity sem salvar no banco de dados ainda
-            Intent intent = new Intent(LancheiraSetupActivity.this, MainActivity.class);
-            intent.putExtra("nome_lancheira", "Lancheira de " + perfilSelecionado.getNome());
-            intent.putExtra("data_lancheira", dia);
-            intent.putExtra("perfil_id", perfilSelecionado.getId());
-            startActivity(intent);
-            finish();  // Fecha a LancheiraSetupActivity após abrir a MainActivity
 
-            Toast.makeText(LancheiraSetupActivity.this, "Dia da semana selecionado!", Toast.LENGTH_SHORT).show();
-        } else {
-            Toast.makeText(this, "Por favor, selecione um perfil.", Toast.LENGTH_SHORT).show();
-        }
-    }
-
-    // Método para obter o dia selecionado no RadioGroup
-    private String getSelectedDay(int selectedDayId) {
-        RadioButton selectedRadioButton = findViewById(selectedDayId);
-        return selectedRadioButton.getText().toString();
+    // Método para abrir a MainActivity com os dados do perfil selecionado
+    private void abrirMontagemLancheira(Perfil perfilSelecionado) {
+        Intent intent = new Intent(LancheiraSetupActivity.this, MainActivity.class);
+        intent.putExtra("perfil_id", perfilSelecionado.getId());
+        intent.putExtra("perfil_nome", perfilSelecionado.getNome());
+        intent.putExtra("perfil_preferencias", perfilSelecionado.getPreferencias());
+        startActivity(intent);
     }
 
     // Validação de entrada dos campos de perfil
@@ -144,7 +132,7 @@ public class LancheiraSetupActivity extends AppCompatActivity {
         return true;
     }
 
-    // Método para alternar visibilidade entre os cards
+    // Método para alternar visibilidade entre os cards com animação
     private void toggleCardVisibility(final CardView fromCard, final CardView toCard) {
         // Animação de fade-out
         Animation fadeOut = new AlphaAnimation(1, 0);

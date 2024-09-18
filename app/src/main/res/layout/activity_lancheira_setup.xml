@@ -9,45 +9,40 @@
     android:padding="16dp"
     tools:context=".LancheiraSetupActivity">
 
-    <!-- Card para a seleção de perfis existentes -->
+    <!-- Card para simular o botão de criar um novo perfil -->
     <androidx.cardview.widget.CardView
-        android:id="@+id/card_perfis_existentes"
+        android:id="@+id/card_criar_novo_perfil"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
         app:cardCornerRadius="8dp"
         app:cardElevation="4dp">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:gravity="center"
             android:orientation="vertical"
             android:padding="16dp">
 
             <TextView
-                android:id="@+id/text_perfis_existentes"
+                android:id="@+id/text_novo_perfil"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Perfis Existentes"
+                android:gravity="center"
+                android:text="CRIAR NOVO PERFIL"
                 android:textSize="18sp"
                 android:textStyle="bold" />
-
-            <!-- RecyclerView para exibir perfis existentes -->
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/recycler_view_perfis"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:layout_marginBottom="8dp" />
-
         </LinearLayout>
     </androidx.cardview.widget.CardView>
 
-    <!-- Card para o perfil da criança -->
+    <!-- Card para criar o perfil da criança (inicialmente oculto) -->
     <androidx.cardview.widget.CardView
         android:id="@+id/card_perfil"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="16dp"
+        android:visibility="gone"
         app:cardCornerRadius="8dp"
         app:cardElevation="4dp">
 
@@ -61,7 +56,7 @@
                 android:id="@+id/text_perfil_titulo"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Criar Perfil"
+                android:text="CRIAR PERFIL"
                 android:textSize="18sp"
                 android:textStyle="bold" />
 
@@ -95,12 +90,11 @@
         </LinearLayout>
     </androidx.cardview.widget.CardView>
 
-    <!-- Card para a seleção do dia da semana -->
+    <!-- Card para a seleção de perfis existentes -->
     <androidx.cardview.widget.CardView
-        android:id="@+id/card_dia_semana"
+        android:id="@+id/card_perfis_existentes"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:visibility="gone"
         app:cardCornerRadius="8dp"
         app:cardElevation="4dp">
 
@@ -111,60 +105,21 @@
             android:padding="16dp">
 
             <TextView
-                android:id="@+id/text_dia_titulo"
+                android:id="@+id/text_perfis_existentes"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Selecione o Dia da Semana"
+                android:text="SELECIONE UM PERFIL"
                 android:textSize="18sp"
                 android:textStyle="bold" />
 
-            <!-- Seletor de dias da semana -->
-            <RadioGroup
-                android:id="@+id/radio_group_dias"
+            <!-- RecyclerView para exibir perfis existentes -->
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recycler_view_perfis"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <RadioButton
-                    android:id="@+id/radio_segunda"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Segunda-feira" />
-
-                <RadioButton
-                    android:id="@+id/radio_terca"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Terça-feira" />
-
-                <RadioButton
-                    android:id="@+id/radio_quarta"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Quarta-feira" />
-
-                <RadioButton
-                    android:id="@+id/radio_quinta"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Quinta-feira" />
-
-                <RadioButton
-                    android:id="@+id/radio_sexta"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Sexta-feira" />
-
-            </RadioGroup>
-
-            <!-- Botão para finalizar a seleção -->
-            <Button
-                android:id="@+id/btn_finalizar_dia"
-                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="end"
                 android:layout_marginTop="8dp"
-                android:text="Finalizar" />
+                android:layout_marginBottom="8dp" />
+
         </LinearLayout>
     </androidx.cardview.widget.CardView>
-
 </LinearLayout>
