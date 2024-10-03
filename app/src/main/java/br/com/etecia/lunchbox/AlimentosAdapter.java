@@ -36,12 +36,13 @@ public class AlimentosAdapter extends RecyclerView.Adapter<AlimentosAdapter.Alim
         Alimentos alimento = alimentos.get(position);
 
         // Preenche as informações do alimento
-        holder.textFoodName.setText(alimento.getName());
-        holder.textFoodDescription.setText(alimento.getDescription());
+        holder.textFoodName.setText(alimento.getNome());
+        holder.textFoodDescription.setText(alimento.getDescricao());
 
         // Carrega a imagem usando Glide
         Glide.with(holder.itemView.getContext())
-                .load(alimento.getImageUrl())
+                .load(alimento.getImagemUrl())
+                .placeholder(R.drawable.placeholder_image)
                 .into(holder.imageFood);
 
         // Define o clique no item

@@ -8,13 +8,13 @@
 
     <!-- TabLayout para as categorias de alimentos -->
     <com.google.android.material.tabs.TabLayout
-        android:id="@+id/tab_layout"
+        android:id="@+id/tabLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
     <!-- ViewPager para exibir as listas de alimentos -->
     <androidx.viewpager2.widget.ViewPager2
-        android:id="@+id/viewpager2"
+        android:id="@+id/viewPager"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 

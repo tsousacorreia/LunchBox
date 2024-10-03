@@ -1,78 +1,81 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="wrap_content"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_gravity="center"
     android:layout_margin="8dp"
     android:padding="8dp"
     app:cardCornerRadius="16dp"
     app:cardElevation="6dp">
 
     <LinearLayout
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center_horizontal"
-        android:orientation="vertical">
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
 
         <!-- Imagem de Avatar -->
         <ImageView
             android:id="@+id/image_avatar_perfil"
             android:layout_width="80dp"
             android:layout_height="80dp"
-            android:layout_gravity="center"
-            android:layout_marginBottom="8dp"
+            android:layout_marginEnd="16dp"
             android:background="?attr/selectableItemBackgroundBorderless"
             android:scaleType="centerCrop"
             android:src="@drawable/ic_avatar_placeholder" />
 
-        <!-- Nome do Perfil -->
-        <TextView
-            android:id="@+id/text_nome_perfil"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:text="Nome da Criança"
-            android:textColor="@color/black"
-            android:textSize="18sp"
-            android:textStyle="bold" />
-
-        <!-- Idade do Perfil -->
-        <TextView
-            android:id="@+id/text_idade_perfil"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="4dp"
-            android:text="Idade: 5 anos"
-            android:textColor="@color/gray"
-            android:textSize="14sp" />
-
-        <!-- View para expandir -->
         <LinearLayout
-            android:id="@+id/container_preferencias"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:orientation="vertical"
-            android:visibility="gone">
+            android:layout_weight="1"
+            android:orientation="vertical">
 
-            <!-- Preferências Alimentares -->
+            <!-- Nome -->
             <TextView
-                android:id="@+id/text_preferencias_perfil"
+                android:id="@+id/text_nome_perfil"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Sem lactose, gosta de frutas"
-                android:textColor="@color/gray"
-                android:textSize="14sp" />
+                android:text="Nome da Criança"
+                android:textColor="@color/black"
+                android:textSize="18sp"
+                android:textStyle="bold" />
 
-            <Button
-                android:id="@+id/btn_selecionar"
+            <LinearLayout
+                android:id="@+id/container_preferencias"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Montar lancheira"
-                android:layout_gravity="center"
-                android:layout_marginTop="8dp" />
+                android:layout_marginTop="8dp"
+                android:orientation="vertical"
+                android:visibility="gone">
+
+                <!-- Idade -->
+                <TextView
+                    android:id="@+id/text_idade_perfil"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:text="Idade: 5 anos"
+                    android:textColor="@color/gray"
+                    android:textSize="14sp" />
+
+                <!-- Preferências -->
+                <TextView
+                    android:id="@+id/text_preferencias_perfil"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Sem lactose, gosta de frutas"
+                    android:textColor="@color/gray"
+                    android:textSize="14sp" />
+            </LinearLayout>
         </LinearLayout>
 
+        <!-- ImageButton para opções -->
+        <ImageButton
+            android:id="@+id/btn_opcoes_perfil"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:contentDescription="Opções"
+            android:src="@drawable/ic_menu" />
     </LinearLayout>
 </androidx.cardview.widget.CardView>

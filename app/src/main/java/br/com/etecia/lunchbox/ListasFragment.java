@@ -15,33 +15,42 @@ import com.google.android.material.tabs.TabLayoutMediator;
 
 public class ListasFragment extends Fragment {
 
+    private ViewPager2 viewPager;
+    private TabLayout tabLayout;
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_listas, container, false);
 
-        // Configurando o ViewPager2 e TabLayout para as categorias de alimentos
-        ViewPager2 viewPager = view.findViewById(R.id.viewpager2);
-        TabLayout tabLayout = view.findViewById(R.id.tab_layout);
+        // Inicializar ViewPager e TabLayout
+        viewPager = view.findViewById(R.id.viewPager);
+        tabLayout = view.findViewById(R.id.tabLayout);
 
-        // Adicionar adaptador ao ViewPager2
-        viewPager.setAdapter(new ListasPagerAdapter(this));
+        // Desabilitar swipe no ViewPager
+        viewPager.setUserInputEnabled(false);
 
-        // Associar o TabLayout ao ViewPager2 usando TabLayoutMediator
-        new TabLayoutMediator(tabLayout, viewPager,
-                (tab, position) -> {
-                    switch (position) {
-                        case 0:
-                            tab.setText("Construtores");
-                            break;
-                        case 1:
-                            tab.setText("Reguladores");
-                            break;
-                        case 2:
-                            tab.setText("Energéticos");
-                            break;
-                    }
-                }).attach();
+        // Configurar o Adapter do ViewPager
+        ListasPagerAdapter adapter = new ListasPagerAdapter(this);
+        viewPager.setAdapter(adapter);
+
+        // Conectar o TabLayout com o ViewPager
+        new TabLayoutMediator(tabLayout, viewPager, (tab, position) -> {
+            switch (position) {
+                case 0:
+                    tab.setText("Construtores");
+                    break;
+                case 1:
+                    tab.setText("Reguladores");
+                    break;
+                case 2:
+                    tab.setText("Energéticos");
+                    break;
+                case 3:
+                    tab.setText("Snacks");
+                    break;
+            }
+        }).attach();
 
         return view;
     }

@@ -35,12 +35,13 @@ public class LancheiraAdapter extends RecyclerView.Adapter<LancheiraAdapter.Lanc
         Alimentos alimento = alimentosNaLancheira.get(position);
 
         // Definir os dados do alimento
-        holder.textFoodName.setText(alimento.getName());
-        holder.textFoodDescription.setText(alimento.getDescription());
+        holder.textFoodName.setText(alimento.getNome());
+        holder.textFoodDescription.setText(alimento.getDescricao());
 
         // Carrega a imagem usando Glide
         Glide.with(holder.itemView.getContext())
-                .load(alimento.getImageUrl())
+                .load(alimento.getImagemUrl())
+                .placeholder(R.drawable.placeholder_image)
                 .into(holder.imageFood);
     }
 
@@ -48,14 +49,6 @@ public class LancheiraAdapter extends RecyclerView.Adapter<LancheiraAdapter.Lanc
     public int getItemCount() {
         // Retorna o número de alimentos na lancheira
         return alimentosNaLancheira.size();
-    }
-
-    // Método para remover um item específico da lista
-    public void removerItem(int position) {
-        if (position >= 0 && position < alimentosNaLancheira.size()) {
-            alimentosNaLancheira.remove(position);
-            notifyItemRemoved(position);  // Notificar a RecyclerView que o item foi removido
-        }
     }
 
     static class LancheiraViewHolder extends RecyclerView.ViewHolder {

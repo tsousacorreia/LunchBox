@@ -16,4 +16,8 @@ public interface ApiService {
     // Energéticos
     @GET("Api.php?apicall=getEnergeticos")
     Call<EnergeticosResponse> getEnergeticos();
+
+    // Snacks
+    @GET("Api.php?apicall=getSnacks")
+    Call<SnacksResponse> getSnacks();
 }

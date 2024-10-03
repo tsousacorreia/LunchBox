@@ -15,18 +15,20 @@ public class ListasPagerAdapter extends FragmentStateAdapter {
     public Fragment createFragment(int position) {
         switch (position) {
             case 0:
-                return new ConstrutoresFragment(); // Categoria Construtores
+                return new ConstrutoresFragment();
             case 1:
-                return new ReguladoresFragment(); // Categoria Reguladores
+                return new ReguladoresFragment();
             case 2:
-                return new EnergeticosFragment(); // Categoria Energéticos
+                return new EnergeticosFragment();
+            case 3:
+                return new SnacksFragment();
             default:
-                return new ConstrutoresFragment(); // Caso padrão
+                return new ConstrutoresFragment();
         }
     }
 
     @Override
     public int getItemCount() {
-        return 3; // Três categorias de alimentos
+        return 4;
     }
 }

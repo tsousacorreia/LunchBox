@@ -11,15 +11,31 @@ public class Alimentos {
         return id;
     }
 
-    public String getName() {
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public String getNome() {
         return nome;
     }
 
-    public String getDescription() {
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
+
+    public String getDescricao() {
         return descricao;
     }
 
-    public String getImageUrl() {
+    public void setDescricao(String descricao) {
+        this.descricao = descricao;
+    }
+
+    public String getImagemUrl() {
         return imagemUrl;
+    }
+
+    public void setImagemUrl(String imagemUrl) {
+        this.imagemUrl = imagemUrl;
     }
 }
