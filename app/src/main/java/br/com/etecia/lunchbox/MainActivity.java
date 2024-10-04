@@ -1,12 +1,11 @@
 package br.com.etecia.lunchbox;
 
 import android.os.Bundle;
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements OnAlimentoSelectedListener {
 
     private BottomNavigationView bottomNavigationView;
 
@@ -31,10 +30,10 @@ public class MainActivity extends AppCompatActivity {
             }
 
             // Substituir o fragmento atual e adicionar ao back stack
-            if (selectedFragment != null) {
+            if (selectedFragment == null) {
                 getSupportFragmentManager().beginTransaction()
                         .replace(R.id.fragment_container, selectedFragment)
-                        .addToBackStack(null) // Adiciona ao back stack
+                        .addToBackStack(null)
                         .commit();
             }
 
@@ -43,6 +42,17 @@ public class MainActivity extends AppCompatActivity {
 
         if (savedInstanceState == null) {
             bottomNavigationView.setSelectedItemId(R.id.nav_home);
+        }
+    }
+
+    @Override
+    public void onAlimentoSelected(Alimentos alimento) {
+        // Implementação do comportamento ao selecionar um alimento
+        if (alimento != null) {
+            // Exemplo: Mostrar um log com o nome do alimento selecionado
+            System.out.println("Alimento selecionado: " + alimento.getNome());
+        } else {
+            System.out.println("Nenhum alimento foi selecionado.");
         }
     }
 }

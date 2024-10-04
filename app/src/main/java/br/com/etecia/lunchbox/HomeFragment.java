@@ -33,7 +33,6 @@ public class HomeFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        // Inflar o layout do fragmento
         View view = inflater.inflate(R.layout.fragment_home, container, false);
 
         // Inicializando as views
@@ -64,8 +63,8 @@ public class HomeFragment extends Fragment {
             @Override
             public void onSelecionarClick(Perfil perfil) {
                 perfilSelecionado = perfil;
-                perfilViewModel.setPerfilSelecionado(perfilSelecionado); // Atualiza o perfil selecionado no ViewModel
-                abrirListasFragment(); // Abre o ListasFragment sem passar dados via Bundle
+                perfilViewModel.setPerfilSelecionado(perfilSelecionado);
+                abrirListasFragment();
             }
         }, getActivity());
 
