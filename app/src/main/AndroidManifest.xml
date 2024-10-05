@@ -15,7 +15,6 @@
         android:theme="@style/Theme.LunchBox"
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
-        <!-- Tela de Splash -->
         <activity
             android:name=".MainActivity"
             android:exported="true">

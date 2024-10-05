@@ -48,7 +48,7 @@ public class PerfilAdapter extends RecyclerView.Adapter<PerfilAdapter.PerfilView
         holder.textPreferenciasPerfil.setText(perfil.getPreferencias());
 
         holder.itemView.setOnClickListener(v -> {
-            perfilClickListener.onPerfilClick(perfil); // Redireciona para ListasFragment
+            perfilClickListener.onPerfilClick(perfil);
         });
 
         holder.btnOpcoesPerfil.setOnClickListener(v -> showOptionsDialog(perfil, position));

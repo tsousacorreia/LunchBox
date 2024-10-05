@@ -29,14 +29,11 @@ public class MainActivity extends AppCompatActivity implements OnAlimentoSelecte
                 selectedFragment = new CalendarioFragment();
             }
 
-            // Substituir o fragmento atual e adicionar ao back stack
-            if (selectedFragment == null) {
+            if (selectedFragment != null) {
                 getSupportFragmentManager().beginTransaction()
                         .replace(R.id.fragment_container, selectedFragment)
-                        .addToBackStack(null)
                         .commit();
             }
-
             return true;
         });
 
@@ -49,10 +46,9 @@ public class MainActivity extends AppCompatActivity implements OnAlimentoSelecte
     public void onAlimentoSelected(Alimentos alimento) {
         // Implementação do comportamento ao selecionar um alimento
         if (alimento != null) {
-            // Exemplo: Mostrar um log com o nome do alimento selecionado
-            System.out.println("Alimento selecionado: " + alimento.getNome());
+            // Ação ao selecionar um alimento
         } else {
-            System.out.println("Nenhum alimento foi selecionado.");
+            // Ação caso nenhum alimento seja selecionado
         }
     }
 }
