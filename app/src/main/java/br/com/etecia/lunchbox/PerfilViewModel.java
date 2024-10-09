@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 public class PerfilViewModel extends ViewModel {
+
     private final MutableLiveData<Perfil> perfilSelecionado = new MutableLiveData<>();
 
     public void setPerfilSelecionado(Perfil perfil) {

@@ -16,6 +16,8 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.google.android.material.bottomnavigation.BottomNavigationView;
+
 import java.util.List;
 
 public class HomeFragment extends Fragment {
@@ -27,7 +29,6 @@ public class HomeFragment extends Fragment {
     private PerfilAdapter perfilAdapter;
     private List<Perfil> perfis;
     private PerfilDAO perfilDAO;
-    private Perfil perfilSelecionado;
     private PerfilViewModel perfilViewModel;
 
     @Nullable
@@ -41,6 +42,7 @@ public class HomeFragment extends Fragment {
         cardPerfisExistentes = view.findViewById(R.id.card_perfis_existentes);
         editNome = view.findViewById(R.id.edit_nome);
         editIdade = view.findViewById(R.id.edit_idade);
+        editPreferencias = view.findViewById(R.id.edit_preferencias);
         btnCriarPerfil = view.findViewById(R.id.btn_criar_perfil);
         recyclerViewPerfis = view.findViewById(R.id.recycler_view_perfis);
 
@@ -50,20 +52,22 @@ public class HomeFragment extends Fragment {
         // Carregar os perfis salvos no banco de dados
         perfis = perfilDAO.listarPerfis();
 
+        // Verificar se há perfis e exibir/ocultar os cards correspondentes
+        atualizarVisibilidadeCards();
+
+        // Inicializa o ViewModel
         perfilViewModel = new ViewModelProvider(requireActivity()).get(PerfilViewModel.class);
 
         // Inicializa o adapter
         perfilAdapter = new PerfilAdapter(perfis, new PerfilAdapter.PerfilClickListener() {
             @Override
             public void onPerfilClick(Perfil perfil) {
-                perfilSelecionado = perfil;
-                Toast.makeText(getActivity(), "Perfil selecionado: " + perfil.getNome(), Toast.LENGTH_SHORT).show();
+                // Aqui não fazemos nada, apenas um click simples
             }
 
             @Override
             public void onSelecionarClick(Perfil perfil) {
-                perfilSelecionado = perfil;
-                perfilViewModel.setPerfilSelecionado(perfilSelecionado);
+                perfilViewModel.setPerfilSelecionado(perfil);
                 abrirListasFragment();
             }
         }, getActivity());
@@ -86,56 +90,82 @@ public class HomeFragment extends Fragment {
         return view;
     }
 
-    // Método para abrir o ListasFragment
+    // Abrir o ListasFragment
     private void abrirListasFragment() {
         ListasFragment listasFragment = new ListasFragment();
 
         // Substituindo o HomeFragment pelo ListasFragment
-        getActivity().getSupportFragmentManager().beginTransaction()
+        getParentFragmentManager().beginTransaction()
                 .replace(R.id.fragment_container, listasFragment)
                 .addToBackStack(null)
                 .commit();
+
+        // Atualizar o BottomNavigationView após a troca de fragmento
+        BottomNavigationView bottomNavigationView = getActivity().findViewById(R.id.bottom_navigation);
+        bottomNavigationView.setSelectedItemId(R.id.nav_alimentos);
     }
 
     // Validação de entrada dos campos de perfil
     private boolean validateInputs() {
-        if (editNome.getText().toString().isEmpty() || editIdade.getText().toString().isEmpty()) {
+        if (editNome.getText().toString().isEmpty() || editIdade.getText().toString().isEmpty() || editPreferencias.getText().toString().isEmpty()) {
             Toast.makeText(getActivity(), "Preencha todos os campos!", Toast.LENGTH_SHORT).show();
             return false;
         }
         return true;
     }
 
-    // Método para alternar visibilidade entre os cards com animação
+    // Alternar visibilidade entre os cards com animação
     private void toggleCardVisibility(final CardView fromCard, final CardView toCard) {
         fromCard.setVisibility(View.GONE);
         toCard.setVisibility(View.VISIBLE);
     }
 
     private void criarPerfil() {
-        // Implementação de criação de perfil
         String nome = editNome.getText().toString();
         int idade = Integer.parseInt(editIdade.getText().toString());
+        String preferencias = editPreferencias.getText().toString();
 
         // Criar o objeto perfil
-        Perfil novoPerfil = new Perfil(nome, idade, "");
+        Perfil novoPerfil = new Perfil(nome, idade, preferencias);
 
         // Inserir no banco de dados
         long id = perfilDAO.inserirPerfil(novoPerfil);
 
         if (id > 0) {
-            // Atualizar o perfil com o ID gerado e adicionar à lista
             novoPerfil.setId((int) id);
             perfis.add(novoPerfil);
             perfilAdapter.notifyDataSetChanged();
 
-            // Limpar os campos
             editNome.setText("");
             editIdade.setText("");
+            editPreferencias.setText("");
+
+            atualizarVisibilidadeCards();
+
+            cardPerfil.setVisibility(View.GONE);
+            cardCriarNovoPerfil.setVisibility(View.VISIBLE);
 
             Toast.makeText(getActivity(), "Perfil criado com sucesso!", Toast.LENGTH_SHORT).show();
         } else {
             Toast.makeText(getActivity(), "Erro ao criar perfil!", Toast.LENGTH_SHORT).show();
         }
+    }
+
+    private void atualizarVisibilidadeCards() {
+        if (perfis.isEmpty()) {
+            cardCriarNovoPerfil.setVisibility(View.VISIBLE);
+            cardPerfisExistentes.setVisibility(View.GONE);
+        } else {
+            cardCriarNovoPerfil.setVisibility(View.VISIBLE);
+            cardPerfisExistentes.setVisibility(View.VISIBLE);
+        }
+    }
+
+    public void deletarPerfil(Perfil perfil) {
+        perfilDAO.deletarPerfil(perfil.getId());
+        perfis.remove(perfil);
+        perfilAdapter.notifyDataSetChanged();
+
+        atualizarVisibilidadeCards();
     }
 }

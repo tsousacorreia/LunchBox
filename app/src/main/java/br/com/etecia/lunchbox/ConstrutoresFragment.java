@@ -10,6 +10,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -22,6 +23,7 @@ public class ConstrutoresFragment extends Fragment implements OnAlimentoClickLis
     private RecyclerView recyclerView;
     private AlimentosAdapter adapter;
     private OnAlimentoSelectedListener listener;
+    private PerfilViewModel perfilViewModel; // Declare o ViewModel
 
     @Nullable
     @Override
@@ -35,6 +37,9 @@ public class ConstrutoresFragment extends Fragment implements OnAlimentoClickLis
         // Configura o adapter e o listener para cliques nos alimentos
         adapter = new AlimentosAdapter(this);
         recyclerView.setAdapter(adapter);
+
+        // Inicializa o PerfilViewModel
+        perfilViewModel = new ViewModelProvider(requireActivity()).get(PerfilViewModel.class);
 
         // Carrega os alimentos da API
         loadConstrutores();
@@ -68,11 +73,14 @@ public class ConstrutoresFragment extends Fragment implements OnAlimentoClickLis
 
     @Override
     public void onAlimentoClick(Alimentos alimento) {
-        // Notifica a atividade ou fragmento responsável pela lancheira que um alimento foi selecionado
-        if (listener != null) {
-            listener.onAlimentoSelected(alimento);
+        // Verifica se um perfil está selecionado
+        if (perfilViewModel.getPerfilSelecionado() != null) {
+            // Notifica a atividade ou fragmento responsável pela lancheira que um alimento foi selecionado
+            if (listener != null) {
+                listener.onAlimentoSelected(alimento);
+            }
         } else {
-            showError("Listener de seleção de alimentos não está configurado.");
+            showError("Por favor, selecione um perfil antes de escolher alimentos.");
         }
     }
 

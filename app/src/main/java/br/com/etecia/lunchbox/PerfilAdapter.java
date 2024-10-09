@@ -49,6 +49,7 @@ public class PerfilAdapter extends RecyclerView.Adapter<PerfilAdapter.PerfilView
 
         holder.itemView.setOnClickListener(v -> {
             perfilClickListener.onPerfilClick(perfil);
+            perfilClickListener.onSelecionarClick(perfil); // Chama aqui para navegar
         });
 
         holder.btnOpcoesPerfil.setOnClickListener(v -> showOptionsDialog(perfil, position));
@@ -86,33 +87,27 @@ public class PerfilAdapter extends RecyclerView.Adapter<PerfilAdapter.PerfilView
         EditText editIdade = dialogView.findViewById(R.id.edit_idade);
         EditText editPreferencias = dialogView.findViewById(R.id.edit_preferencias); // Campo de preferências
 
-        // Preenche os campos com os dados do perfil existente
         editNome.setText(perfil.getNome());
         editIdade.setText(String.valueOf(perfil.getIdade()));
-        editPreferencias.setText(perfil.getPreferencias()); // Preenche o campo de preferências
+        editPreferencias.setText(perfil.getPreferencias());
 
         builder.setTitle("Editar Perfil")
                 .setPositiveButton("Salvar", (dialog, which) -> {
-                    String nome = editNome.getText().toString();
-                    int idade = Integer.parseInt(editIdade.getText().toString());
-                    String preferencias = editPreferencias.getText().toString(); // Captura as preferências
-
-                    perfil.setNome(nome);
-                    perfil.setIdade(idade);
-                    perfil.setPreferencias(preferencias); // Atualiza as preferências
+                    perfil.setNome(editNome.getText().toString());
+                    perfil.setIdade(Integer.parseInt(editIdade.getText().toString()));
+                    perfil.setPreferencias(editPreferencias.getText().toString());
 
                     perfilDAO.atualizarPerfil(perfil);
-                    notifyDataSetChanged();
+                    notifyDataSetChanged(); // Notifica que a lista foi atualizada
                 })
                 .setNegativeButton("Cancelar", null)
-                .create()
                 .show();
     }
 
     private void showDeleteConfirmationDialog(Perfil perfil, int position) {
         new AlertDialog.Builder(context)
-                .setTitle("Confirmação")
-                .setMessage("Tem certeza que deseja excluir " + perfil.getNome() + "?")
+                .setTitle("Confirmar Exclusão")
+                .setMessage("Você tem certeza que deseja excluir este perfil?")
                 .setPositiveButton("Sim", (dialog, which) -> {
                     perfilDAO.deletarPerfil(perfil.getId());
                     perfis.remove(position);
@@ -122,17 +117,15 @@ public class PerfilAdapter extends RecyclerView.Adapter<PerfilAdapter.PerfilView
                 .show();
     }
 
-    public class PerfilViewHolder extends RecyclerView.ViewHolder {
+    static class PerfilViewHolder extends RecyclerView.ViewHolder {
         TextView textNomePerfil, textIdadePerfil, textPreferenciasPerfil;
-        LinearLayout containerPreferencias;
-        ImageButton btnOpcoesPerfil; // Adiciona o botão de opções
+        ImageButton btnOpcoesPerfil;
 
         public PerfilViewHolder(View itemView) {
             super(itemView);
             textNomePerfil = itemView.findViewById(R.id.text_nome_perfil);
             textIdadePerfil = itemView.findViewById(R.id.text_idade_perfil);
             textPreferenciasPerfil = itemView.findViewById(R.id.text_preferencias_perfil);
-            containerPreferencias = itemView.findViewById(R.id.container_preferencias);
             btnOpcoesPerfil = itemView.findViewById(R.id.btn_opcoes_perfil);
         }
     }
