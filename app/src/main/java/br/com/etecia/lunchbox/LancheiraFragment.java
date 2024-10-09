@@ -22,16 +22,16 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
-public class LancheiraFragment extends Fragment implements OnAlimentoSelectedListener {
+public class LancheiraFragment extends Fragment {
 
     private TextView textData;
     private RecyclerView recyclerView;
     private LancheiraAdapter adapter;
-    private List<Alimentos> alimentosNaLancheira;
     private Button btnFinalizarLancheira;
     private Button btnLimparLancheira;
     private SQLiteHelper databaseHelper;
     private PerfilViewModel perfilViewModel;
+    private SharedViewModel sharedViewModel; // Vamos observar o SharedViewModel
     private String dataSelecionada;
 
     @Nullable
@@ -49,8 +49,7 @@ public class LancheiraFragment extends Fragment implements OnAlimentoSelectedLis
         recyclerView.addItemDecoration(new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL));
 
         // Inicialização da lista de alimentos e do adaptador
-        alimentosNaLancheira = new ArrayList<>();
-        adapter = new LancheiraAdapter(alimentosNaLancheira);
+        adapter = new LancheiraAdapter(new ArrayList<>());
         recyclerView.setAdapter(adapter);
 
         // Configuração do ItemTouchHelper para remoção de alimentos
@@ -75,8 +74,14 @@ public class LancheiraFragment extends Fragment implements OnAlimentoSelectedLis
         btnLimparLancheira = view.findViewById(R.id.btn_limpar_lancheira);
         btnLimparLancheira.setOnClickListener(v -> limparLancheira());
 
-        // Inicializa o ViewModel do perfil
+        // Inicializa o ViewModel do perfil para compartilhamento de dados entre fragments
         perfilViewModel = new ViewModelProvider(requireActivity()).get(PerfilViewModel.class);
+        sharedViewModel = new ViewModelProvider(requireActivity()).get(SharedViewModel.class);
+
+        // Observa os alimentos adicionados no SharedViewModel
+        sharedViewModel.getAlimentosSelecionados().observe(getViewLifecycleOwner(), alimentos -> {
+            adapter.setAlimentos(alimentos);
+        });
 
         // Inicializa o helper de banco de dados
         databaseHelper = new SQLiteHelper(getContext());
@@ -85,16 +90,15 @@ public class LancheiraFragment extends Fragment implements OnAlimentoSelectedLis
     }
 
     private void finalizarLancheira() {
+        List<Alimentos> alimentosNaLancheira = adapter.getAlimentos();
         if (alimentosNaLancheira.isEmpty()) {
             Toast.makeText(getContext(), "Adicione alimentos à lancheira antes de finalizar", Toast.LENGTH_SHORT).show();
         } else if (dataSelecionada == null) {
             Toast.makeText(getContext(), "Selecione uma data antes de finalizar", Toast.LENGTH_SHORT).show();
         } else {
-            // Observa o perfil selecionado
             perfilViewModel.getPerfilSelecionado().observe(getViewLifecycleOwner(), perfil -> {
                 if (perfil != null) {
-                    // Salva a lancheira no banco de dados local com a data selecionada
-                    long lancheiraId = salvarLancheira(perfil);
+                    long lancheiraId = salvarLancheira(perfil, alimentosNaLancheira);
                     if (lancheiraId != -1) {
                         Toast.makeText(getContext(), "Lancheira finalizada e salva!", Toast.LENGTH_SHORT).show();
                     } else {
@@ -107,20 +111,13 @@ public class LancheiraFragment extends Fragment implements OnAlimentoSelectedLis
         }
     }
 
-    private long salvarLancheira(Perfil perfil) {
-        // Salva a lancheira e retorna o ID da lancheira com a data selecionada
-        long lancheiraId = databaseHelper.inserirLancheira(perfil.getId(), alimentosNaLancheira, dataSelecionada);
-        return lancheiraId;
+    private long salvarLancheira(Perfil perfil, List<Alimentos> alimentosNaLancheira) {
+        return databaseHelper.inserirLancheira(perfil.getId(), alimentosNaLancheira, dataSelecionada);
     }
 
     private void limparLancheira() {
-        if (!alimentosNaLancheira.isEmpty()) {
-            alimentosNaLancheira.clear();
-            adapter.notifyDataSetChanged();
-            Toast.makeText(getContext(), "Lancheira limpa!", Toast.LENGTH_SHORT).show();
-        } else {
-            Toast.makeText(getContext(), "A lancheira já está vazia", Toast.LENGTH_SHORT).show();
-        }
+        sharedViewModel.limparAlimentos();
+        Toast.makeText(getContext(), "Lancheira limpa!", Toast.LENGTH_SHORT).show();
     }
 
     private void showDatePickerDialog() {
@@ -130,32 +127,19 @@ public class LancheiraFragment extends Fragment implements OnAlimentoSelectedLis
         int day = calendar.get(Calendar.DAY_OF_MONTH);
 
         DatePickerDialog datePickerDialog = new DatePickerDialog(
-                requireContext(),
+                getContext(),
                 (view, selectedYear, selectedMonth, selectedDay) -> {
-                    dataSelecionada = String.format("%02d/%02d/%d", selectedDay, selectedMonth + 1, selectedYear);
+                    dataSelecionada = selectedDay + "/" + (selectedMonth + 1) + "/" + selectedYear;
                     textData.setText(dataSelecionada);
                 },
-                year, month, day
-        );
-
+                year, month, day);
         datePickerDialog.show();
     }
 
-    @Override
-    public void onAlimentoSelected(Alimentos alimento) {
-        adicionarAlimentoALancheira(alimento);
-    }
-
-    public void adicionarAlimentoALancheira(Alimentos alimento) {
-        alimentosNaLancheira.add(alimento);
-        adapter.notifyDataSetChanged();
-    }
-
-    public void removerAlimentoDaLancheira(int position) {
-        if (position >= 0 && position < alimentosNaLancheira.size()) {
-            alimentosNaLancheira.remove(position);
-            adapter.notifyDataSetChanged();
-            Toast.makeText(getContext(), "Alimento removido da lancheira", Toast.LENGTH_SHORT).show();
-        }
+    private void removerAlimentoDaLancheira(int position) {
+        List<Alimentos> alimentosNaLancheira = adapter.getAlimentos();
+        Alimentos alimentoRemovido = alimentosNaLancheira.get(position);
+        sharedViewModel.limparAlimentos(alimentoRemovido);
+        Toast.makeText(getContext(), alimentoRemovido.getNome() + " removido da lancheira", Toast.LENGTH_SHORT).show();
     }
 }

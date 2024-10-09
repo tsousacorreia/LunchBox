@@ -44,11 +44,15 @@ public class MainActivity extends AppCompatActivity implements OnAlimentoSelecte
 
     @Override
     public void onAlimentoSelected(Alimentos alimento) {
-        // Implementação do comportamento ao selecionar um alimento
-        if (alimento != null) {
-            // Ação ao selecionar um alimento
-        } else {
-            // Ação caso nenhum alimento seja selecionado
-        }
+        // Não navega automaticamente para a lancheira aqui.
+    }
+
+    @Override
+    public void onVisualizarLancheira() {
+        LancheiraFragment lancheiraFragment = new LancheiraFragment();
+        getSupportFragmentManager().beginTransaction()
+                .replace(R.id.fragment_container, lancheiraFragment)
+                .addToBackStack(null)
+                .commit();
     }
 }

@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -23,7 +24,9 @@ public class ConstrutoresFragment extends Fragment implements OnAlimentoClickLis
     private RecyclerView recyclerView;
     private AlimentosAdapter adapter;
     private OnAlimentoSelectedListener listener;
-    private PerfilViewModel perfilViewModel; // Declare o ViewModel
+    private PerfilViewModel perfilViewModel;
+    private SharedViewModel sharedViewModel;
+    private Button btnVisualizarLancheira;  // Botão para navegar para a Lancheira
 
     @Nullable
     @Override
@@ -38,8 +41,17 @@ public class ConstrutoresFragment extends Fragment implements OnAlimentoClickLis
         adapter = new AlimentosAdapter(this);
         recyclerView.setAdapter(adapter);
 
-        // Inicializa o PerfilViewModel
+        // Inicializa o PerfilViewModel e SharedViewModel
         perfilViewModel = new ViewModelProvider(requireActivity()).get(PerfilViewModel.class);
+        sharedViewModel = new ViewModelProvider(requireActivity()).get(SharedViewModel.class);
+
+        // Inicializa o botão "Visualizar Lancheira"
+        btnVisualizarLancheira = view.findViewById(R.id.btn_visualizar_lancheira);
+        btnVisualizarLancheira.setOnClickListener(v -> {
+            if (listener != null) {
+                listener.onVisualizarLancheira();  // Aciona a navegação para o fragmento da Lancheira
+            }
+        });
 
         // Carrega os alimentos da API
         loadConstrutores();
@@ -73,12 +85,9 @@ public class ConstrutoresFragment extends Fragment implements OnAlimentoClickLis
 
     @Override
     public void onAlimentoClick(Alimentos alimento) {
-        // Verifica se um perfil está selecionado
-        if (perfilViewModel.getPerfilSelecionado() != null) {
-            // Notifica a atividade ou fragmento responsável pela lancheira que um alimento foi selecionado
-            if (listener != null) {
-                listener.onAlimentoSelected(alimento);
-            }
+        if (perfilViewModel.getPerfilSelecionado().getValue() != null) {
+            sharedViewModel.adicionarAlimento(alimento);
+            Toast.makeText(getContext(), alimento.getNome() + " adicionado à lancheira!", Toast.LENGTH_SHORT).show();
         } else {
             showError("Por favor, selecione um perfil antes de escolher alimentos.");
         }
@@ -97,11 +106,10 @@ public class ConstrutoresFragment extends Fragment implements OnAlimentoClickLis
     @Override
     public void onDetach() {
         super.onDetach();
-        listener = null; // Evita leaks de memória
+        listener = null;
     }
 
     private void showError(String message) {
-        // Verifica se o contexto está disponível antes de tentar exibir o Toast
         if (getContext() != null) {
             Toast.makeText(getContext(), message, Toast.LENGTH_LONG).show();
         }

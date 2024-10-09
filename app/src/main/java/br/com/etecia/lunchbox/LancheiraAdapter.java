@@ -51,6 +51,17 @@ public class LancheiraAdapter extends RecyclerView.Adapter<LancheiraAdapter.Lanc
         return alimentosNaLancheira.size();
     }
 
+    // Método para definir os alimentos na lancheira
+    public void setAlimentos(List<Alimentos> alimentosNaLancheira) {
+        this.alimentosNaLancheira = alimentosNaLancheira;
+        notifyDataSetChanged();
+    }
+
+    // Método para obter a lista de alimentos na lancheira
+    public List<Alimentos> getAlimentos() {
+        return alimentosNaLancheira;
+    }
+
     static class LancheiraViewHolder extends RecyclerView.ViewHolder {
 
         TextView textFoodName;
