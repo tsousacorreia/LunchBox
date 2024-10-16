@@ -1,5 +1,6 @@
 package br.com.etecia.lunchbox;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,9 +18,11 @@ import java.util.List;
 public class AlimentosAdapter extends RecyclerView.Adapter<AlimentosAdapter.AlimentoViewHolder> {
 
     private List<Alimentos> alimentos = new ArrayList<>();
+    private SharedViewModel sharedViewModel;
     private OnAlimentoClickListener listener;
 
-    public AlimentosAdapter(OnAlimentoClickListener listener) {
+    public AlimentosAdapter(SharedViewModel sharedViewModel, OnAlimentoClickListener listener) {
+        this.sharedViewModel = sharedViewModel;
         this.listener = listener;
     }
 
@@ -45,12 +48,27 @@ public class AlimentosAdapter extends RecyclerView.Adapter<AlimentosAdapter.Alim
                 .placeholder(R.drawable.placeholder_image)
                 .into(holder.imageFood);
 
-        // Define o clique no item
-        holder.itemView.setOnClickListener(v -> {
-            if (listener != null) {
-                listener.onAlimentoClick(alimento);  // Passa o item clicado para o listener
-            }
-        });
+        // Verifica se o alimento já foi adicionado e altera o estado visual
+        if (sharedViewModel.isAlimentoAdicionado(alimento)) {
+            // Alimento já adicionado: desabilita o clique e altera o estado visual
+            holder.itemView.setAlpha(0.5f); // Deixa o item mais "apagado"
+            holder.itemView.setOnClickListener(null); // Desativa o clique
+        } else {
+            // Alimento ainda não foi adicionado: ativa o clique normalmente
+            holder.itemView.setAlpha(1.0f); // Volta o estado visual ao normal
+            holder.itemView.setOnClickListener(v -> {
+                // Adiciona o alimento à lancheira
+                sharedViewModel.adicionarAlimento(alimento);
+
+                // Notifica o listener que o alimento foi clicado (se necessário para outras ações)
+                if (listener != null) {
+                    listener.onAlimentoClick(alimento);
+                }
+
+                // Atualiza o item visualmente após a adição
+                notifyItemChanged(position);
+            });
+        }
     }
 
     @Override

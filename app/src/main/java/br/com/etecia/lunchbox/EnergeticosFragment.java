@@ -5,11 +5,13 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -22,6 +24,9 @@ public class EnergeticosFragment extends Fragment implements OnAlimentoClickList
     private RecyclerView recyclerView;
     private AlimentosAdapter adapter;
     private OnAlimentoSelectedListener listener;
+    private PerfilViewModel perfilViewModel;
+    private SharedViewModel sharedViewModel;
+    private Button btnVisualizarLancheira;  // Botão para navegar para a Lancheira
 
     @Nullable
     @Override
@@ -32,9 +37,21 @@ public class EnergeticosFragment extends Fragment implements OnAlimentoClickList
         recyclerView = view.findViewById(R.id.recycler_view_energeticos);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
-        // Configura o adapter e o listener para cliques nos alimentos
-        adapter = new AlimentosAdapter(this);
+        // Inicializa o PerfilViewModel e SharedViewModel
+        perfilViewModel = new ViewModelProvider(requireActivity()).get(PerfilViewModel.class);
+        sharedViewModel = new ViewModelProvider(requireActivity()).get(SharedViewModel.class);
+
+        // Configura o adapter passando o SharedViewModel e o listener para cliques nos alimentos
+        adapter = new AlimentosAdapter(sharedViewModel, this);
         recyclerView.setAdapter(adapter);
+
+        // Inicializa o botão "Visualizar Lancheira"
+        btnVisualizarLancheira = view.findViewById(R.id.btn_visualizar_lancheira);
+        btnVisualizarLancheira.setOnClickListener(v -> {
+            if (listener != null) {
+                listener.onVisualizarLancheira();  // Aciona a navegação para o fragmento da Lancheira
+            }
+        });
 
         // Carrega os alimentos da API
         loadEnergeticos();
@@ -68,11 +85,27 @@ public class EnergeticosFragment extends Fragment implements OnAlimentoClickList
 
     @Override
     public void onAlimentoClick(Alimentos alimento) {
-        // Notifica a atividade ou fragmento responsável pela lancheira que um alimento foi selecionado
-        if (listener != null) {
-            listener.onAlimentoSelected(alimento);
+        // Verifica se um perfil está selecionado
+        if (perfilViewModel.getPerfilSelecionado().getValue() != null) {
+            // Verifica se o alimento já foi adicionado à lancheira
+            if (sharedViewModel.isAlimentoAdicionado(alimento)) {
+                // Mostra um alerta ao usuário informando que o alimento já foi adicionado
+                Toast.makeText(getContext(), alimento.getNome() + " já foi adicionado à lancheira!", Toast.LENGTH_SHORT).show();
+            } else {
+                // Adiciona o alimento ao SharedViewModel para que seja acessível no LancheiraFragment
+                sharedViewModel.adicionarAlimento(alimento);
+
+                // Mostra um Toast confirmando a adição do alimento
+                Toast.makeText(getContext(), alimento.getNome() + " adicionado à lancheira!", Toast.LENGTH_SHORT).show();
+
+                // Notifica o fragmento responsável pela lancheira que um alimento foi selecionado (se o listener estiver configurado)
+                if (listener != null) {
+                    listener.onAlimentoSelected(alimento);
+                }
+            }
         } else {
-            showError("Listener de seleção de alimentos não está configurado.");
+            // Mostra uma mensagem de erro se nenhum perfil estiver selecionado
+            showError("Por favor, selecione um perfil antes de escolher alimentos.");
         }
     }
 
@@ -89,11 +122,10 @@ public class EnergeticosFragment extends Fragment implements OnAlimentoClickList
     @Override
     public void onDetach() {
         super.onDetach();
-        listener = null; // Evita leaks de memória
+        listener = null;
     }
 
     private void showError(String message) {
-        // Verifica se o contexto está disponível antes de tentar exibir o Toast
         if (getContext() != null) {
             Toast.makeText(getContext(), message, Toast.LENGTH_LONG).show();
         }

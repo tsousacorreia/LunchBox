@@ -139,7 +139,7 @@ public class LancheiraFragment extends Fragment {
     private void removerAlimentoDaLancheira(int position) {
         List<Alimentos> alimentosNaLancheira = adapter.getAlimentos();
         Alimentos alimentoRemovido = alimentosNaLancheira.get(position);
-        sharedViewModel.limparAlimentos(alimentoRemovido);
+        sharedViewModel.limparAlimento(alimentoRemovido);
         Toast.makeText(getContext(), alimentoRemovido.getNome() + " removido da lancheira", Toast.LENGTH_SHORT).show();
     }
 }

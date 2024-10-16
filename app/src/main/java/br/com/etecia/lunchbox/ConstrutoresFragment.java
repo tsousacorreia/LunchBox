@@ -37,13 +37,13 @@ public class ConstrutoresFragment extends Fragment implements OnAlimentoClickLis
         recyclerView = view.findViewById(R.id.recycler_view_construtores);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
-        // Configura o adapter e o listener para cliques nos alimentos
-        adapter = new AlimentosAdapter(this);
-        recyclerView.setAdapter(adapter);
-
         // Inicializa o PerfilViewModel e SharedViewModel
         perfilViewModel = new ViewModelProvider(requireActivity()).get(PerfilViewModel.class);
         sharedViewModel = new ViewModelProvider(requireActivity()).get(SharedViewModel.class);
+
+        // Configura o adapter passando o SharedViewModel e o listener para cliques nos alimentos
+        adapter = new AlimentosAdapter(sharedViewModel, this);
+        recyclerView.setAdapter(adapter);
 
         // Inicializa o botão "Visualizar Lancheira"
         btnVisualizarLancheira = view.findViewById(R.id.btn_visualizar_lancheira);
@@ -85,10 +85,26 @@ public class ConstrutoresFragment extends Fragment implements OnAlimentoClickLis
 
     @Override
     public void onAlimentoClick(Alimentos alimento) {
+        // Verifica se um perfil está selecionado
         if (perfilViewModel.getPerfilSelecionado().getValue() != null) {
-            sharedViewModel.adicionarAlimento(alimento);
-            Toast.makeText(getContext(), alimento.getNome() + " adicionado à lancheira!", Toast.LENGTH_SHORT).show();
+            // Verifica se o alimento já foi adicionado à lancheira
+            if (sharedViewModel.isAlimentoAdicionado(alimento)) {
+                // Mostra um alerta ao usuário informando que o alimento já foi adicionado
+                Toast.makeText(getContext(), alimento.getNome() + " já foi adicionado à lancheira!", Toast.LENGTH_SHORT).show();
+            } else {
+                // Adiciona o alimento ao SharedViewModel para que seja acessível no LancheiraFragment
+                sharedViewModel.adicionarAlimento(alimento);
+
+                // Mostra um Toast confirmando a adição do alimento
+                Toast.makeText(getContext(), alimento.getNome() + " adicionado à lancheira!", Toast.LENGTH_SHORT).show();
+
+                // Notifica o fragmento responsável pela lancheira que um alimento foi selecionado (se o listener estiver configurado)
+                if (listener != null) {
+                    listener.onAlimentoSelected(alimento);
+                }
+            }
         } else {
+            // Mostra uma mensagem de erro se nenhum perfil estiver selecionado
             showError("Por favor, selecione um perfil antes de escolher alimentos.");
         }
     }

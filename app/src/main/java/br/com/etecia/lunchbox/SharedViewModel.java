@@ -1,5 +1,7 @@
 package br.com.etecia.lunchbox;
 
+import android.util.Log;
+
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
@@ -10,35 +12,40 @@ import java.util.List;
 public class SharedViewModel extends ViewModel {
     private final MutableLiveData<List<Alimentos>> alimentosSelecionados = new MutableLiveData<>(new ArrayList<>());
 
-    // Método para adicionar um alimento à lista de selecionados
+    // Método para adicionar alimento à lancheira
     public void adicionarAlimento(Alimentos alimento) {
-        List<Alimentos> currentList = alimentosSelecionados.getValue();
-        if (currentList != null) {
-            currentList.add(alimento);
-            alimentosSelecionados.setValue(currentList);
+        // Cria uma nova lista para evitar mutabilidade direta na lista existente
+        List<Alimentos> listaAtual = new ArrayList<>(alimentosSelecionados.getValue());
+        if (!listaAtual.contains(alimento)) { // Verifica se o alimento não está na lista
+            listaAtual.add(alimento);
+            alimentosSelecionados.setValue(listaAtual);
+            Log.d("SharedViewModel", "Alimento adicionado: " + alimento.getNome());
         }
     }
 
-    // Método para observar a lista de alimentos selecionados
+    // Verifica se o alimento já foi adicionado
+    public boolean isAlimentoAdicionado(Alimentos alimento) {
+        List<Alimentos> listaAtual = alimentosSelecionados.getValue();
+        return listaAtual != null && listaAtual.contains(alimento);
+    }
+
+    // Método para obter a lista de alimentos selecionados
     public LiveData<List<Alimentos>> getAlimentosSelecionados() {
         return alimentosSelecionados;
     }
 
     // Método para limpar a lista de alimentos
     public void limparAlimentos() {
-        List<Alimentos> currentList = alimentosSelecionados.getValue();
-        if (currentList != null) {
-            currentList.clear();
-            alimentosSelecionados.setValue(currentList);
-        }
+        alimentosSelecionados.setValue(new ArrayList<>()); // Cria uma nova lista vazia para limpar os alimentos
     }
 
     // Método para remover um alimento específico
-    public void limparAlimentos(Alimentos alimento) {
-        List<Alimentos> currentList = alimentosSelecionados.getValue();
-        if (currentList != null && currentList.contains(alimento)) {
+    public void limparAlimento(Alimentos alimento) {
+        // Cria uma nova lista para evitar mutabilidade direta na lista existente
+        List<Alimentos> currentList = new ArrayList<>(alimentosSelecionados.getValue());
+        if (currentList.contains(alimento)) {
             currentList.remove(alimento);
-            alimentosSelecionados.setValue(currentList);
+            alimentosSelecionados.setValue(currentList); // Atualiza o LiveData após a remoção
         }
     }
 }
