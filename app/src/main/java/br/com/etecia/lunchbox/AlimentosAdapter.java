@@ -65,16 +65,22 @@ public class AlimentosAdapter extends RecyclerView.Adapter<AlimentosAdapter.Alim
             holder.itemView.setOnClickListener(v -> {
                 // Verifica se há um perfil selecionado antes de adicionar o alimento
                 if (perfilViewModel.getPerfilSelecionado().getValue() != null) {
-                    // Adiciona o alimento à lancheira no ViewModel
-                    sharedViewModel.adicionarAlimento(alimento);
+                    // Verifica novamente se o alimento já está na lancheira antes de adicionar
+                    if (!sharedViewModel.isAlimentoAdicionado(alimento)) {
+                        // Adiciona o alimento à lancheira no ViewModel
+                        sharedViewModel.adicionarAlimento(alimento);
 
-                    // Atualiza visualmente o item
-                    holder.itemView.setAlpha(0.5f);
-                    holder.itemView.setClickable(false); // Desativa o clique
+                        // Atualiza visualmente o item
+                        holder.itemView.setAlpha(0.5f);
+                        holder.itemView.setClickable(false); // Desativa o clique
 
-                    // Notifica o listener (se necessário)
-                    if (listener != null) {
-                        listener.onAlimentoClick(alimento);
+                        // Notifica o listener (se necessário)
+                        if (listener != null) {
+                            listener.onAlimentoClick(alimento);
+                        }
+                    } else {
+                        // Informa ao usuário que o alimento já está na lancheira
+                        Toast.makeText(holder.itemView.getContext(), "Este alimento já está na lancheira.", Toast.LENGTH_SHORT).show();
                     }
                 } else {
                     // Mostra uma mensagem de erro se nenhum perfil estiver selecionado

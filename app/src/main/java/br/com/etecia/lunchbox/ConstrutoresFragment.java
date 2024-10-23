@@ -49,7 +49,8 @@ public class ConstrutoresFragment extends Fragment implements OnAlimentoClickLis
         btnVisualizarLancheira = view.findViewById(R.id.btn_visualizar_lancheira);
         btnVisualizarLancheira.setOnClickListener(v -> {
             if (listener != null) {
-                listener.onVisualizarLancheira();  // Aciona a navegação para o fragmento da Lancheira
+                listener.onVisualizarLancheira();
+                listener.onSelectLancheira();
             }
         });
 

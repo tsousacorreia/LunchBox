@@ -54,5 +54,13 @@ public class MainActivity extends AppCompatActivity implements OnAlimentoSelecte
                 .replace(R.id.fragment_container, lancheiraFragment)
                 .addToBackStack(null)
                 .commit();
+
+        // Atualizar o BottomNavigationView para a aba da lancheira
+        bottomNavigationView.setSelectedItemId(R.id.nav_lancheira);
+    }
+
+    // Novo método para selecionar a lancheira
+    public void onSelectLancheira() {
+        bottomNavigationView.setSelectedItemId(R.id.nav_lancheira);
     }
 }

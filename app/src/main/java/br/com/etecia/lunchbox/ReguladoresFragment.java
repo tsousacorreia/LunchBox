@@ -106,6 +106,12 @@ public class ReguladoresFragment extends Fragment implements OnAlimentoClickList
         listener = null;
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        adapter.notifyDataSetChanged();
+    }
+
     private void showError(String message) {
         if (getContext() != null) {
             Toast.makeText(getContext(), message, Toast.LENGTH_LONG).show();
