@@ -14,14 +14,18 @@ public class SharedViewModel extends ViewModel {
 
     // Método para adicionar alimento à lancheira
     public void adicionarAlimento(Alimentos alimento) {
-        // Cria uma nova lista para evitar mutabilidade direta na lista existente
         List<Alimentos> listaAtual = new ArrayList<>(alimentosSelecionados.getValue());
-        if (!listaAtual.contains(alimento)) { // Verifica se o alimento não está na lista
-            listaAtual.add(alimento);
-            alimentosSelecionados.setValue(listaAtual);
-            Log.d("SharedViewModel", "Alimento adicionado: " + alimento.getNome());
+
+        if (isAlimentoAdicionado(alimento)) {
+            Log.d("SharedViewModel", "Alimento já está na lista: " + alimento.getNome());
+            return; // Não adiciona novamente se o alimento já estiver na lista
         }
+
+        listaAtual.add(alimento);
+        alimentosSelecionados.setValue(listaAtual);
+        Log.d("SharedViewModel", "Alimento adicionado: " + alimento.getNome());
     }
+
 
     // Verifica se o alimento já foi adicionado
     public boolean isAlimentoAdicionado(Alimentos alimento) {

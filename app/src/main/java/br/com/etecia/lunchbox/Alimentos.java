@@ -1,5 +1,7 @@
 package br.com.etecia.lunchbox;
 
+import java.util.Objects;
+
 public class Alimentos {
     private int id;
     private String nome;
@@ -37,5 +39,19 @@ public class Alimentos {
 
     public void setImagemUrl(String imagemUrl) {
         this.imagemUrl = imagemUrl;
+    }
+
+    // Implementação dos métodos equals() e hashCode() com base no nome
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Alimentos alimentos = (Alimentos) o;
+        return Objects.equals(nome, alimentos.nome); // Dois alimentos são considerados iguais se o nome for o mesmo
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(nome); // O hashCode é baseado no nome
     }
 }
