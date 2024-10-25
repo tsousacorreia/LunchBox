@@ -8,22 +8,25 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.viewpager2.widget.ViewPager2;
 
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
 
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Locale;
 
 public class CalendarioFragment extends Fragment {
 
     private ViewPager2 viewPager;
     private TabLayout tabLayout;
+    private SharedViewModel sharedViewModel;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        // Inflar o layout do fragmento
         return inflater.inflate(R.layout.fragment_calendario_lancheira, container, false);
     }
 
@@ -31,23 +34,26 @@ public class CalendarioFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        // Inicializar as views
         viewPager = view.findViewById(R.id.viewPager);
         tabLayout = view.findViewById(R.id.tab_Layout_calendar);
 
-        // Obter o número de dias no mês atual
+        // Inicializa o ViewModel para compartilhar dados
+        sharedViewModel = new ViewModelProvider(requireActivity()).get(SharedViewModel.class);
+
         Calendar calendar = Calendar.getInstance();
         int year = calendar.get(Calendar.YEAR);
-        int month = calendar.get(Calendar.MONTH); // Janeiro é 0, Dezembro é 11
-        int numDays = calendar.getActualMaximum(Calendar.DAY_OF_MONTH); // Número de dias no mês
+        int month = calendar.get(Calendar.MONTH);
+        int numDays = calendar.getActualMaximum(Calendar.DAY_OF_MONTH);
 
-        // Configurar o adapter para o ViewPager2
-        CalendarioPagerAdapter adapter = new CalendarioPagerAdapter(requireActivity(), numDays, year, month);
+        // Configura o adapter do ViewPager2
+        CalendarioPagerAdapter adapter = new CalendarioPagerAdapter(requireActivity(), numDays, year, month, sharedViewModel);
         viewPager.setAdapter(adapter);
 
-        // Vincular o TabLayout ao ViewPager2
-        new TabLayoutMediator(tabLayout, viewPager,
-                (tab, position) -> tab.setText("Dia " + (position + 1))
-        ).attach();
+        // Define o TabLayout com os dias da semana
+        new TabLayoutMediator(tabLayout, viewPager, (tab, position) -> {
+            calendar.set(year, month, position + 1);
+            SimpleDateFormat sdf = new SimpleDateFormat("EEE", Locale.getDefault()); // Formato do dia da semana
+            tab.setText(sdf.format(calendar.getTime())); // Nome do dia da semana
+        }).attach();
     }
 }

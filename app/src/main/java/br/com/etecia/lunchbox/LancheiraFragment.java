@@ -98,9 +98,12 @@ public class LancheiraFragment extends Fragment {
         } else {
             perfilViewModel.getPerfilSelecionado().observe(getViewLifecycleOwner(), perfil -> {
                 if (perfil != null) {
-                    long lancheiraId = salvarLancheira(perfil, alimentosNaLancheira);
+                    long lancheiraId = databaseHelper.inserirLancheira(perfil.getId(), alimentosNaLancheira, dataSelecionada);
                     if (lancheiraId != -1) {
                         Toast.makeText(getContext(), "Lancheira finalizada e salva!", Toast.LENGTH_SHORT).show();
+                        sharedViewModel.limparAlimentos();
+                        dataSelecionada = null;
+                        textData.setText("Selecione uma data");
                     } else {
                         Toast.makeText(getContext(), "Erro ao salvar a lancheira", Toast.LENGTH_SHORT).show();
                     }
