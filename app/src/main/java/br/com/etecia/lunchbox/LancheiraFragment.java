@@ -2,6 +2,7 @@ package br.com.etecia.lunchbox;
 
 import android.app.DatePickerDialog;
 import android.os.Bundle;
+import android.util.Log;  // Adicione esta linha
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -31,7 +32,7 @@ public class LancheiraFragment extends Fragment {
     private Button btnLimparLancheira;
     private SQLiteHelper databaseHelper;
     private PerfilViewModel perfilViewModel;
-    private SharedViewModel sharedViewModel; // Vamos observar o SharedViewModel
+    private SharedViewModel sharedViewModel;
     private String dataSelecionada;
 
     @Nullable
@@ -84,7 +85,7 @@ public class LancheiraFragment extends Fragment {
         });
 
         // Inicializa o helper de banco de dados
-        databaseHelper = new SQLiteHelper(getContext());
+        databaseHelper = new SQLiteHelper(requireContext());  // Usando requireContext()
 
         return view;
     }
@@ -96,15 +97,17 @@ public class LancheiraFragment extends Fragment {
         } else if (dataSelecionada == null) {
             Toast.makeText(getContext(), "Selecione uma data antes de finalizar", Toast.LENGTH_SHORT).show();
         } else {
+            perfilViewModel.getPerfilSelecionado().removeObservers(getViewLifecycleOwner()); // Remove observadores antigos
             perfilViewModel.getPerfilSelecionado().observe(getViewLifecycleOwner(), perfil -> {
                 if (perfil != null) {
-                    long lancheiraId = databaseHelper.inserirLancheira(perfil.getId(), alimentosNaLancheira, dataSelecionada);
+                    long lancheiraId = salvarLancheira(perfil, alimentosNaLancheira);
                     if (lancheiraId != -1) {
                         Toast.makeText(getContext(), "Lancheira finalizada e salva!", Toast.LENGTH_SHORT).show();
                         sharedViewModel.limparAlimentos();
                         dataSelecionada = null;
                         textData.setText("Selecione uma data");
                     } else {
+                        Log.e("LancheiraFragment", "Erro ao salvar a lancheira: ID retornado -1"); // Log do erro
                         Toast.makeText(getContext(), "Erro ao salvar a lancheira", Toast.LENGTH_SHORT).show();
                     }
                 } else {

@@ -6,6 +6,7 @@ import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -42,11 +43,12 @@ public class SQLiteHelper extends SQLiteOpenHelper {
             "descricao TEXT);";
 
     // SQL para criar a tabela de lancheira-alimentos (associação)
-    private static final String CREATE_TABLE_LANCHEIRA_ALIMENTO = "CREATE TABLE " + "tbLancheiraAlimento" + " (" +
-            COLUMN_LANCHEIRA_ID_FK + " INTEGER, " +
-            COLUMN_ALIMENTO_ID + " INTEGER, " +
-            "FOREIGN KEY(" + COLUMN_LANCHEIRA_ID_FK + ") REFERENCES " + TABLE_LANCHEIRAS + "(id), " +
-            "FOREIGN KEY(" + COLUMN_ALIMENTO_ID + ") REFERENCES " + TABLE_ALIMENTOS + "(id));";
+    private static final String CREATE_TABLE_LANCHEIRA_ALIMENTOS = "CREATE TABLE tbLancheiraAlimentos (" +
+            "id INTEGER PRIMARY KEY AUTOINCREMENT, " +
+            "lancheira_id INTEGER, " +
+            "alimento_id INTEGER, " +
+            "FOREIGN KEY(lancheira_id) REFERENCES " + TABLE_LANCHEIRAS + "(id) ON DELETE CASCADE, " +
+            "FOREIGN KEY(alimento_id) REFERENCES " + TABLE_ALIMENTOS + "(id) ON DELETE CASCADE);";
 
     public SQLiteHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -57,7 +59,7 @@ public class SQLiteHelper extends SQLiteOpenHelper {
         db.execSQL(CREATE_TABLE_PERFIL);
         db.execSQL(CREATE_TABLE_LANCHEIRA);
         db.execSQL(CREATE_TABLE_ALIMENTOS);
-        db.execSQL(CREATE_TABLE_LANCHEIRA_ALIMENTO);
+        db.execSQL(CREATE_TABLE_LANCHEIRA_ALIMENTOS);
     }
 
     @Override
@@ -65,55 +67,98 @@ public class SQLiteHelper extends SQLiteOpenHelper {
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_LANCHEIRAS);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_PERFIS);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_ALIMENTOS);
+        db.execSQL("DROP TABLE IF EXISTS tbLancheiraAlimentos");
         onCreate(db);
     }
 
     public long inserirLancheira(int perfilId, List<Alimentos> alimentos, String data) {
+        long lancheiraId = -1;
         SQLiteDatabase db = this.getWritableDatabase();
-        long lancheiraId;
+        db.beginTransaction();
         try {
-            db.beginTransaction();
-            // Inserindo a lancheira
             ContentValues values = new ContentValues();
             values.put("perfil_id", perfilId);
             values.put("data", data);
             lancheiraId = db.insert(TABLE_LANCHEIRAS, null, values);
 
-            // Inserindo os alimentos associados à lancheira
             for (Alimentos alimento : alimentos) {
                 ContentValues alimentoValues = new ContentValues();
-                alimentoValues.put(COLUMN_LANCHEIRA_ID_FK, lancheiraId);
-                alimentoValues.put(COLUMN_ALIMENTO_ID, alimento.getId());
-                db.insert("tbLancheiraAlimento", null, alimentoValues);
+                alimentoValues.put("lancheira_id", lancheiraId);
+                alimentoValues.put("alimento_id", alimento.getId());
+                db.insert("tbLancheiraAlimentos", null, alimentoValues);
             }
+
             db.setTransactionSuccessful();
         } catch (SQLException e) {
-            lancheiraId = -1; // Retorna -1 em caso de erro
+            Log.e("SQLiteHelper", "Erro ao inserir lancheira: " + e.getMessage(), e);
         } finally {
             db.endTransaction();
         }
+
         return lancheiraId;
     }
 
-    public List<Alimentos> buscarLancheiraPorData(String data) {
+    public List<Lancheira> obterLancheirasPorPerfil(int perfilId) {
+        List<Lancheira> lancheiras = new ArrayList<>();
         SQLiteDatabase db = this.getReadableDatabase();
-        List<Alimentos> alimentosList = new ArrayList<>();
-        String query = "SELECT a.* FROM tbAlimentos a " +
-                "JOIN tbLancheiraAlimento la ON a.id = la.alimento_id " +
-                "JOIN tbLancheira l ON l.id = la.lancheira_id " +
-                "WHERE l.data = ?";
-        Cursor cursor = db.rawQuery(query, new String[]{data});
+        Cursor cursor = db.rawQuery("SELECT * FROM " + TABLE_LANCHEIRAS + " WHERE perfil_id = ?", new String[]{String.valueOf(perfilId)});
 
         if (cursor.moveToFirst()) {
             do {
-                Alimentos alimento = new Alimentos();
-                alimento.setId(cursor.getInt(cursor.getColumnIndex("id")));
-                alimento.setNome(cursor.getString(cursor.getColumnIndex("nome")));
-                alimento.setDescricao(cursor.getString(cursor.getColumnIndex("descricao")));
-                alimentosList.add(alimento);
+                int idColumnIndex = cursor.getColumnIndex("id");
+                int perfilIdColumnIndex = cursor.getColumnIndex("perfil_id");
+                int dataColumnIndex = cursor.getColumnIndex("data");
+
+                if (idColumnIndex != -1 && perfilIdColumnIndex != -1 && dataColumnIndex != -1) {
+                    int lancheiraId = cursor.getInt(idColumnIndex);
+                    String data = cursor.getString(dataColumnIndex);
+
+                    // Aqui você pode criar um método para obter os alimentos dessa lancheira
+                    List<Alimentos> alimentos = obterAlimentosPorLancheira(lancheiraId);
+
+                    Lancheira lancheira = new Lancheira(
+                            lancheiraId,
+                            "Nome da Lancheira", // Defina um nome adequado
+                            data,
+                            alimentos,
+                            cursor.getInt(perfilIdColumnIndex)
+                    );
+                    lancheiras.add(lancheira);
+                }
             } while (cursor.moveToNext());
         }
         cursor.close();
-        return alimentosList;
+        return lancheiras;
     }
+
+    // Novo método para obter alimentos associados a uma lancheira
+    public List<Alimentos> obterAlimentosPorLancheira(int lancheiraId) {
+        List<Alimentos> alimentos = new ArrayList<>();
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery("SELECT a.id, a.nome, a.descricao, a.imagemUrl FROM " + TABLE_ALIMENTOS + " a " +
+                "INNER JOIN tbLancheiraAlimentos la ON a.id = la.alimento_id " +
+                "WHERE la.lancheira_id = ?", new String[]{String.valueOf(lancheiraId)});
+
+        if (cursor.moveToFirst()) {
+            do {
+                int idColumnIndex = cursor.getColumnIndex("id");
+                int nomeColumnIndex = cursor.getColumnIndex("nome");
+                int descricaoColumnIndex = cursor.getColumnIndex("descricao");
+                int imagemUrlColumnIndex = cursor.getColumnIndex("imagemUrl");
+
+                if (idColumnIndex != -1 && nomeColumnIndex != -1 && descricaoColumnIndex != -1) {
+                    Alimentos alimento = new Alimentos(
+                            cursor.getInt(idColumnIndex),
+                            cursor.getString(nomeColumnIndex),
+                            cursor.getString(descricaoColumnIndex),
+                            cursor.getString(imagemUrlColumnIndex)
+                    );
+                    alimentos.add(alimento);
+                }
+            } while (cursor.moveToNext());
+        }
+        cursor.close();
+        return alimentos;
+    }
+
 }

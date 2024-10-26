@@ -1,59 +1,67 @@
 package br.com.etecia.lunchbox;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.viewpager2.widget.ViewPager2;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
-import com.google.android.material.tabs.TabLayout;
-import com.google.android.material.tabs.TabLayoutMediator;
-
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Locale;
+import java.util.ArrayList;
+import java.util.List;
 
 public class CalendarioFragment extends Fragment {
 
-    private ViewPager2 viewPager;
-    private TabLayout tabLayout;
-    private SharedViewModel sharedViewModel;
+    private RecyclerView recyclerView;
+    private LancheiraProntaAdapter adapter;
+    private SQLiteHelper databaseHelper;
+    private PerfilViewModel perfilViewModel;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_calendario_lancheira, container, false);
+        View view = inflater.inflate(R.layout.fragment_calendario, container, false);
+
+        // Inicializa o RecyclerView
+        recyclerView = view.findViewById(R.id.recycler_view_calendario);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        adapter = new LancheiraProntaAdapter(new ArrayList<>());
+        recyclerView.setAdapter(adapter);
+
+        // Inicializa o SQLiteHelper
+        databaseHelper = new SQLiteHelper(requireContext());
+
+        // Inicializa o ViewModel
+        perfilViewModel = new ViewModelProvider(requireActivity()).get(PerfilViewModel.class);
+
+        // Obter lancheiras salvas do banco de dados
+        carregarLancheiras();
+
+        return view;
     }
 
-    @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-
-        viewPager = view.findViewById(R.id.viewPager);
-        tabLayout = view.findViewById(R.id.tab_Layout_calendar);
-
-        // Inicializa o ViewModel para compartilhar dados
-        sharedViewModel = new ViewModelProvider(requireActivity()).get(SharedViewModel.class);
-
-        Calendar calendar = Calendar.getInstance();
-        int year = calendar.get(Calendar.YEAR);
-        int month = calendar.get(Calendar.MONTH);
-        int numDays = calendar.getActualMaximum(Calendar.DAY_OF_MONTH);
-
-        // Configura o adapter do ViewPager2
-        CalendarioPagerAdapter adapter = new CalendarioPagerAdapter(requireActivity(), numDays, year, month, sharedViewModel);
-        viewPager.setAdapter(adapter);
-
-        // Define o TabLayout com os dias da semana
-        new TabLayoutMediator(tabLayout, viewPager, (tab, position) -> {
-            calendar.set(year, month, position + 1);
-            SimpleDateFormat sdf = new SimpleDateFormat("EEE", Locale.getDefault()); // Formato do dia da semana
-            tab.setText(sdf.format(calendar.getTime())); // Nome do dia da semana
-        }).attach();
+    private void carregarLancheiras() {
+        perfilViewModel.getPerfilSelecionado().observe(getViewLifecycleOwner(), new Observer<Perfil>() {
+            @Override
+            public void onChanged(Perfil perfil) {
+                if (perfil != null) {
+                    List<Lancheira> lancheiras = databaseHelper.obterLancheirasPorPerfil(perfil.getId());
+                    if (lancheiras.isEmpty()) {
+                        Toast.makeText(getContext(), "Nenhuma lancheira encontrada para este perfil", Toast.LENGTH_SHORT).show();
+                    } else {
+                        adapter.setLancheiras(lancheiras);
+                    }
+                }
+            }
+        });
     }
 }

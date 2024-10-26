@@ -5,14 +5,17 @@ import java.util.List;
 public class Lancheira {
     private int id;
     private String nomeLancheira;
-    private String diaSemana;
+    private String data;
     private List<Alimentos> alimentos;
+    private int perfilId;
 
-    public Lancheira(int id, String nomeLancheira, String diaSemana, List<Alimentos> alimentos) {
+    // Construtor atualizado
+    public Lancheira(int id, String nomeLancheira, String data, List<Alimentos> alimentos, int perfilId) {
         this.id = id;
         this.nomeLancheira = nomeLancheira;
-        this.diaSemana = diaSemana;
+        this.data = data;
         this.alimentos = alimentos;
+        this.perfilId = perfilId;
     }
 
     // Getters e Setters
@@ -32,12 +35,12 @@ public class Lancheira {
         this.nomeLancheira = nomeLancheira;
     }
 
-    public String getDiaSemana() {
-        return diaSemana;
+    public String getData() {
+        return data;
     }
 
-    public void setDiaSemana(String diaSemana) {
-        this.diaSemana = diaSemana;
+    public void setData(String data) {
+        this.data = data;
     }
 
     public List<Alimentos> getAlimentos() {
@@ -46,5 +49,13 @@ public class Lancheira {
 
     public void setAlimentos(List<Alimentos> alimentos) {
         this.alimentos = alimentos;
+    }
+
+    public int getPerfilId() { // Adicionado getter para perfilId
+        return perfilId;
+    }
+
+    public void setPerfilId(int perfilId) { // Adicionado setter para perfilId
+        this.perfilId = perfilId;
     }
 }

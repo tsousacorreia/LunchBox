@@ -8,6 +8,14 @@ public class Alimentos {
     private String descricao;
     private String imagemUrl;
 
+    // Construtor
+    public Alimentos(int id, String nome, String descricao, String imagemUrl) {
+        this.id = id;
+        this.nome = nome;
+        this.descricao = descricao;
+        this.imagemUrl = imagemUrl;
+    }
+
     // Getters e setters
     public int getId() {
         return id;
@@ -47,11 +55,11 @@ public class Alimentos {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Alimentos alimentos = (Alimentos) o;
-        return Objects.equals(nome, alimentos.nome); // Dois alimentos são considerados iguais se o nome for o mesmo
+        return Objects.equals(nome, alimentos.nome);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(nome); // O hashCode é baseado no nome
+        return Objects.hash(nome);
     }
 }
