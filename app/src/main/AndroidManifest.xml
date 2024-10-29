@@ -23,6 +23,17 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <activity
+            android:name=".Registro"
+            android:label="Preferences">
+        </activity>
+
+        <activity
+            android:name=".Login"
+            android:label="Preferences">
+        </activity>
+
     </application>
 
 </manifest>

@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "1008516388804",
+    "project_id": "lunchbox-cd374",
+    "storage_bucket": "lunchbox-cd374.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1008516388804:android:f68db8c7eb8a475be0f691",
+        "android_client_info": {
+          "package_name": "br.com.etecia.lunchbox"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAk-XDGqoseGitc1drGySiFJWRSm1ggcLM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
