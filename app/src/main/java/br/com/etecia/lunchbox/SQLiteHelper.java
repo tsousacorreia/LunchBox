@@ -187,36 +187,4 @@ public class SQLiteHelper extends SQLiteOpenHelper {
         cursor.close();
         return alimentos;
     }
-
-    public List<Lancheira> obterLancheirasPorDia(String dia) {
-        List<Lancheira> lancheiras = new ArrayList<>();
-        SQLiteDatabase db = this.getReadableDatabase();
-        Cursor cursor = db.rawQuery("SELECT * FROM " + TABLE_LANCHEIRAS + " WHERE data = ?", new String[]{dia});
-
-        if (cursor.moveToFirst()) {
-            do {
-                int idColumnIndex = cursor.getColumnIndex("id");
-                int perfilIdColumnIndex = cursor.getColumnIndex("perfil_id");
-
-                if (idColumnIndex != -1 && perfilIdColumnIndex != -1) {
-                    int lancheiraId = cursor.getInt(idColumnIndex);
-                    int perfilId = cursor.getInt(perfilIdColumnIndex);
-                    String data = dia; // Usando o dia como a data
-
-                    List<Alimentos> alimentos = obterAlimentosPorLancheira(lancheiraId);
-
-                    Lancheira lancheira = new Lancheira(
-                            lancheiraId,
-                            "Nome da Lancheira", // Substitua pelo nome real se disponível
-                            data,
-                            alimentos,
-                            perfilId
-                    );
-                    lancheiras.add(lancheira);
-                }
-            } while (cursor.moveToNext());
-        }
-        cursor.close();
-        return lancheiras;
-    }
 }
