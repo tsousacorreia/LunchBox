@@ -18,7 +18,7 @@ public class SharedViewModel extends ViewModel {
 
         if (isAlimentoAdicionado(alimento)) {
             Log.d("SharedViewModel", "Alimento já está na lista: " + alimento.getNome());
-            return; // Não adiciona novamente se o alimento já estiver na lista
+            return;
         }
 
         listaAtual.add(alimento);
@@ -40,16 +40,15 @@ public class SharedViewModel extends ViewModel {
 
     // Método para limpar a lista de alimentos
     public void limparAlimentos() {
-        alimentosSelecionados.setValue(new ArrayList<>()); // Cria uma nova lista vazia para limpar os alimentos
+        alimentosSelecionados.setValue(new ArrayList<>());
     }
 
     // Método para remover um alimento específico
     public void limparAlimento(Alimentos alimento) {
-        // Cria uma nova lista para evitar mutabilidade direta na lista existente
         List<Alimentos> currentList = new ArrayList<>(alimentosSelecionados.getValue());
         if (currentList.contains(alimento)) {
             currentList.remove(alimento);
-            alimentosSelecionados.setValue(currentList); // Atualiza o LiveData após a remoção
+            alimentosSelecionados.setValue(currentList);
         }
     }
 }
