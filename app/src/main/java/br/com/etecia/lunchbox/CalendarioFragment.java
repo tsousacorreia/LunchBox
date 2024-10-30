@@ -43,42 +43,16 @@ public class CalendarioFragment extends Fragment {
         viewPagerAdapter = new CalendarioPagerAdapter(this, DAYS_RANGE);
         viewPager.setAdapter(viewPagerAdapter);
 
-        // Definindo nomes fixos dos dias da semana no TabLayout
-        String[] weekDays = {"Seg", "Ter", "Qua", "Qui", "Sex", "Sab", "Dom"};
-        for (String day : weekDays) {
-            tabLayout.addTab(tabLayout.newTab().setText(day));
-        }
-
-        // Listener para atualizar o TabLayout conforme o ViewPager navega
-        viewPager.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
-            @Override
-            public void onPageSelected(int position) {
-                super.onPageSelected(position);
-                int dayOfWeek = getDayOfWeekForPosition(position);
-                TabLayout.Tab tab = tabLayout.getTabAt(dayOfWeek);
-                if (tab != null) {
-                    tab.select();
-                }
-            }
-        });
+        // Usando o TabLayoutMediator para conectar o TabLayout ao ViewPager2
+        new TabLayoutMediator(tabLayout, viewPager, (tab, position) -> {
+            tab.setText(viewPagerAdapter.getDateLabel(position)); // Definindo o rótulo do tab com base na posição
+        }).attach();
 
         // Iniciar no dia atual
         viewPager.setCurrentItem(DAYS_RANGE, false);
     }
 
-    private int getDayOfWeekForPosition(int position) {
-        // Cálculo do dia da semana para a posição no ViewPager
-        Calendar calendar = Calendar.getInstance();
-        int offset = position - DAYS_RANGE;
-        calendar.add(Calendar.DAY_OF_YEAR, offset);
-
-        // Ajustando para nosso array de dias (Seg = 0, ..., Dom = 6)
-        int dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK);
-        return (dayOfWeek == Calendar.SUNDAY) ? 6 : dayOfWeek - 2;
-    }
-
     private void openDatePicker() {
-        // Obtém a data atual
         Calendar calendar = Calendar.getInstance();
 
         DatePickerDialog datePickerDialog = new DatePickerDialog(requireContext(),
@@ -91,7 +65,6 @@ public class CalendarioFragment extends Fragment {
     }
 
     private void navigateToSelectedDate(int year, int month, int dayOfMonth) {
-        // Calcula o índice no ViewPager com base na data selecionada
         Calendar selectedDate = Calendar.getInstance();
         selectedDate.set(year, month, dayOfMonth);
 

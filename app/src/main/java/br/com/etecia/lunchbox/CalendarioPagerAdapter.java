@@ -33,13 +33,13 @@ public class CalendarioPagerAdapter extends FragmentStateAdapter {
         return daysRange * 2 + 1;
     }
 
-    // Método para gerar o rótulo de data para uso no DiaFragment
+    // Método para obter o rótulo do dia da semana para a posição
     public String getDateLabel(int position) {
-        int offset = position - daysRange;
         Calendar calendar = Calendar.getInstance();
-        calendar.add(Calendar.DAY_OF_YEAR, offset);
+        calendar.add(Calendar.DAY_OF_YEAR, position - daysRange);
 
-        SimpleDateFormat dateFormat = new SimpleDateFormat("dd MMM", Locale.getDefault());
-        return dateFormat.format(calendar.getTime());
+        String[] weekDays = {"Seg", "Ter", "Qua", "Qui", "Sex", "Sab", "Dom"};
+        int dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK);
+        return weekDays[(dayOfWeek + 5) % 7]; // Ajusta para que Seg seja o primeiro dia
     }
 }

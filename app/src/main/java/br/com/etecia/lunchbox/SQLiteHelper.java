@@ -52,6 +52,16 @@ public class SQLiteHelper extends SQLiteOpenHelper {
             "FOREIGN KEY(lancheira_id) REFERENCES " + TABLE_LANCHEIRAS + "(id) ON DELETE CASCADE, " +
             "FOREIGN KEY(alimento_id) REFERENCES " + TABLE_ALIMENTOS + "(id) ON DELETE CASCADE);";
 
+    // Instância única do SQLiteHelper
+    private static SQLiteHelper instance;
+
+    public static synchronized SQLiteHelper getInstance(Context context) {
+        if (instance == null) {
+            instance = new SQLiteHelper(context.getApplicationContext());
+        }
+        return instance;
+    }
+
     public SQLiteHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
