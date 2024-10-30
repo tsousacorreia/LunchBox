@@ -7,4 +7,5 @@
     <color name="primaryTextColor">#050505</color>
     <color name="secondaryTextColor">#000000</color>
     <color name="gray">#7C7C7C</color>
+    <color name="colorAccent">#F44336</color>
 </resources>

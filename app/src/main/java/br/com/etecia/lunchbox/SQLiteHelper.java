@@ -7,13 +7,14 @@ import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
+
 import java.util.ArrayList;
 import java.util.List;
 
 public class SQLiteHelper extends SQLiteOpenHelper {
 
     private static final String DATABASE_NAME = "lunchbox.db";
-    private static final int DATABASE_VERSION = 3;
+    private static final int DATABASE_VERSION = 5;
 
     // Tabelas e colunas
     private static final String TABLE_PERFIS = "tbPerfil";
@@ -36,13 +37,14 @@ public class SQLiteHelper extends SQLiteOpenHelper {
             "data TEXT, " +
             "FOREIGN KEY(perfil_id) REFERENCES " + TABLE_PERFIS + "(id) ON DELETE CASCADE);";
 
-    // SQL para criar a tabela de alimentos
+    // SQL para criar a tabela de alimentos com a coluna imagemUrl
     private static final String CREATE_TABLE_ALIMENTOS = "CREATE TABLE " + TABLE_ALIMENTOS + " (" +
             "id INTEGER PRIMARY KEY AUTOINCREMENT, " +
             "nome TEXT, " +
-            "descricao TEXT);";
+            "descricao TEXT, " +
+            "imagemUrl TEXT);"; // Coluna imagemUrl adicionada
 
-    // SQL para criar a tabela de lancheira-alimentos (associação)
+    // SQL para criar a tabela de associação lancheira-alimentos
     private static final String CREATE_TABLE_LANCHEIRA_ALIMENTOS = "CREATE TABLE tbLancheiraAlimentos (" +
             "id INTEGER PRIMARY KEY AUTOINCREMENT, " +
             "lancheira_id INTEGER, " +
@@ -64,11 +66,38 @@ public class SQLiteHelper extends SQLiteOpenHelper {
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+        // Atualiza as tabelas se a versão do banco de dados aumentar
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_LANCHEIRAS);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_PERFIS);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_ALIMENTOS);
         db.execSQL("DROP TABLE IF EXISTS tbLancheiraAlimentos");
         onCreate(db);
+    }
+
+    public long inserirAlimento(Alimentos alimento) {
+        long id = -1;
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        // Verificar se o alimento já existe
+        Cursor cursor = db.rawQuery("SELECT id FROM " + TABLE_ALIMENTOS + " WHERE nome = ?", new String[]{alimento.getNome()});
+        if (cursor.moveToFirst()) {
+            int idColumnIndex = cursor.getColumnIndex("id");
+            if (idColumnIndex != -1) {
+                id = cursor.getInt(idColumnIndex);
+            } else {
+                Log.e("SQLiteHelper", "Coluna 'id' não encontrada na tabela " + TABLE_ALIMENTOS);
+            }
+        }
+        cursor.close();
+
+        // Inserir novo alimento se não existir
+        ContentValues values = new ContentValues();
+        values.put("nome", alimento.getNome());
+        values.put("descricao", alimento.getDescricao());
+        values.put("imagemUrl", alimento.getImagemUrl());
+        id = db.insert(TABLE_ALIMENTOS, null, values);
+
+        return id; // Retorna o ID do novo alimento
     }
 
     public long inserirLancheira(int perfilId, List<Alimentos> alimentos, String data) {
@@ -82,9 +111,10 @@ public class SQLiteHelper extends SQLiteOpenHelper {
             lancheiraId = db.insert(TABLE_LANCHEIRAS, null, values);
 
             for (Alimentos alimento : alimentos) {
+                long alimentoId = inserirAlimento(alimento); // Insere o alimento e obtém o ID
                 ContentValues alimentoValues = new ContentValues();
                 alimentoValues.put("lancheira_id", lancheiraId);
-                alimentoValues.put("alimento_id", alimento.getId());
+                alimentoValues.put("alimento_id", alimentoId);
                 db.insert("tbLancheiraAlimentos", null, alimentoValues);
             }
 
@@ -106,22 +136,20 @@ public class SQLiteHelper extends SQLiteOpenHelper {
         if (cursor.moveToFirst()) {
             do {
                 int idColumnIndex = cursor.getColumnIndex("id");
-                int perfilIdColumnIndex = cursor.getColumnIndex("perfil_id");
                 int dataColumnIndex = cursor.getColumnIndex("data");
 
-                if (idColumnIndex != -1 && perfilIdColumnIndex != -1 && dataColumnIndex != -1) {
+                if (idColumnIndex != -1 && dataColumnIndex != -1) {
                     int lancheiraId = cursor.getInt(idColumnIndex);
                     String data = cursor.getString(dataColumnIndex);
 
-                    // Aqui você pode criar um método para obter os alimentos dessa lancheira
                     List<Alimentos> alimentos = obterAlimentosPorLancheira(lancheiraId);
 
                     Lancheira lancheira = new Lancheira(
                             lancheiraId,
-                            "Nome da Lancheira", // Defina um nome adequado
+                            "Nome da Lancheira",
                             data,
                             alimentos,
-                            cursor.getInt(perfilIdColumnIndex)
+                            perfilId
                     );
                     lancheiras.add(lancheira);
                 }
@@ -131,7 +159,6 @@ public class SQLiteHelper extends SQLiteOpenHelper {
         return lancheiras;
     }
 
-    // Novo método para obter alimentos associados a uma lancheira
     public List<Alimentos> obterAlimentosPorLancheira(int lancheiraId) {
         List<Alimentos> alimentos = new ArrayList<>();
         SQLiteDatabase db = this.getReadableDatabase();
@@ -146,7 +173,7 @@ public class SQLiteHelper extends SQLiteOpenHelper {
                 int descricaoColumnIndex = cursor.getColumnIndex("descricao");
                 int imagemUrlColumnIndex = cursor.getColumnIndex("imagemUrl");
 
-                if (idColumnIndex != -1 && nomeColumnIndex != -1 && descricaoColumnIndex != -1) {
+                if (idColumnIndex != -1 && nomeColumnIndex != -1 && descricaoColumnIndex != -1 && imagemUrlColumnIndex != -1) {
                     Alimentos alimento = new Alimentos(
                             cursor.getInt(idColumnIndex),
                             cursor.getString(nomeColumnIndex),
@@ -161,4 +188,35 @@ public class SQLiteHelper extends SQLiteOpenHelper {
         return alimentos;
     }
 
+    public List<Lancheira> obterLancheirasPorDia(String dia) {
+        List<Lancheira> lancheiras = new ArrayList<>();
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery("SELECT * FROM " + TABLE_LANCHEIRAS + " WHERE data = ?", new String[]{dia});
+
+        if (cursor.moveToFirst()) {
+            do {
+                int idColumnIndex = cursor.getColumnIndex("id");
+                int perfilIdColumnIndex = cursor.getColumnIndex("perfil_id");
+
+                if (idColumnIndex != -1 && perfilIdColumnIndex != -1) {
+                    int lancheiraId = cursor.getInt(idColumnIndex);
+                    int perfilId = cursor.getInt(perfilIdColumnIndex);
+                    String data = dia; // Usando o dia como a data
+
+                    List<Alimentos> alimentos = obterAlimentosPorLancheira(lancheiraId);
+
+                    Lancheira lancheira = new Lancheira(
+                            lancheiraId,
+                            "Nome da Lancheira", // Substitua pelo nome real se disponível
+                            data,
+                            alimentos,
+                            perfilId
+                    );
+                    lancheiras.add(lancheira);
+                }
+            } while (cursor.moveToNext());
+        }
+        cursor.close();
+        return lancheiras;
+    }
 }
