@@ -18,6 +18,10 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
+import android.content.Intent;
+import com.google.firebase.auth.FirebaseAuth;
+
+
 import java.util.List;
 
 public class HomeFragment extends Fragment {
@@ -30,6 +34,11 @@ public class HomeFragment extends Fragment {
     private List<Perfil> perfis;
     private PerfilDAO perfilDAO;
     private PerfilViewModel perfilViewModel;
+    FirebaseAuth auth;
+    Button button;
+
+
+
 
     @Nullable
     @Override
@@ -45,6 +54,23 @@ public class HomeFragment extends Fragment {
         editPreferencias = view.findViewById(R.id.edit_preferencias);
         btnCriarPerfil = view.findViewById(R.id.btn_criar_perfil);
         recyclerViewPerfis = view.findViewById(R.id.recycler_view_perfis);
+        button = view.findViewById(R.id.btnLogout);
+        auth = FirebaseAuth.getInstance();
+
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                FirebaseAuth.getInstance().signOut();
+                Intent intent = new Intent(getActivity(), Login.class);
+                startActivity(intent);
+                try {
+                    finalize();
+                } catch (Throwable e) {
+                    throw new RuntimeException(e);
+                }
+            }
+        });
+
 
         // Inicializar o DAO
         perfilDAO = new PerfilDAO(getActivity());
@@ -168,4 +194,5 @@ public class HomeFragment extends Fragment {
 
         atualizarVisibilidadeCards();
     }
+
 }
