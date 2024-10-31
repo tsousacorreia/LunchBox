@@ -9,6 +9,16 @@
     android:padding="16dp"
     tools:context=".HomeFragment">
 
+
+    <Button
+        android:id="@+id/btnLogout"
+        android:layout_width="38dp"
+        android:layout_height="37dp"
+        android:layout_gravity="start"
+        android:layout_marginBottom="5dp"
+        android:backgroundTint="@color/white"
+        android:drawableTop="@drawable/ic_logout" />
+
     <!-- Card para simular o botão de criar um novo perfil -->
     <androidx.cardview.widget.CardView
         android:id="@+id/card_criar_novo_perfil"
@@ -95,9 +105,9 @@
         android:id="@+id/card_perfis_existentes"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:visibility="gone"
         app:cardCornerRadius="8dp"
-        app:cardElevation="4dp"
-        android:visibility="gone">
+        app:cardElevation="4dp">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -110,11 +120,11 @@
                 android:id="@+id/recycler_view_perfis"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
                 android:layout_gravity="center"
                 android:clipToPadding="false"
+                android:orientation="horizontal"
                 android:paddingStart="16dp"
-                android:paddingEnd="16dp"/>
+                android:paddingEnd="16dp" />
 
         </LinearLayout>
     </androidx.cardview.widget.CardView>
