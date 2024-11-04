@@ -7,6 +7,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:padding="16dp"
+    android:background="@drawable/lunchbox_home"
     tools:context=".HomeFragment">
 
     <!-- Card para simular o botão de criar um novo perfil -->
