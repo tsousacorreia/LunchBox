@@ -21,8 +21,8 @@
     <EditText
 
         android:id="@+id/email"
-        android:layout_width="340dp"
-        android:layout_height="45dp"
+        android:layout_width="300dp"
+        android:layout_height="35dp"
         android:layout_gravity="center"
         android:layout_marginTop="15dp"
         android:background="@drawable/rounded_input"
@@ -32,13 +32,13 @@
         android:singleLine="true"
         android:textColor="@color/black"
         android:textColorHint="@color/grey"
-        android:textSize="18sp" />
+        android:textSize="15sp" />
 
 
     <EditText
         android:id="@+id/password"
-        android:layout_width="340dp"
-        android:layout_height="45dp"
+        android:layout_width="300dp"
+        android:layout_height="35dp"
         android:layout_gravity="center"
         android:layout_marginTop="15dp"
         android:background="@drawable/rounded_input"
@@ -49,12 +49,12 @@
         android:singleLine="true"
         android:textColor="@color/black"
         android:textColorHint="@color/grey"
-        android:textSize="18sp" />
+        android:textSize="15sp" />
 
     <EditText
         android:id="@+id/passwordConfirm"
-        android:layout_width="340dp"
-        android:layout_height="45dp"
+        android:layout_width="300dp"
+        android:layout_height="35dp"
         android:layout_gravity="center"
         android:layout_marginTop="15dp"
         android:background="@drawable/rounded_input"
@@ -65,7 +65,7 @@
         android:singleLine="true"
         android:textColor="@color/black"
         android:textColorHint="@color/grey"
-        android:textSize="18sp" />
+        android:textSize="15sp" />
 
     <TextView
         android:id="@+id/txtPasswordStr"
@@ -88,24 +88,24 @@
 
     <Button
         android:id="@+id/btnReg"
-        android:layout_width="340dp"
-        android:layout_height="50dp"
+        android:layout_width="300dp"
+        android:layout_height="40dp"
         android:layout_gravity="center"
         android:layout_marginTop="40dp"
         android:backgroundTint="@color/lightYellow"
         android:text="@string/criar"
         android:textColor="@color/black"
-        android:textSize="18sp"
+        android:textSize="15sp"
         android:textStyle="bold" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:layout_marginTop="80dp"
+        android:layout_marginTop="60dp"
         android:text="@string/comConta"
         android:textColor="@color/darkGrey"
-        android:textSize="15sp"
+        android:textSize="14sp"
         android:textStyle="italic" />
 
 
@@ -118,7 +118,7 @@
         android:layout_marginTop="10dp"
         android:text="@string/entrar"
         android:textColor="@color/black"
-        android:textSize="18sp"
+        android:textSize="15sp"
         android:textStyle="bold" />
 
 

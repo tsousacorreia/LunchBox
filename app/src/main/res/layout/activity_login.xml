@@ -21,8 +21,8 @@
     <EditText
 
         android:id="@+id/email"
-        android:layout_width="340dp"
-        android:layout_height="45dp"
+        android:layout_width="300dp"
+        android:layout_height="35dp"
         android:layout_gravity="center"
         android:layout_marginTop="70dp"
         android:background="@drawable/rounded_input"
@@ -30,14 +30,14 @@
         android:maxLength="254"
         android:textColor="@color/black"
         android:hint="@string/email"
-        android:textSize="18sp"
+        android:textSize="15sp"
         android:singleLine="true"/>
 
 
     <EditText
         android:id="@+id/password"
-        android:layout_width="340dp"
-        android:layout_height="45dp"
+        android:layout_width="300dp"
+        android:layout_height="35dp"
         android:layout_gravity="center"
         android:layout_marginTop="15dp"
         android:background="@drawable/rounded_input"
@@ -46,7 +46,7 @@
         android:maxLength="16"
         android:textColor="@color/black"
         android:hint="@string/senha"
-        android:textSize="18sp"
+        android:textSize="15sp"
         android:singleLine="true"/>
 
     <ProgressBar
@@ -59,23 +59,23 @@
 
     <Button
         android:id="@+id/btnLogin"
-        android:layout_width="340dp"
-        android:layout_height="50dp"
+        android:layout_width="300dp"
+        android:layout_height="40dp"
         android:layout_gravity="center"
         android:layout_marginTop="40dp"
         android:backgroundTint="@color/lightYellow"
         android:text="@string/entrar"
         android:textColor="@color/black"
         android:textStyle="bold"
-        android:textSize="18sp"/>
+        android:textSize="15sp"/>
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:layout_marginTop="80dp"
+        android:layout_marginTop="60dp"
         android:text="@string/semConta"
-        android:textSize="15sp"
+        android:textSize="14sp"
         android:textStyle="italic"
         android:textColor="@color/darkGrey"/>
 
@@ -89,7 +89,7 @@
         android:layout_marginTop="10dp"
         android:text="@string/criar"
         android:textColor="@color/black"
-        android:textSize="18sp"
+        android:textSize="15sp"
         android:textStyle="bold" />
 
 

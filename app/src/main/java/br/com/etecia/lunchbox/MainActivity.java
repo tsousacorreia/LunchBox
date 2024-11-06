@@ -93,7 +93,7 @@ public class MainActivity extends AppCompatActivity implements OnAlimentoSelecte
         bottomNavigationView.setSelectedItemId(R.id.nav_lancheira);
     }
 
-    // Novo método para selecionar a lancheira
+    // Novo metodo para selecionar a lancheira
     public void onSelectLancheira() {
         bottomNavigationView.setSelectedItemId(R.id.nav_lancheira);
     }
