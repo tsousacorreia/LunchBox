@@ -20,8 +20,6 @@ public class SQLiteHelper extends SQLiteOpenHelper {
     private static final String TABLE_PERFIS = "tbPerfil";
     private static final String TABLE_LANCHEIRAS = "tbLancheira";
     private static final String TABLE_ALIMENTOS = "tbAlimentos";
-    private static final String COLUMN_ALIMENTO_ID = "alimento_id";
-    private static final String COLUMN_LANCHEIRA_ID_FK = "lancheira_id";
 
     // SQL para criar a tabela de perfis
     private static final String CREATE_TABLE_PERFIL = "CREATE TABLE " + TABLE_PERFIS + " (" +
@@ -37,7 +35,7 @@ public class SQLiteHelper extends SQLiteOpenHelper {
             "data TEXT, " +
             "FOREIGN KEY(perfil_id) REFERENCES " + TABLE_PERFIS + "(id) ON DELETE CASCADE);";
 
-    // SQL para criar a tabela de alimentos com a coluna imagemUrl
+    // SQL para criar a tabela de alimentos
     private static final String CREATE_TABLE_ALIMENTOS = "CREATE TABLE " + TABLE_ALIMENTOS + " (" +
             "id INTEGER PRIMARY KEY AUTOINCREMENT, " +
             "nome TEXT, " +
@@ -76,7 +74,6 @@ public class SQLiteHelper extends SQLiteOpenHelper {
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        // Atualiza as tabelas se a versão do banco de dados aumentar
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_LANCHEIRAS);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_PERFIS);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_ALIMENTOS);
@@ -85,7 +82,6 @@ public class SQLiteHelper extends SQLiteOpenHelper {
     }
 
     public long inserirAlimento(Alimentos alimento) {
-        long id = -1;
         SQLiteDatabase db = this.getWritableDatabase();
 
         // Verificar se o alimento já existe
@@ -93,9 +89,9 @@ public class SQLiteHelper extends SQLiteOpenHelper {
         if (cursor.moveToFirst()) {
             int idColumnIndex = cursor.getColumnIndex("id");
             if (idColumnIndex != -1) {
-                id = cursor.getInt(idColumnIndex);
-            } else {
-                Log.e("SQLiteHelper", "Coluna 'id' não encontrada na tabela " + TABLE_ALIMENTOS);
+                long id = cursor.getLong(idColumnIndex);
+                cursor.close();
+                return id; // Retorna o ID existente se o alimento já está no banco
             }
         }
         cursor.close();
@@ -105,9 +101,7 @@ public class SQLiteHelper extends SQLiteOpenHelper {
         values.put("nome", alimento.getNome());
         values.put("descricao", alimento.getDescricao());
         values.put("imagemUrl", alimento.getImagemUrl());
-        id = db.insert(TABLE_ALIMENTOS, null, values);
-
-        return id; // Retorna o ID do novo alimento
+        return db.insert(TABLE_ALIMENTOS, null, values);
     }
 
     public long inserirLancheira(int perfilId, List<Alimentos> alimentos, String data) {
@@ -138,63 +132,45 @@ public class SQLiteHelper extends SQLiteOpenHelper {
         return lancheiraId;
     }
 
-    public List<Lancheira> obterLancheirasPorPerfil(int perfilId) {
-        List<Lancheira> lancheiras = new ArrayList<>();
+    public Lancheira obterLancheira(int lancheiraId) {
         SQLiteDatabase db = this.getReadableDatabase();
-        Cursor cursor = db.rawQuery("SELECT * FROM " + TABLE_LANCHEIRAS + " WHERE perfil_id = ?", new String[]{String.valueOf(perfilId)});
+        Lancheira lancheira = null;
 
-        if (cursor.moveToFirst()) {
-            do {
-                int idColumnIndex = cursor.getColumnIndex("id");
-                int dataColumnIndex = cursor.getColumnIndex("data");
+        // Consulta para obter dados da lancheira
+        String lancheiraQuery = "SELECT l.id AS lancheiraId, l.data, l.perfil_id, p.nome AS perfilNome " +
+                "FROM " + TABLE_LANCHEIRAS + " l " +
+                "JOIN " + TABLE_PERFIS + " p ON l.perfil_id = p.id " +
+                "WHERE l.id = ?";
+        Cursor lancheiraCursor = db.rawQuery(lancheiraQuery, new String[]{String.valueOf(lancheiraId)});
 
-                if (idColumnIndex != -1 && dataColumnIndex != -1) {
-                    int lancheiraId = cursor.getInt(idColumnIndex);
-                    String data = cursor.getString(dataColumnIndex);
+        if (lancheiraCursor.moveToFirst()) {
+            int perfilId = lancheiraCursor.getInt(lancheiraCursor.getColumnIndexOrThrow("perfil_id"));
+            String data = lancheiraCursor.getString(lancheiraCursor.getColumnIndexOrThrow("data"));
+            String nomeLancheira = lancheiraCursor.getString(lancheiraCursor.getColumnIndexOrThrow("perfilNome"));
 
-                    List<Alimentos> alimentos = obterAlimentosPorLancheira(lancheiraId);
+            List<Alimentos> alimentos = new ArrayList<>();
+            String alimentosQuery = "SELECT a.id AS alimentoId, a.nome AS alimentoNome, a.descricao AS alimentoDescricao, a.imagemUrl " +
+                    "FROM " + TABLE_ALIMENTOS + " a " +
+                    "INNER JOIN tbLancheiraAlimentos la ON a.id = la.alimento_id " +
+                    "WHERE la.lancheira_id = ?";
+            Cursor alimentosCursor = db.rawQuery(alimentosQuery, new String[]{String.valueOf(lancheiraId)});
 
-                    Lancheira lancheira = new Lancheira(
-                            lancheiraId,
-                            "Nome da Lancheira",
-                            data,
-                            alimentos,
-                            perfilId
-                    );
-                    lancheiras.add(lancheira);
-                }
-            } while (cursor.moveToNext());
-        }
-        cursor.close();
-        return lancheiras;
-    }
+            if (alimentosCursor.moveToFirst()) {
+                do {
+                    int id = alimentosCursor.getInt(alimentosCursor.getColumnIndexOrThrow("alimentoId"));
+                    String nome = alimentosCursor.getString(alimentosCursor.getColumnIndexOrThrow("alimentoNome"));
+                    String descricao = alimentosCursor.getString(alimentosCursor.getColumnIndexOrThrow("alimentoDescricao"));
+                    String imagemUrl = alimentosCursor.getString(alimentosCursor.getColumnIndexOrThrow("imagemUrl"));
 
-    public List<Alimentos> obterAlimentosPorLancheira(int lancheiraId) {
-        List<Alimentos> alimentos = new ArrayList<>();
-        SQLiteDatabase db = this.getReadableDatabase();
-        Cursor cursor = db.rawQuery("SELECT a.id, a.nome, a.descricao, a.imagemUrl FROM " + TABLE_ALIMENTOS + " a " +
-                "INNER JOIN tbLancheiraAlimentos la ON a.id = la.alimento_id " +
-                "WHERE la.lancheira_id = ?", new String[]{String.valueOf(lancheiraId)});
-
-        if (cursor.moveToFirst()) {
-            do {
-                int idColumnIndex = cursor.getColumnIndex("id");
-                int nomeColumnIndex = cursor.getColumnIndex("nome");
-                int descricaoColumnIndex = cursor.getColumnIndex("descricao");
-                int imagemUrlColumnIndex = cursor.getColumnIndex("imagemUrl");
-
-                if (idColumnIndex != -1 && nomeColumnIndex != -1 && descricaoColumnIndex != -1 && imagemUrlColumnIndex != -1) {
-                    Alimentos alimento = new Alimentos(
-                            cursor.getInt(idColumnIndex),
-                            cursor.getString(nomeColumnIndex),
-                            cursor.getString(descricaoColumnIndex),
-                            cursor.getString(imagemUrlColumnIndex)
-                    );
+                    Alimentos alimento = new Alimentos(id, nome, descricao, imagemUrl);
                     alimentos.add(alimento);
-                }
-            } while (cursor.moveToNext());
+                } while (alimentosCursor.moveToNext());
+            }
+            alimentosCursor.close();
+
+            lancheira = new Lancheira(lancheiraId, nomeLancheira, data, alimentos, perfilId);
         }
-        cursor.close();
-        return alimentos;
+        lancheiraCursor.close();
+        return lancheira;
     }
 }

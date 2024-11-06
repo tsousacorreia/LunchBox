@@ -10,16 +10,13 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.viewpager2.widget.ViewPager2;
-import com.google.android.material.tabs.TabLayout;
-import com.google.android.material.tabs.TabLayoutMediator;
 import java.util.Calendar;
 
 public class CalendarioFragment extends Fragment {
 
-    private TabLayout tabLayout;
     private ViewPager2 viewPager;
     private CalendarioPagerAdapter viewPagerAdapter;
-    private static final int DAYS_RANGE = 30;
+    private static final int DAYS_RANGE = 90;
 
     @Nullable
     @Override
@@ -27,26 +24,20 @@ public class CalendarioFragment extends Fragment {
                              @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_calendario, container, false);
 
-        tabLayout = view.findViewById(R.id.tabLayout);
         viewPager = view.findViewById(R.id.viewPager);
 
         // Botão para abrir o DatePicker
         Button buttonSelectDate = view.findViewById(R.id.buttonSelectDate);
         buttonSelectDate.setOnClickListener(v -> openDatePicker());
 
-        setupViewPagerWithTabLayout();
+        setupViewPager();
 
         return view;
     }
 
-    private void setupViewPagerWithTabLayout() {
+    private void setupViewPager() {
         viewPagerAdapter = new CalendarioPagerAdapter(this, DAYS_RANGE);
         viewPager.setAdapter(viewPagerAdapter);
-
-        // Usando o TabLayoutMediator para conectar o TabLayout ao ViewPager2
-        new TabLayoutMediator(tabLayout, viewPager, (tab, position) -> {
-            tab.setText(viewPagerAdapter.getDateLabel(position)); // Definindo o rótulo do tab com base na posição
-        }).attach();
 
         // Iniciar no dia atual
         viewPager.setCurrentItem(DAYS_RANGE, false);
@@ -71,10 +62,8 @@ public class CalendarioFragment extends Fragment {
         Calendar today = Calendar.getInstance();
         int daysDifference = (int) ((selectedDate.getTimeInMillis() - today.getTimeInMillis()) / (1000 * 60 * 60 * 24));
 
-        // Calcula a posição relativa no ViewPager
         int targetPosition = DAYS_RANGE + daysDifference;
 
-        // Move o ViewPager para a posição
         if (targetPosition >= 0 && targetPosition < viewPagerAdapter.getItemCount()) {
             viewPager.setCurrentItem(targetPosition, true);
         }

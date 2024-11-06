@@ -11,19 +11,20 @@ import android.widget.TextView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class DiaFragment extends Fragment {
 
     private static final String ARG_LANCHEIRA_ID = "lancheiraId";
-    private static final String ARG_DATE_LABEL = "dateLabel"; // Definindo a constante para o rótulo da data
-    private int lancheiraId; // ID da lancheira a ser exibida
+    private static final String ARG_DATE_LABEL = "dateLabel";
+    private int lancheiraId;
 
     public static DiaFragment newInstance(int lancheiraId, String dateLabel) {
         DiaFragment fragment = new DiaFragment();
         Bundle args = new Bundle();
         args.putInt(ARG_LANCHEIRA_ID, lancheiraId);
-        args.putString(ARG_DATE_LABEL, dateLabel); // Passando o rótulo da data
+        args.putString(ARG_DATE_LABEL, dateLabel);
         fragment.setArguments(args);
         return fragment;
     }
@@ -34,7 +35,6 @@ public class DiaFragment extends Fragment {
                              @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_dia, container, false);
 
-        // Recupera o ID da lancheira e o rótulo de data
         if (getArguments() != null) {
             lancheiraId = getArguments().getInt(ARG_LANCHEIRA_ID);
             String dateLabel = getArguments().getString(ARG_DATE_LABEL, "Data");
@@ -42,14 +42,14 @@ public class DiaFragment extends Fragment {
             dateTextView.setText(dateLabel);
         }
 
-        // Configura o RecyclerView
-        RecyclerView recyclerView = view.findViewById(R.id.recyclerViewLancheira);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        // Configura o RecyclerView para os alimentos
+        RecyclerView recyclerViewAlimentos = view.findViewById(R.id.recyclerViewLancheira);
+        recyclerViewAlimentos.setLayoutManager(new LinearLayoutManager(getContext()));
 
-        // Obtém os alimentos da lancheira e configura o DiaAlimentosAdapter
+        // Obtém os alimentos da lancheira e configura o adapter
         List<Alimentos> alimentos = obterAlimentosDaLancheira();
-        DiaAlimentosAdapter adapter = new DiaAlimentosAdapter(alimentos, getContext());
-        recyclerView.setAdapter(adapter);
+        DiaAlimentosAdapter alimentosAdapter = new DiaAlimentosAdapter(alimentos, getContext());
+        recyclerViewAlimentos.setAdapter(alimentosAdapter);
 
         return view;
     }
@@ -57,6 +57,11 @@ public class DiaFragment extends Fragment {
     // Método para obter alimentos da lancheira usando o SQLiteHelper
     private List<Alimentos> obterAlimentosDaLancheira() {
         SQLiteHelper dbHelper = SQLiteHelper.getInstance(getContext());
-        return dbHelper.obterAlimentosPorLancheira(lancheiraId);
+        Lancheira lancheira = dbHelper.obterLancheira(lancheiraId);
+        if (lancheira != null) {
+            return lancheira.getAlimentos(); // Acessa a lista de alimentos dentro da Lancheira
+        } else {
+            return new ArrayList<>(); // Retorna uma lista vazia se a lancheira for nula
+        }
     }
 }

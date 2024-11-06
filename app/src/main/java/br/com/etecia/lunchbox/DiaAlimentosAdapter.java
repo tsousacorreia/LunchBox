@@ -9,6 +9,8 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
+
 import java.util.List;
 
 public class DiaAlimentosAdapter extends RecyclerView.Adapter<DiaAlimentosAdapter.AlimentoViewHolder> {
@@ -33,8 +35,11 @@ public class DiaAlimentosAdapter extends RecyclerView.Adapter<DiaAlimentosAdapte
         Alimentos alimento = alimentosList.get(position);
         holder.nomeTextView.setText(alimento.getNome());
         holder.descricaoTextView.setText(alimento.getDescricao());
-        // Aqui você pode usar uma biblioteca como Glide ou Picasso para carregar a imagem
-        // Glide.with(context).load(alimento.getImagemUrl()).into(holder.imagemImageView);
+
+        Glide.with(holder.itemView.getContext())
+                .load(alimento.getImagemUrl())
+                .placeholder(R.drawable.placeholder_image)
+                .into(holder.imagemImageView);
     }
 
     @Override
