@@ -67,7 +67,7 @@ public class DiaLancheiraAdapter extends RecyclerView.Adapter<DiaLancheiraAdapte
             return sdfSaida.format(date);
         } catch (ParseException e) {
             e.printStackTrace();
-            return data; // Retorna a data original caso haja erro de formatação
+            return data;
         }
     }
 

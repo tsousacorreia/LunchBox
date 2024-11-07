@@ -109,62 +109,65 @@ public class SQLiteHelper extends SQLiteOpenHelper {
     }
 
     public long inserirLancheira(int perfilId, List<Alimentos> alimentos, String data) {
+        if (data == null || perfilId <= 0) return -1;
+
+        String dataFormatada = formatarDataParaBanco(data);
+        if (dataFormatada == null) return -1;
+
         long lancheiraId = -1;
         SQLiteDatabase db = this.getWritableDatabase();
         db.beginTransaction();
         try {
             ContentValues values = new ContentValues();
             values.put("perfil_id", perfilId);
-            values.put("data", data);
+            values.put("data", dataFormatada);
             lancheiraId = db.insert(TABLE_LANCHEIRAS, null, values);
 
             for (Alimentos alimento : alimentos) {
-                long alimentoId = inserirAlimento(alimento); // Insere o alimento e obtém o ID
+                long alimentoId = inserirAlimento(alimento);
                 ContentValues alimentoValues = new ContentValues();
                 alimentoValues.put("lancheira_id", lancheiraId);
                 alimentoValues.put("alimento_id", alimentoId);
                 db.insert("tbLancheiraAlimentos", null, alimentoValues);
             }
-
             db.setTransactionSuccessful();
         } catch (SQLException e) {
             Log.e("SQLiteHelper", "Erro ao inserir lancheira: " + e.getMessage(), e);
         } finally {
             db.endTransaction();
         }
-
         return lancheiraId;
     }
 
     public List<Lancheira> obterLancheirasPorData(String data) {
-        SQLiteDatabase db = this.getReadableDatabase();
         List<Lancheira> lancheiras = new ArrayList<>();
-
-        // Formato esperado da data no banco: yyyy-MM-dd
         String dataFormatada = formatarDataParaBanco(data);
 
-        String queryLancheiras = "SELECT l.id AS lancheiraId, l.data, l.perfil_id, p.nome AS perfilNome, p.idade AS perfilIdade, p.preferencias AS perfilPreferencias " +
+        if (dataFormatada == null) {
+            Log.e("SQLiteHelper", "Data formatada é nula.");
+            return lancheiras;
+        }
+
+        SQLiteDatabase db = this.getReadableDatabase();
+        String queryLancheiras = "SELECT l.id AS lancheiraId, l.data, l.perfil_id, p.nome AS perfilNome, " +
+                "p.idade AS perfilIdade, p.preferencias AS perfilPreferencias " +
                 "FROM " + TABLE_LANCHEIRAS + " l " +
                 "JOIN " + TABLE_PERFIS + " p ON l.perfil_id = p.id " +
                 "WHERE l.data = ?";
-        Cursor cursor = db.rawQuery(queryLancheiras, new String[]{dataFormatada});
 
-        while (cursor.moveToNext()) {
-            int lancheiraId = cursor.getInt(cursor.getColumnIndexOrThrow("lancheiraId"));
-            int perfilId = cursor.getInt(cursor.getColumnIndexOrThrow("perfil_id"));
-            String perfilNome = cursor.getString(cursor.getColumnIndexOrThrow("perfilNome"));
-            int perfilIdade = cursor.getInt(cursor.getColumnIndexOrThrow("perfilIdade"));
-            String perfilPreferencias = cursor.getString(cursor.getColumnIndexOrThrow("perfilPreferencias"));
+        try (Cursor cursor = db.rawQuery(queryLancheiras, new String[]{dataFormatada})) {
+            while (cursor.moveToNext()) {
+                int lancheiraId = cursor.getInt(cursor.getColumnIndexOrThrow("lancheiraId"));
+                int perfilId = cursor.getInt(cursor.getColumnIndexOrThrow("perfil_id"));
+                String perfilNome = cursor.getString(cursor.getColumnIndexOrThrow("perfilNome"));
+                int perfilIdade = cursor.getInt(cursor.getColumnIndexOrThrow("perfilIdade"));
+                String perfilPreferencias = cursor.getString(cursor.getColumnIndexOrThrow("perfilPreferencias"));
 
-            Perfil perfil = new Perfil(perfilId, perfilNome, perfilIdade, perfilPreferencias);
-
-            List<Alimentos> alimentos = obterAlimentosPorLancheiraId(lancheiraId);
-
-            Lancheira lancheira = new Lancheira(lancheiraId, perfilNome, data, alimentos, perfil);
-            lancheiras.add(lancheira);
+                Perfil perfil = new Perfil(perfilId, perfilNome, perfilIdade, perfilPreferencias);
+                List<Alimentos> alimentos = obterAlimentosPorLancheiraId(lancheiraId);
+                lancheiras.add(new Lancheira(lancheiraId, perfilNome, data, alimentos, perfil));
+            }
         }
-        cursor.close();
-
         return lancheiras;
     }
 
@@ -176,11 +179,10 @@ public class SQLiteHelper extends SQLiteOpenHelper {
             Date date = sdfEntrada.parse(data);
             return sdfSaida.format(date);
         } catch (ParseException e) {
-            e.printStackTrace();
+            Log.e("SQLiteHelper", "Erro ao formatar data: " + e.getMessage(), e);
             return null;
         }
     }
-
 
     // Método auxiliar para obter os alimentos da lancheira
     private List<Alimentos> obterAlimentosPorLancheiraId(int lancheiraId) {
