@@ -13,4 +13,6 @@
     <color name="lightGrey">#E7E7E7</color>
     <color name="grey">#bcbcbc</color>
     <color name="darkGrey">#FF807F7F</color>
+    <color name="bgColor">#ffca64</color>
+    <color name="buttonColor">#fb5e32</color>
 </resources>

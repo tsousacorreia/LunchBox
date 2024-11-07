@@ -117,7 +117,7 @@ public class Login extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         // Se o tempo entre os pressionamentos for menor que 2 segundos, sai do app
-        if (backPressedTime + 2000 > System.currentTimeMillis()) {
+        if (backPressedTime + 2500 > System.currentTimeMillis()) {
             super.onBackPressed(); // Chama a ação padrão (sair do app)
             return;
         } else {
