@@ -30,6 +30,7 @@ public class Login extends AppCompatActivity {
     Button btnLogin, btnCreate;
     FirebaseAuth mAuth;
     ProgressBar progressBar;
+    private long backPressedTime; //vigiar o botao voltar
 
     @Override
     public void onStart() {
@@ -113,4 +114,20 @@ public class Login extends AppCompatActivity {
             }
         });
     }
+    @Override
+    public void onBackPressed() {
+        // Se o tempo entre os pressionamentos for menor que 2 segundos, sai do app
+        if (backPressedTime + 2000 > System.currentTimeMillis()) {
+            super.onBackPressed(); // Chama a ação padrão (sair do app)
+            return;
+        } else {
+            // Caso contrário, exibe a mensagem e atualiza o tempo
+            Toast.makeText(this, "Pressione novamente para sair", Toast.LENGTH_SHORT).show();
+        }
+
+        // Atualiza o tempo do último pressionamento
+        backPressedTime = System.currentTimeMillis();
+    }
+
+
 }
