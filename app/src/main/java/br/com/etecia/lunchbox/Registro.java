@@ -31,6 +31,8 @@ public class Registro extends AppCompatActivity {
     FirebaseAuth mAuth;
     ProgressBar progressBar;
     TextView txtPasswordStr, txtPasswordHint;
+    private long backPressedTime;
+
     @Override
     public void onStart() {
         super.onStart();
@@ -147,6 +149,21 @@ public class Registro extends AppCompatActivity {
 
             }
         });
+    }
+
+    @Override
+    public void onBackPressed() {
+        // Se o tempo entre os pressionamentos for menor que 2 segundos, sai do app
+        if (backPressedTime + 2500 > System.currentTimeMillis()) {
+            super.onBackPressed(); // Chama a ação padrão (sair do app)
+            return;
+        } else {
+            // Caso contrário, exibe a mensagem e atualiza o tempo
+            Toast.makeText(this, "Pressione novamente para sair", Toast.LENGTH_SHORT).show();
+        }
+
+        // Atualiza o tempo do último pressionamento
+        backPressedTime = System.currentTimeMillis();
     }
 
 

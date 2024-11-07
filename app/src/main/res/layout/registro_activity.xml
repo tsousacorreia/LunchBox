@@ -5,7 +5,7 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white"
+    android:background="@color/bgColor"
     android:orientation="vertical"
     tools:context=".Registro">
 
@@ -24,14 +24,14 @@
         android:layout_width="300dp"
         android:layout_height="35dp"
         android:layout_gravity="center"
-        android:layout_marginTop="15dp"
+        android:layout_marginTop="50dp"
         android:background="@drawable/rounded_input"
         android:drawableEnd="@drawable/ic_email"
         android:hint="@string/email"
         android:maxLength="254"
         android:singleLine="true"
         android:textColor="@color/black"
-        android:textColorHint="@color/grey"
+        android:textColorHint="@color/darkGrey"
         android:textSize="15sp" />
 
 
@@ -48,7 +48,7 @@
         android:maxLength="16"
         android:singleLine="true"
         android:textColor="@color/black"
-        android:textColorHint="@color/grey"
+        android:textColorHint="@color/darkGrey"
         android:textSize="15sp" />
 
     <EditText
@@ -64,7 +64,7 @@
         android:maxLength="16"
         android:singleLine="true"
         android:textColor="@color/black"
-        android:textColorHint="@color/grey"
+        android:textColorHint="@color/darkGrey"
         android:textSize="15sp" />
 
     <TextView
@@ -92,7 +92,7 @@
         android:layout_height="40dp"
         android:layout_gravity="center"
         android:layout_marginTop="40dp"
-        android:backgroundTint="@color/lightYellow"
+        android:backgroundTint="@color/buttonColor"
         android:text="@string/criar"
         android:textColor="@color/black"
         android:textSize="15sp"

@@ -14,6 +14,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity implements OnAlimentoSelectedListener {
 
@@ -22,6 +23,7 @@ public class MainActivity extends AppCompatActivity implements OnAlimentoSelecte
     Button button;
     TextView textView;
     FirebaseUser user;
+    private long backPressedTime;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -92,6 +94,22 @@ public class MainActivity extends AppCompatActivity implements OnAlimentoSelecte
         // Atualizar o BottomNavigationView para a aba da lancheira
         bottomNavigationView.setSelectedItemId(R.id.nav_lancheira);
     }
+
+    @Override
+    public void onBackPressed() {
+        // Se o tempo entre os pressionamentos for menor que 2 segundos, sai do app
+        if (backPressedTime + 2500 > System.currentTimeMillis()) {
+            super.onBackPressed(); // Chama a ação padrão (sair do app)
+            return;
+        } else {
+            // Caso contrário, exibe a mensagem e atualiza o tempo
+            Toast.makeText(this, "Pressione novamente para sair", Toast.LENGTH_SHORT).show();
+        }
+
+        // Atualiza o tempo do último pressionamento
+        backPressedTime = System.currentTimeMillis();
+    }
+
 
     // Novo metodo para selecionar a lancheira
     public void onSelectLancheira() {

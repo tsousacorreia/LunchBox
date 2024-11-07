@@ -13,7 +13,7 @@
         android:layout_width="200dp"
         android:layout_height="200dp"
         android:layout_gravity="center"
-        android:layout_marginTop="90dp"
+        android:layout_marginTop="70dp"
         android:contentDescription="@string/logo"
         android:src="@drawable/icon" />
 
@@ -24,14 +24,15 @@
         android:layout_width="300dp"
         android:layout_height="35dp"
         android:layout_gravity="center"
-        android:layout_marginTop="70dp"
+        android:layout_marginTop="50dp"
         android:background="@drawable/rounded_input"
         android:drawableEnd="@drawable/ic_email"
         android:maxLength="254"
         android:textColor="@color/black"
         android:hint="@string/email"
         android:textSize="15sp"
-        android:singleLine="true"/>
+        android:singleLine="true"
+        android:textColorHint="@color/darkGrey"/>
 
 
     <EditText
@@ -47,7 +48,8 @@
         android:textColor="@color/black"
         android:hint="@string/senha"
         android:textSize="15sp"
-        android:singleLine="true"/>
+        android:singleLine="true"
+        android:textColorHint="@color/darkGrey"/>
 
     <ProgressBar
         android:id="@+id/progressBar"
