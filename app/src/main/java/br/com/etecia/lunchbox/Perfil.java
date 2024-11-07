@@ -6,44 +6,44 @@ public class Perfil {
     private int idade;
     private String preferencias;
 
-    // Construtor que aceita nome, idade e preferências
-    public Perfil(String nome, int idade, String preferencias) {
-        this.nome = nome;
-        this.idade = idade;
-        this.preferencias = preferencias;
-    }
-
-    // Setters
-    public void setId(int id) {
+    // Construtor modificado
+    public Perfil(int id, String nome, int idade, String preferencias) {
         this.id = id;
-    }
-
-    public void setNome(String nome) {
         this.nome = nome;
-    }
-
-    public void setIdade(int idade) {
         this.idade = idade;
-    }
-
-    public void setPreferencias(String preferencias) {
         this.preferencias = preferencias;
     }
 
-    // Getters
+    // Getters e setters (se necessário)
     public int getId() {
         return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getNome() {
         return nome;
     }
 
-    public String getPreferencias() {
-        return preferencias;
+    public void setNome(String nome) {
+        this.nome = nome;
     }
 
     public int getIdade() {
         return idade;
+    }
+
+    public void setIdade(int idade) {
+        this.idade = idade;
+    }
+
+    public String getPreferencias() {
+        return preferencias;
+    }
+
+    public void setPreferencias(String preferencias) {
+        this.preferencias = preferencias;
     }
 }

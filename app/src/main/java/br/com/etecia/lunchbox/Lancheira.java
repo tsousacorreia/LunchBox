@@ -8,15 +8,15 @@ public class Lancheira {
     private String nomeLancheira;
     private String data;
     private List<Alimentos> alimentos;
-    private int perfilId;
+    private Perfil perfil;  // Armazenando o objeto Perfil diretamente
 
     // Construtor atualizado
-    public Lancheira(int id, String nomeLancheira, String data, List<Alimentos> alimentos, int perfilId) {
+    public Lancheira(int id, String nomeLancheira, String data, List<Alimentos> alimentos, Perfil perfil) {
         this.id = id;
         this.nomeLancheira = nomeLancheira != null ? nomeLancheira : "";
         this.data = data;
         this.alimentos = alimentos;
-        this.perfilId = perfilId;
+        this.perfil = perfil;  // Agora você passa o objeto Perfil
     }
 
     // Getters e Setters
@@ -56,12 +56,12 @@ public class Lancheira {
         this.alimentos = alimentos;
     }
 
-    public int getPerfilId() {
-        return perfilId;
+    public Perfil getPerfil() {  // Método para acessar o Perfil diretamente
+        return perfil;
     }
 
-    public void setPerfilId(int perfilId) {
-        this.perfilId = perfilId;
+    public void setPerfil(Perfil perfil) {
+        this.perfil = perfil;
     }
 
     // Método para obter nomes dos alimentos
@@ -90,7 +90,7 @@ public class Lancheira {
                 "id=" + id +
                 ", nomeLancheira='" + nomeLancheira + '\'' +
                 ", data='" + data + '\'' +
-                ", perfilId=" + perfilId +
+                ", perfil=" + perfil.getNome() +
                 ", alimentos=" + getNomesAlimentos() +
                 '}';
     }

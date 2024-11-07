@@ -41,9 +41,7 @@ public class PerfilDAO {
                 int idade = cursor.getInt(cursor.getColumnIndexOrThrow("idade"));
                 String preferencias = cursor.getString(cursor.getColumnIndexOrThrow("preferencias"));
 
-                // Criação do objeto Perfil, chamando o construtor correto
-                Perfil perfil = new Perfil(nome, idade, preferencias);
-                perfil.setId(id); // Define o ID após a criação do objeto
+                Perfil perfil = new Perfil(id, nome, idade, preferencias);
                 perfis.add(perfil);
             } while (cursor.moveToNext());
         }

@@ -126,7 +126,7 @@ public class HomeFragment extends Fragment {
         String preferencias = editPreferencias.getText().toString();
 
         // Criar o objeto perfil
-        Perfil novoPerfil = new Perfil(nome, idade, preferencias);
+        Perfil novoPerfil = new Perfil(0, nome, idade, preferencias);
 
         // Inserir no banco de dados
         long id = perfilDAO.inserirPerfil(novoPerfil);
