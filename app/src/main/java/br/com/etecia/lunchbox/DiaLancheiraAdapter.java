@@ -43,13 +43,13 @@ public class DiaLancheiraAdapter extends RecyclerView.Adapter<DiaLancheiraAdapte
         holder.diaTextView.setText(formatarDataParaExibicao(dataSelecionada));
 
         // Configura os dados do perfil (nome, idade, etc.)
-        holder.nomePerfilTextView.setText(perfil.getNome());
+        holder.nomePerfilTextView.setText(String.format("Lancheira: %s",perfil.getNome()));
         holder.idadeTextView.setText(String.format("Idade: %d anos", perfil.getIdade()));
         holder.preferenciasTextView.setText(String.format("Preferências: %s", perfil.getPreferencias()));
 
         // Configura o RecyclerView para exibir alimentos da lancheira
         DiaAlimentosAdapter alimentosAdapter = new DiaAlimentosAdapter(context, lancheira.getAlimentos());
-        holder.alimentosRecyclerView.setLayoutManager(new LinearLayoutManager(context, RecyclerView.HORIZONTAL, false));
+        holder.alimentosRecyclerView.setLayoutManager(new LinearLayoutManager(context, RecyclerView.VERTICAL, false));
         holder.alimentosRecyclerView.setAdapter(alimentosAdapter);
     }
 
@@ -84,7 +84,7 @@ public class DiaLancheiraAdapter extends RecyclerView.Adapter<DiaLancheiraAdapte
             idadeTextView = itemView.findViewById(R.id.text_profile_age);
             preferenciasTextView = itemView.findViewById(R.id.text_profile_preferences);
             alimentosRecyclerView = itemView.findViewById(R.id.recycler_view_alimentos);
-            diaTextView = itemView.findViewById(R.id.diaTextView);  // Inicializando o TextView da data
+            diaTextView = itemView.findViewById(R.id.diaTextView);
         }
     }
 }

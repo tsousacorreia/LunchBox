@@ -15,7 +15,7 @@
         android:layout_height="wrap_content"
         android:gravity="center"
         android:padding="16dp"
-        android:text="Lancheira"
+        android:text="LANCHEIRA"
         android:textSize="24sp"
         android:textStyle="bold" />
 
@@ -56,28 +56,24 @@
 
         <!-- Botão para limpar a lancheira -->
         <Button
+            style="@style/Widget.Material3.Button.ElevatedButton"
             android:id="@+id/btn_limpar_lancheira"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginEnd="8dp"
             android:layout_weight="1"
-            android:backgroundTint="@color/red"
-            android:padding="12dp"
             android:text="LIMPAR"
-            android:textColor="@android:color/white"
             android:textSize="18sp" />
 
         <!-- Botão para finalizar a montagem da lancheira -->
         <Button
+            style="@style/Widget.Material3.Button.ElevatedButton"
             android:id="@+id/btn_finalizar_lancheira"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginEnd="8dp"
             android:layout_weight="1"
-            android:backgroundTint="@color/green"
-            android:padding="12dp"
             android:text="FINALIZAR"
-            android:textColor="@android:color/white"
             android:textSize="18sp" />
     </LinearLayout>
 

@@ -1,9 +1,11 @@
-<androidx.cardview.widget.CardView
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="8dp"
+    android:checkable="true"
+    android:clickable="true"
+    android:focusable="true"
     android:padding="16dp"
     app:cardCornerRadius="12dp"
     app:cardElevation="4dp">
@@ -13,35 +15,47 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
+        <!-- Exibe o dia da semana e a data -->
+        <TextView
+            android:id="@+id/diaTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:text="Data: 01/01/2023"
+            android:textColor="@color/primaryTextColor"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:visibility="gone" />
+
         <!-- Exibe o nome do perfil -->
         <TextView
             android:id="@+id/text_profile_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Nome do Perfil"
+            android:textColor="@color/primaryTextColor"
             android:textSize="20sp"
-            android:textStyle="bold"
-            android:textColor="@color/primaryTextColor" />
+            android:textStyle="bold" />
 
         <!-- Exibe a idade do perfil -->
         <TextView
             android:id="@+id/text_profile_age"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Idade: X anos"
             android:layout_marginTop="4dp"
-            android:textSize="16sp"
-            android:textColor="@color/secondaryTextColor" />
+            android:text="Idade: X anos"
+            android:textColor="@color/secondaryTextColor"
+            android:textSize="16sp" />
 
         <!-- Exibe as preferências do perfil -->
         <TextView
             android:id="@+id/text_profile_preferences"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Preferências: Nenhuma"
             android:layout_marginTop="4dp"
-            android:textSize="14sp"
-            android:textColor="@color/secondaryTextColor" />
+            android:text="Preferências: Nenhuma"
+            android:textColor="@color/secondaryTextColor"
+            android:textSize="14sp" />
 
         <!-- RecyclerView para exibir a lista de alimentos (filho) -->
         <androidx.recyclerview.widget.RecyclerView
@@ -52,4 +66,4 @@
             android:nestedScrollingEnabled="false" />
     </LinearLayout>
 
-</androidx.cardview.widget.CardView>
+</com.google.android.material.card.MaterialCardView>

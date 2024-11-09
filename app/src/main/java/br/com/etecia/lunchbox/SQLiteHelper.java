@@ -18,7 +18,7 @@ import java.util.Locale;
 public class SQLiteHelper extends SQLiteOpenHelper {
 
     private static final String DATABASE_NAME = "lunchbox.db";
-    private static final int DATABASE_VERSION = 5;
+    private static final int DATABASE_VERSION = 7;
 
     // Tabelas e colunas
     private static final String TABLE_PERFIS = "tbPerfil";
@@ -174,6 +174,11 @@ public class SQLiteHelper extends SQLiteOpenHelper {
     // Método para formatar a data para o padrão yyyy-MM-dd
     private String formatarDataParaBanco(String data) {
         try {
+            // Remove o nome do dia, caso exista, assumindo que ele é seguido por uma vírgula e espaço
+            if (data.contains(",")) {
+                data = data.split(",")[1].trim();
+            }
+
             SimpleDateFormat sdfEntrada = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
             SimpleDateFormat sdfSaida = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
             Date date = sdfEntrada.parse(data);
@@ -183,6 +188,7 @@ public class SQLiteHelper extends SQLiteOpenHelper {
             return null;
         }
     }
+
 
     // Método auxiliar para obter os alimentos da lancheira
     private List<Alimentos> obterAlimentosPorLancheiraId(int lancheiraId) {

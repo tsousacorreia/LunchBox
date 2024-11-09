@@ -5,17 +5,20 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/lunchbox_home"
     android:orientation="vertical"
     android:padding="16dp"
-    android:background="@drawable/lunchbox_home"
     tools:context=".HomeFragment">
 
     <!-- Card para simular o botão de criar um novo perfil -->
-    <androidx.cardview.widget.CardView
+    <com.google.android.material.card.MaterialCardView
         android:id="@+id/card_criar_novo_perfil"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="16dp"
+        android:checkable="true"
+        android:clickable="true"
+        android:focusable="true"
         app:cardCornerRadius="8dp"
         app:cardElevation="4dp">
 
@@ -35,14 +38,17 @@
                 android:textSize="18sp"
                 android:textStyle="bold" />
         </LinearLayout>
-    </androidx.cardview.widget.CardView>
+    </com.google.android.material.card.MaterialCardView>
 
     <!-- Card para criar o perfil da criança -->
-    <androidx.cardview.widget.CardView
+    <com.google.android.material.card.MaterialCardView
         android:id="@+id/card_perfil"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="16dp"
+        android:checkable="true"
+        android:clickable="true"
+        android:focusable="true"
         android:visibility="gone"
         app:cardCornerRadius="8dp"
         app:cardElevation="4dp">
@@ -89,16 +95,19 @@
                 android:layout_marginTop="8dp"
                 android:text="SALVAR" />
         </LinearLayout>
-    </androidx.cardview.widget.CardView>
+    </com.google.android.material.card.MaterialCardView>
 
     <!-- Card para a seleção de perfis existentes -->
-    <androidx.cardview.widget.CardView
+    <com.google.android.material.card.MaterialCardView
         android:id="@+id/card_perfis_existentes"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:checkable="true"
+        android:clickable="true"
+        android:focusable="true"
+        android:visibility="gone"
         app:cardCornerRadius="8dp"
-        app:cardElevation="4dp"
-        android:visibility="gone">
+        app:cardElevation="4dp">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -111,12 +120,12 @@
                 android:id="@+id/recycler_view_perfis"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
                 android:layout_gravity="center"
                 android:clipToPadding="false"
+                android:orientation="horizontal"
                 android:paddingStart="16dp"
-                android:paddingEnd="16dp"/>
+                android:paddingEnd="16dp" />
 
         </LinearLayout>
-    </androidx.cardview.widget.CardView>
+    </com.google.android.material.card.MaterialCardView>
 </LinearLayout>

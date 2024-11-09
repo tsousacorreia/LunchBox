@@ -14,13 +14,12 @@
 
     <!-- Botão "Visualizar Lancheira" fixado na parte inferior -->
     <Button
+        style="@style/Widget.Material3.Button.ElevatedButton"
         android:id="@+id/btn_visualizar_lancheira"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Visualizar Lancheira"
+        android:text="VISUALIZAR LANCHEIRA"
         android:layout_gravity="bottom|center_horizontal"
         android:layout_marginBottom="16dp"
-        android:padding="16dp"
-        android:backgroundTint="@color/design_default_color_primary"
-        android:textColor="@android:color/white"/>
+        android:textSize="18sp"/>
 </FrameLayout>

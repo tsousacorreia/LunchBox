@@ -15,10 +15,12 @@
 
     <!-- Botão para selecionar uma data -->
     <Button
+        style="@style/Widget.Material3.Button.ElevatedButton"
         android:id="@+id/buttonSelectDate"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Selecionar Data"
+        android:text="SELECIONAR DATA"
         android:layout_gravity="end"
-        android:layout_margin="16dp"/>
+        android:layout_margin="16dp"
+        android:textSize="18sp"/>
 </LinearLayout>
