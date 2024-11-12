@@ -1,10 +1,10 @@
-<?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:padding="16dp"
+    android:background="?android:attr/windowBackground"
     tools:context=".DiaFragment">
 
     <!-- Título para exibir a data atual do dia -->
@@ -13,9 +13,12 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Data"
-        android:textSize="18sp"
+        android:textSize="20sp"
+        android:textColor="?attr/colorPrimary"
+        android:textStyle="bold"
         android:layout_gravity="center_horizontal"
-        android:layout_marginBottom="16dp"/>
+        android:layout_marginBottom="24dp"
+        android:paddingHorizontal="12dp" />
 
     <!-- RecyclerView para exibir os alimentos da lancheira -->
     <androidx.recyclerview.widget.RecyclerView
@@ -24,5 +27,9 @@
         android:layout_height="0dp"
         android:layout_weight="1"
         android:clipToPadding="false"
-        android:paddingBottom="8dp"/>
+        android:paddingBottom="16dp"
+        android:paddingStart="8dp"
+        android:paddingEnd="8dp"
+        android:scrollbars="vertical" />
+
 </LinearLayout>

@@ -1,12 +1,11 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/fragment_lancheira"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:gravity="center_horizontal"
     android:orientation="vertical"
     android:padding="16dp"
-    android:background="@drawable/lunchbox_lancheira"
     tools:context=".LancheiraFragment">
 
     <!-- Título da lancheira -->
@@ -17,7 +16,8 @@
         android:padding="16dp"
         android:text="LANCHEIRA"
         android:textSize="24sp"
-        android:textStyle="bold" />
+        android:textStyle="bold"
+        android:textColor="?attr/colorPrimary" />
 
     <!-- RecyclerView para mostrar os alimentos da lancheira -->
     <androidx.recyclerview.widget.RecyclerView
@@ -28,53 +28,73 @@
         android:layout_weight="1"
         android:scrollbars="vertical" />
 
-    <!-- Seleção de Data -->
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
-        android:text="Escolha a data:"
-        android:textSize="16sp" />
-
-    <TextView
-        android:id="@+id/text_data"
+    <!-- Seleção de Data dentro de um Card -->
+    <com.google.android.material.card.MaterialCardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="16dp"
-        android:background="@drawable/border_edittext"
-        android:gravity="center_vertical"
-        android:hint="Selecione a data"
-        android:padding="12dp"
-        android:textColor="@android:color/black" />
+        app:cardCornerRadius="8dp"
+        app:cardElevation="4dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="12dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Escolha a data:"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:textColor="?android:textColorSecondary" />
+
+            <TextView
+                android:id="@+id/text_data"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:background="@drawable/border_edittext"
+                android:gravity="center_vertical"
+                android:hint="Selecione a data"
+                android:padding="12dp"
+                android:textColor="@android:color/black"
+                android:textSize="16sp" />
+        </LinearLayout>
+    </com.google.android.material.card.MaterialCardView>
 
     <!-- Layout para alinhar os botões lado a lado -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="8dp"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:paddingTop="8dp">
 
         <!-- Botão para limpar a lancheira -->
-        <Button
+        <com.google.android.material.button.MaterialButton
             style="@style/Widget.Material3.Button.ElevatedButton"
             android:id="@+id/btn_limpar_lancheira"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginEnd="8dp"
             android:layout_weight="1"
+            android:paddingVertical="10dp"
             android:text="LIMPAR"
-            android:textSize="18sp" />
+            android:textSize="16sp"
+            android:textStyle="bold" />
 
         <!-- Botão para finalizar a montagem da lancheira -->
-        <Button
+        <com.google.android.material.button.MaterialButton
             style="@style/Widget.Material3.Button.ElevatedButton"
             android:id="@+id/btn_finalizar_lancheira"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
             android:layout_weight="1"
+            android:paddingVertical="10dp"
             android:text="FINALIZAR"
-            android:textSize="18sp" />
+            android:textSize="16sp"
+            android:textStyle="bold" />
     </LinearLayout>
 
 </LinearLayout>

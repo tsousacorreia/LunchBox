@@ -9,22 +9,23 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import android.widget.TextView;
 
 import java.util.List;
-
-// Importações permanecem as mesmas
 
 public class DiaFragment extends Fragment {
 
     private static final String ARG_DATE_LABEL = "dateLabel";
+    private TextView diaTextView;
     private RecyclerView recyclerViewLancheira;
     private DiaLancheiraAdapter diaLancheiraAdapter;
 
+    // Método para criar uma nova instância do fragmento
     public static DiaFragment newInstance(int offset, String dateLabel) {
         DiaFragment fragment = new DiaFragment();
         Bundle args = new Bundle();
-        args.putInt("offset", offset); // adiciona o offset ao Bundle
-        args.putString(ARG_DATE_LABEL, dateLabel);
+        args.putInt("offset", offset);
+        args.putString(ARG_DATE_LABEL, dateLabel);  // Passando a data para o fragmento
         fragment.setArguments(args);
         return fragment;
     }
@@ -35,8 +36,17 @@ public class DiaFragment extends Fragment {
                              @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_dia, container, false);
 
+        diaTextView = view.findViewById(R.id.diaTextView);
         recyclerViewLancheira = view.findViewById(R.id.recyclerViewLancheira);
         recyclerViewLancheira.setLayoutManager(new LinearLayoutManager(getContext()));
+
+        // Recupera o label da data e define no TextView
+        if (getArguments() != null) {
+            String dateLabel = getArguments().getString(ARG_DATE_LABEL);
+            if (dateLabel != null) {
+                diaTextView.setText(dateLabel);  // Atualizando o TextView com o valor da data
+            }
+        }
 
         carregarLancheiras();
 
