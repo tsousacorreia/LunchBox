@@ -4,8 +4,9 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:padding="16dp"
-    android:background="?android:attr/windowBackground"
-    tools:context=".DiaFragment">
+    android:background="#F1F8E9"
+    tools:context=".DiaFragment"
+    >
 
     <!-- Título para exibir a data atual do dia -->
     <TextView
@@ -14,7 +15,7 @@
         android:layout_height="wrap_content"
         android:text="Data"
         android:textSize="20sp"
-        android:textColor="?attr/colorPrimary"
+        android:textColor="#504161"
         android:textStyle="bold"
         android:layout_gravity="center_horizontal"
         android:layout_marginBottom="24dp"

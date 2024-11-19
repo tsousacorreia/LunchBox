@@ -4,10 +4,10 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="?android:attr/windowBackground"
+    android:backgroundTint="#F1F8E9"
     android:orientation="vertical"
     android:padding="16dp"
-    tools:context=".CalendarioFragment"
-    android:backgroundTint="#F1F8E9">
+    tools:context=".CalendarioFragment">
 
     <!-- ViewPager2 para a exibição dos conteúdos de cada dia -->
     <androidx.viewpager2.widget.ViewPager2
@@ -16,26 +16,24 @@
         android:layout_height="0dp"
         android:layout_marginBottom="24dp"
         android:layout_weight="1"
+        android:background="#F1F8E9"
         android:clipToPadding="false"
         android:paddingStart="8dp"
-        android:paddingEnd="8dp"
-        android:background="#F1F8E9"/>
+        android:paddingEnd="8dp" />
 
     <!-- Botão para selecionar uma data -->
     <Button
         android:id="@+id/buttonSelectDate"
-        android:backgroundTint="#c8a3f3
-"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="8dp"
         android:layout_marginBottom="8dp"
+        android:backgroundTint="#E2D2F4"
         android:padding="12dp"
         android:text="SELECIONAR DATA"
-        android:textSize="18sp"
-        android:textStyle="bold"
         android:textColor="#504161"
-        />
+        android:textSize="18sp"
+        android:textStyle="bold" />
 
 </LinearLayout>

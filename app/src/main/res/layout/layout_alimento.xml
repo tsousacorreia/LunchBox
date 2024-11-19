@@ -15,7 +15,8 @@
         android:layout_width="match_parent"
         android:layout_height="110dp"
         android:orientation="horizontal"
-        android:background="#E4EFD0">
+        android:background=" #fff0e6
+    ">
 
         <ImageView
             android:id="@+id/image_food"
