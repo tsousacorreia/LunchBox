@@ -3,7 +3,8 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:padding="16dp"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:background="#e9f8f3">
 
     <EditText
         android:id="@+id/edit_nome"
