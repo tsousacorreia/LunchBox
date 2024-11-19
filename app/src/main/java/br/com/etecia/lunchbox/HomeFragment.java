@@ -72,7 +72,7 @@ public class HomeFragment extends Fragment {
             }
         }, getActivity());
 
-        recyclerViewPerfis.setLayoutManager(new LinearLayoutManager(getActivity()));
+        recyclerViewPerfis.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false));
         recyclerViewPerfis.setAdapter(perfilAdapter);
 
         // Lógica para criar o perfil

@@ -1,11 +1,12 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/fragment_lancheira"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/backgroundColor"
     android:orientation="vertical"
-    android:padding="16dp"
+    android:padding="8dp"
     tools:context=".LancheiraFragment">
 
     <!-- Título da lancheira -->
@@ -15,9 +16,9 @@
         android:gravity="center"
         android:padding="16dp"
         android:text="LANCHEIRA"
+        android:textColor="?attr/colorPrimary"
         android:textSize="24sp"
-        android:textStyle="bold"
-        android:textColor="?attr/colorPrimary" />
+        android:textStyle="bold" />
 
     <!-- RecyclerView para mostrar os alimentos da lancheira -->
     <androidx.recyclerview.widget.RecyclerView
@@ -46,9 +47,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Escolha a data:"
+                android:textColor="?android:textColorSecondary"
                 android:textSize="16sp"
-                android:textStyle="bold"
-                android:textColor="?android:textColorSecondary" />
+                android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/text_data"
@@ -73,8 +74,8 @@
 
         <!-- Botão para limpar a lancheira -->
         <com.google.android.material.button.MaterialButton
-            style="@style/Widget.Material3.Button.ElevatedButton"
             android:id="@+id/btn_limpar_lancheira"
+            style="@style/Widget.Material3.Button.ElevatedButton"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginEnd="8dp"
@@ -86,8 +87,8 @@
 
         <!-- Botão para finalizar a montagem da lancheira -->
         <com.google.android.material.button.MaterialButton
-            style="@style/Widget.Material3.Button.ElevatedButton"
             android:id="@+id/btn_finalizar_lancheira"
+            style="@style/Widget.Material3.Button.ElevatedButton"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"

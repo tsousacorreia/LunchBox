@@ -3,8 +3,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="?android:attr/windowBackground"
+    android:background="@color/backgroundColor"
     android:orientation="vertical"
+    android:padding="8dp"
     tools:context=".CalendarioFragment">
 
     <!-- ViewPager2 para a exibição dos conteúdos de cada dia -->
@@ -25,9 +26,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:layout_marginLeft="8dp"
         android:layout_marginTop="8dp"
-        android:layout_marginRight="8dp"
         android:layout_marginBottom="8dp"
         android:padding="12dp"
         android:text="SELECIONAR DATA"

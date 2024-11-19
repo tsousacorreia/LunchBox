@@ -11,4 +11,5 @@
     <color name="colorAccent">#F44336</color>
     <color name="backgroundColor">#FFFFFF</color>
     <color name="cardBackgroundColor">#EDE4F4</color>
+    <color name="linkColor">#2196F3</color>
 </resources>

@@ -1,146 +1,215 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/main"
+    android:id="@+id/main_scroll"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:padding="16dp"
-    tools:context=".HomeFragment"
-    android:background="@color/backgroundColor">
+    android:fillViewport="true"
+    android:background="@color/backgroundColor"
+    tools:context=".HomeFragment">
 
-    <!-- Card para simular o botão de criar um novo perfil -->
-    <com.google.android.material.card.MaterialCardView
-        android:id="@+id/card_criar_novo_perfil"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="16dp"
-        android:checkable="true"
-        android:clickable="true"
-        android:focusable="true"
-        app:cardCornerRadius="12dp"
-        app:cardElevation="6dp"
-        android:backgroundTint="@color/cardBackgroundColor">
+        android:orientation="vertical"
+        android:padding="8dp">
 
-        <LinearLayout
+        <!-- Botão para criar novo perfil -->
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/card_criar_novo_perfil"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="center"
-            android:orientation="vertical"
-            android:padding="16dp">
+            android:layout_marginBottom="16dp"
+            app:cardCornerRadius="12dp"
+            app:cardElevation="6dp"
+            android:backgroundTint="@color/cardBackgroundColor"
+            android:clickable="true"
+            android:focusable="true">
 
-            <TextView
-                android:id="@+id/text_novo_perfil"
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:text="CRIAR NOVO PERFIL"
-                android:textSize="18sp"
-                android:textColor="@color/primaryTextColor"
-                android:textStyle="bold" />
-        </LinearLayout>
-    </com.google.android.material.card.MaterialCardView>
+                android:orientation="vertical"
+                android:padding="16dp">
 
-    <!-- Card para criar o perfil da criança -->
-    <com.google.android.material.card.MaterialCardView
-        android:id="@+id/card_perfil"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="16dp"
-        android:checkable="true"
-        android:clickable="true"
-        android:focusable="true"
-        android:visibility="gone"
-        app:cardCornerRadius="12dp"
-        app:cardElevation="6dp"
-        android:backgroundTint="@color/cardBackgroundColor">
+                <TextView
+                    android:id="@+id/text_novo_perfil"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="CRIAR NOVO PERFIL"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    android:textColor="@color/primaryTextColor" />
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
 
-        <LinearLayout
+        <!-- Formulário para criação de perfil -->
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/card_perfil"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:padding="16dp">
+            android:layout_marginBottom="16dp"
+            android:visibility="gone"
+            app:cardCornerRadius="12dp"
+            app:cardElevation="6dp"
+            android:backgroundTint="@color/cardBackgroundColor"
+            android:clickable="true"
+            android:focusable="true">
 
-            <TextView
-                android:id="@+id/text_perfil_titulo"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Preencha os dados:"
-                android:textSize="18sp"
-                android:textColor="@color/primaryTextColor"
-                android:textStyle="bold" />
-
-            <!-- Campos do perfil da criança -->
-            <EditText
-                android:id="@+id/edit_nome"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Nome"
-                android:backgroundTint="@color/primaryColor"
-                android:padding="12dp"
-                android:textColor="@color/primaryTextColor" />
+                android:orientation="vertical"
+                android:padding="16dp">
 
-            <EditText
-                android:id="@+id/edit_idade"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="Idade"
-                android:backgroundTint="@color/primaryColor"
-                android:padding="12dp"
-                android:textColor="@color/primaryTextColor" />
+                <TextView
+                    android:id="@+id/text_perfil_titulo"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Preencha os dados:"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    android:textColor="@color/primaryTextColor" />
 
-            <EditText
-                android:id="@+id/edit_preferencias"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="Preferências"
-                android:backgroundTint="@color/primaryColor"
-                android:padding="12dp"
-                android:textColor="@color/primaryTextColor" />
+                <EditText
+                    android:id="@+id/edit_nome"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Nome"
+                    android:padding="12dp"
+                    android:backgroundTint="@color/primaryColor"
+                    android:textColor="@color/primaryTextColor" />
 
-            <!-- Botão para criar o perfil -->
-            <Button
-                android:id="@+id/btn_criar_perfil"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="end"
-                android:layout_marginTop="8dp"
-                android:backgroundTint="@color/primaryColor"
-                android:text="SALVAR"
-                android:textColor="@color/white" />
-        </LinearLayout>
-    </com.google.android.material.card.MaterialCardView>
+                <EditText
+                    android:id="@+id/edit_idade"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Idade"
+                    android:padding="12dp"
+                    android:backgroundTint="@color/primaryColor"
+                    android:textColor="@color/primaryTextColor" />
 
-    <!-- Card para a seleção de perfis existentes -->
-    <com.google.android.material.card.MaterialCardView
-        android:id="@+id/card_perfis_existentes"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:checkable="true"
-        android:clickable="true"
-        android:focusable="true"
-        android:visibility="gone"
-        app:cardCornerRadius="12dp"
-        app:cardElevation="6dp"
-        android:backgroundTint="@color/cardBackgroundColor">
+                <EditText
+                    android:id="@+id/edit_preferencias"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Preferências"
+                    android:padding="12dp"
+                    android:backgroundTint="@color/primaryColor"
+                    android:textColor="@color/primaryTextColor" />
 
-        <LinearLayout
+                <Button
+                    android:id="@+id/btn_criar_perfil"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="end"
+                    android:layout_marginTop="8dp"
+                    android:text="SALVAR"
+                    android:backgroundTint="@color/primaryColor"
+                    android:textColor="@color/white" />
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+        <!-- Perfis existentes -->
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/card_perfis_existentes"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:padding="16dp">
+            android:visibility="gone"
+            app:cardCornerRadius="12dp"
+            app:cardElevation="6dp"
+            android:backgroundTint="@color/cardBackgroundColor"
+            android:layout_marginBottom="16dp"
+            android:clickable="true"
+            android:focusable="true">
 
-            <!-- RecyclerView para exibir perfis existentes -->
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/recycler_view_perfis"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:clipToPadding="false"
-                android:orientation="horizontal"
-                android:paddingStart="16dp"
-                android:paddingEnd="16dp" />
-        </LinearLayout>
-    </com.google.android.material.card.MaterialCardView>
-</LinearLayout>
+                android:orientation="vertical"
+                android:padding="16dp">
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/recycler_view_perfis"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:clipToPadding="false"
+                    android:paddingStart="16dp"
+                    android:paddingEnd="16dp" />
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+        <!-- Dicas -->
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/card_dicas"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            app:cardCornerRadius="12dp"
+            app:cardElevation="6dp"
+            android:backgroundTint="@color/cardBackgroundColor">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="16dp">
+
+                <TextView
+                    android:id="@+id/text_dica"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Dica do Dia: Inclua vegetais coloridos em todas as refeições!"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    android:textColor="@color/primaryTextColor" />
+
+                <Button
+                    android:id="@+id/btn_saber_mais"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:text="SABER MAIS"
+                    android:backgroundTint="@color/primaryColor"
+                    android:textColor="@color/white" />
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+        <!-- Vídeos -->
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/card_video"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            app:cardCornerRadius="12dp"
+            app:cardElevation="6dp"
+            android:backgroundTint="@color/cardBackgroundColor">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="16dp">
+
+                <ImageView
+                    android:id="@+id/img_video"
+                    android:layout_width="match_parent"
+                    android:layout_height="200dp"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/sample_video_thumbnail" />
+
+                <Button
+                    android:id="@+id/btn_assistir"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:text="ASSISTIR AGORA"
+                    android:backgroundTint="@color/primaryColor"
+                    android:textColor="@color/white" />
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+    </LinearLayout>
+</ScrollView>
