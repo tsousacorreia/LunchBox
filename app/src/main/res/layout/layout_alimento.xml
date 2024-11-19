@@ -1,7 +1,7 @@
 <com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="110dp"
     android:layout_margin="8dp"
     android:background="?attr/selectableItemBackground"
     android:checkable="true"
@@ -9,17 +9,19 @@
     android:focusable="true"
     android:padding="12dp"
     app:cardCornerRadius="12dp"
-    app:cardElevation="3dp">
+    app:cardElevation="10dp">
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:layout_height="110dp"
+        android:orientation="horizontal"
+        android:background="#E4EFD0">
 
         <ImageView
             android:id="@+id/image_food"
             android:layout_width="70dp"
             android:layout_height="70dp"
+            android:layout_marginTop="20dp"
             android:layout_marginEnd="12dp"
             android:background="@drawable/rounded_image"
             android:clipToOutline="true"
@@ -41,7 +43,8 @@
                 android:text="Nome do Alimento"
                 android:textColor="@color/primaryTextColor"
                 android:textSize="18sp"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                android:layout_marginTop="20dp"/>
 
             <TextView
                 android:id="@+id/text_food_description"
