@@ -1,11 +1,14 @@
 package br.com.etecia.lunchbox;
 
+import com.google.gson.annotations.SerializedName;
+
 import java.util.Objects;
 
 public class Alimentos {
     private int id;
     private String nome;
     private String descricao;
+    @SerializedName("imagem_url")
     private String imagemUrl;
 
     // Construtor

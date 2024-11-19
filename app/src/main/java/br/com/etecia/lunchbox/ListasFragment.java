@@ -38,16 +38,16 @@ public class ListasFragment extends Fragment {
         new TabLayoutMediator(tabLayout, viewPager, (tab, position) -> {
             switch (position) {
                 case 0:
-                    tab.setText("1");
+                    tab.setText("Construtores");
                     break;
                 case 1:
-                    tab.setText("2");
+                    tab.setText("Reguladores");
                     break;
                 case 2:
-                    tab.setText("3");
+                    tab.setText("Energéticos");
                     break;
                 case 3:
-                    tab.setText("4");
+                    tab.setText("Snacks");
                     break;
             }
         }).attach();

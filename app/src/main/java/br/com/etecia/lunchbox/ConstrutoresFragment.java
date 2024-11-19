@@ -2,6 +2,7 @@ package br.com.etecia.lunchbox;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,6 +15,8 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.google.gson.Gson;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -66,6 +69,7 @@ public class ConstrutoresFragment extends Fragment implements OnAlimentoClickLis
             @Override
             public void onResponse(Call<ConstrutoresResponse> call, Response<ConstrutoresResponse> response) {
                 if (response.isSuccessful() && response.body() != null) {
+                    Log.d("API_RESPONSE", "Resposta da API: " + new Gson().toJson(response.body()));
                     ConstrutoresResponse apiResponse = response.body();
                     if (apiResponse.isError()) {
                         showError(apiResponse.getMessage());
