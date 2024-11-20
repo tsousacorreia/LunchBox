@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#fffcd3"
     android:orientation="vertical"
     android:padding="16dp"
     tools:context=".ReguladoresFragment">
@@ -18,8 +19,8 @@
 
     <!-- Botão "Visualizar Lancheira" fixado na parte inferior -->
     <com.google.android.material.button.MaterialButton
-        style="@style/Widget.Material3.Button.ElevatedButton"
         android:id="@+id/btn_visualizar_lancheira"
+        style="@style/Widget.Material3.Button.ElevatedButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"

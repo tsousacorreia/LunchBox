@@ -5,7 +5,8 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:padding="16dp"
-    tools:context=".ConstrutoresFragment">
+    tools:context=".ConstrutoresFragment"
+    android:background="#fffcd3">
 
     <!-- RecyclerView para mostrar os alimentos -->
     <androidx.recyclerview.widget.RecyclerView

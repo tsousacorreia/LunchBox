@@ -4,7 +4,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:padding="16dp"
-    android:background="#F1F8E9"
+    android:background="#fffcd3"
     tools:context=".DiaFragment"
     >
 

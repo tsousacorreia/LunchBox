@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".MainActivity"
-    android:background="#F1F8E9">
+    android:background="#fffcd3">
 
     <!-- Fragment Container -->
     <FrameLayout
@@ -27,7 +27,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:menu="@menu/bottom_nav_menu"
-        android:background="#DAEF8560"
+        android:background="#C95D03"
         app:itemRippleColor="#C9FFFFFF"
         />
 

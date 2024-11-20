@@ -8,7 +8,7 @@
     android:orientation="vertical"
     android:padding="16dp"
     tools:context=".HomeFragment"
-    android:background="@color/backgroundColor">
+    android:background="#fffcd3">
 
     <!-- Card para simular o botão de criar um novo perfil -->
     <com.google.android.material.card.MaterialCardView

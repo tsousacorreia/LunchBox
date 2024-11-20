@@ -6,7 +6,8 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:padding="16dp"
-    tools:context=".LancheiraFragment">
+    tools:context=".LancheiraFragment"
+    android:background="#fffcd3">
 
     <!-- Título da lancheira -->
     <TextView
