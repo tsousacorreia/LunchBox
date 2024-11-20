@@ -123,7 +123,7 @@
         android:visibility="gone"
         app:cardCornerRadius="12dp"
         app:cardElevation="6dp"
-        android:backgroundTint="@color/cardBackgroundColor">
+        android:backgroundTint="@color/red">
 
         <LinearLayout
             android:layout_width="match_parent"
