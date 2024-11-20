@@ -15,6 +15,16 @@
         android:orientation="vertical"
         android:padding="8dp">
 
+        <!-- Espaço para o logo do app -->
+        <ImageView
+            android:id="@+id/logo_app"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            android:src="@drawable/logo_app"
+        android:contentDescription="Logo do app"
+        android:layout_gravity="center"/>
+
         <!-- Botão para criar novo perfil -->
         <com.google.android.material.card.MaterialCardView
             android:id="@+id/card_criar_novo_perfil"
@@ -122,7 +132,7 @@
             app:cardCornerRadius="12dp"
             app:cardElevation="6dp"
             android:backgroundTint="@color/cardBackgroundColor"
-            android:layout_marginBottom="16dp"
+            android:layout_marginBottom="32dp"
             android:clickable="true"
             android:focusable="true">
 
@@ -147,10 +157,36 @@
             android:id="@+id/card_dicas"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="16dp"
+            android:layout_marginBottom="32dp"
             app:cardCornerRadius="12dp"
             app:cardElevation="6dp"
             android:backgroundTint="@color/cardBackgroundColor">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="16dp">
+
+                <!-- Exibe a imagem do perfil da rede social -->
+                <ImageView
+                    android:id="@+id/img_perfil_social"
+                    android:layout_width="match_parent"
+                    android:layout_height="200dp"
+                    android:layout_marginBottom="8dp"
+                    android:src="@drawable/sample_recipe_image" />
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+        <!-- Links úteis-->
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/card_links"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            android:backgroundTint="@color/cardBackgroundColor"
+            app:cardCornerRadius="12dp"
+            app:cardElevation="6dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -159,57 +195,31 @@
                 android:padding="16dp">
 
                 <TextView
-                    android:id="@+id/text_dica"
+                    android:id="@+id/text_links_titulo"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Dica do Dia: Inclua vegetais coloridos em todas as refeições!"
-                    android:textSize="16sp"
-                    android:textStyle="bold"
-                    android:textColor="@color/primaryTextColor" />
+                    android:text="Links Úteis"
+                    android:textColor="@color/primaryTextColor"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
 
-                <Button
-                    android:id="@+id/btn_saber_mais"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    android:text="SABER MAIS"
-                    android:backgroundTint="@color/primaryColor"
-                    android:textColor="@color/white" />
-            </LinearLayout>
-        </com.google.android.material.card.MaterialCardView>
-
-        <!-- Vídeos -->
-        <com.google.android.material.card.MaterialCardView
-            android:id="@+id/card_video"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="16dp"
-            app:cardCornerRadius="12dp"
-            app:cardElevation="6dp"
-            android:backgroundTint="@color/cardBackgroundColor">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:padding="16dp">
-
-                <ImageView
-                    android:id="@+id/img_video"
+                <TextView
+                    android:id="@+id/link_1"
                     android:layout_width="match_parent"
-                    android:layout_height="200dp"
-                    android:scaleType="centerCrop"
-                    android:src="@drawable/sample_video_thumbnail" />
-
-                <Button
-                    android:id="@+id/btn_assistir"
-                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
-                    android:text="ASSISTIR AGORA"
-                    android:backgroundTint="@color/primaryColor"
-                    android:textColor="@color/white" />
+                    android:text="Organização Mundial da Saúde (OMS)"
+                    android:textColor="@color/linkColor" />
+
+                <TextView
+                    android:id="@+id/link_2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:text="Blog: Alimentação Infantil Saudável"
+                    android:textColor="@color/linkColor" />
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
+
     </LinearLayout>
 </ScrollView>
