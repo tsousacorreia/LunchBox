@@ -5,7 +5,7 @@
     android:background="@color/backgroundColor"
     android:orientation="vertical"
     android:padding="8dp"
-    tools:context=".DiaFragment">
+    tools:context=".lunchbox.DiaFragment">
 
     <!-- Título para exibir a data atual do dia -->
     <TextView

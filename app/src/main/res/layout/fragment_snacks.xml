@@ -6,7 +6,7 @@
     android:background="@color/backgroundColor"
     android:orientation="vertical"
     android:padding="8dp"
-    tools:context=".SnacksFragment">
+    tools:context=".lunchbox.SnacksFragment">
 
     <!-- RecyclerView para mostrar os alimentos -->
     <androidx.recyclerview.widget.RecyclerView

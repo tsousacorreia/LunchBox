@@ -7,7 +7,7 @@
     android:background="@color/backgroundColor"
     android:orientation="vertical"
     android:padding="8dp"
-    tools:context=".LancheiraFragment">
+    tools:context=".lunchbox.LancheiraFragment">
 
     <!-- Título da lancheira -->
     <TextView

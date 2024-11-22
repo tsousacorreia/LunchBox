@@ -1,5 +1,6 @@
 plugins {
     alias(libs.plugins.android.application)
+    alias(libs.plugins.google.gms.google.services)
 }
 
 android {
@@ -41,6 +42,7 @@ dependencies {
     implementation(libs.cardview)
     implementation(libs.room.runtime)
     implementation(libs.recyclerview)
+    implementation(libs.firebase.auth)
     annotationProcessor(libs.room.compiler)
     implementation(libs.retrofit)
     implementation(libs.retrofit.converter.gson)

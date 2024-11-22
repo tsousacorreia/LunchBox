@@ -7,7 +7,7 @@
     android:background="@color/backgroundColor"
     android:orientation="vertical"
     android:padding="8dp"
-    tools:context=".ListasFragment">
+    tools:context=".lunchbox.ListasFragment">
 
     <!-- TabLayout para as categorias de alimentos -->
     <com.google.android.material.tabs.TabLayout

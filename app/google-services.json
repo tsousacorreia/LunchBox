@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "629325593725",
+    "project_id": "tcclunchbox",
+    "storage_bucket": "tcclunchbox.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:629325593725:android:c8c732b979316ac7f00514",
+        "android_client_info": {
+          "package_name": "br.com.etecia.lunchbox"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAilV_rZINXkPgRzmBPNwKbPX-SNLAXNFo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

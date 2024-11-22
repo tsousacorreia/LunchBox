@@ -6,7 +6,7 @@
     android:background="@color/backgroundColor"
     android:orientation="vertical"
     android:padding="8dp"
-    tools:context=".CalendarioFragment">
+    tools:context=".lunchbox.CalendarioFragment">
 
     <!-- ViewPager2 para a exibição dos conteúdos de cada dia -->
     <androidx.viewpager2.widget.ViewPager2
