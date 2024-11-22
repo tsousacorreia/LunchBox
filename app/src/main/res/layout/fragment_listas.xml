@@ -4,16 +4,28 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/backgroundColor"
+    android:background="@color/bgColor"
     android:orientation="vertical"
     android:padding="8dp"
     tools:context=".lunchbox.ListasFragment">
+
+    <!-- Espaço para o logo do app -->
+    <ImageView
+        android:id="@+id/logo_app"
+        android:layout_width="wrap_content"
+        android:layout_height="100dp"
+        android:layout_gravity="center"
+        android:layout_marginBottom="8dp"
+        android:contentDescription="Logo do app"
+        android:scaleType="fitCenter"
+        android:src="@drawable/icon" />
 
     <!-- TabLayout para as categorias de alimentos -->
     <com.google.android.material.tabs.TabLayout
         android:id="@+id/tabLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@color/bgColor"
         app:tabGravity="center"
         app:tabMode="scrollable" />
 

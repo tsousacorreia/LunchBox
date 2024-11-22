@@ -27,12 +27,12 @@
         android:layout_marginTop="50dp"
         android:background="@drawable/rounded_input"
         android:drawableEnd="@drawable/ic_email"
-        android:maxLength="254"
-        android:textColor="@color/black"
         android:hint="@string/email"
-        android:textSize="15sp"
+        android:maxLength="254"
         android:singleLine="true"
-        android:textColorHint="@color/darkGrey"/>
+        android:textColor="@color/black"
+        android:textColorHint="@color/darkGrey"
+        android:textSize="15sp" />
 
 
     <EditText
@@ -43,13 +43,13 @@
         android:layout_marginTop="15dp"
         android:background="@drawable/rounded_input"
         android:drawableEnd="@drawable/ic_lock"
+        android:hint="@string/senha"
         android:inputType="textPassword"
         android:maxLength="16"
-        android:textColor="@color/black"
-        android:hint="@string/senha"
-        android:textSize="15sp"
         android:singleLine="true"
-        android:textColorHint="@color/darkGrey"/>
+        android:textColor="@color/black"
+        android:textColorHint="@color/darkGrey"
+        android:textSize="15sp" />
 
     <ProgressBar
         android:id="@+id/progressBar"
@@ -68,8 +68,8 @@
         android:backgroundTint="@color/buttonColor"
         android:text="@string/entrar"
         android:textColor="@color/black"
-        android:textStyle="bold"
-        android:textSize="15sp"/>
+        android:textSize="15sp"
+        android:textStyle="bold" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -77,9 +77,9 @@
         android:layout_gravity="center"
         android:layout_marginTop="60dp"
         android:text="@string/semConta"
+        android:textColor="@color/darkGrey"
         android:textSize="14sp"
-        android:textStyle="italic"
-        android:textColor="@color/darkGrey"/>
+        android:textStyle="italic" />
 
 
     <Button

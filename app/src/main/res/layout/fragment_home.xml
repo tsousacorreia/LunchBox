@@ -5,8 +5,8 @@
     android:id="@+id/main_scroll"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/bgColor"
     android:fillViewport="true"
-    android:background="@color/backgroundColor"
     tools:context=".lunchbox.HomeFragment">
 
     <LinearLayout
@@ -15,15 +15,35 @@
         android:orientation="vertical"
         android:padding="8dp">
 
+        <!-- Espaço para o botão de logout -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="end"
+            android:orientation="horizontal"
+            android:paddingTop="8dp"
+            android:paddingEnd="8dp">
+
+            <Button
+                android:id="@+id/btnLogout"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:backgroundTint="@color/buttonColor"
+                android:drawableTop="@drawable/ic_logout"
+                android:padding="4dp"
+                android:textColor="@color/black" />
+        </LinearLayout>
+
         <!-- Espaço para o logo do app -->
         <ImageView
             android:id="@+id/logo_app"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="16dp"
-            android:src="@drawable/logo_app"
-        android:contentDescription="Logo do app"
-        android:layout_gravity="center"/>
+            android:layout_width="wrap_content"
+            android:layout_height="100dp"
+            android:layout_gravity="center"
+            android:layout_marginBottom="8dp"
+            android:contentDescription="Logo do app"
+            android:scaleType="fitCenter"
+            android:src="@drawable/icon" />
 
         <!-- Botão para criar novo perfil -->
         <com.google.android.material.card.MaterialCardView
@@ -31,11 +51,11 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="16dp"
-            app:cardCornerRadius="12dp"
-            app:cardElevation="6dp"
-            android:backgroundTint="@color/cardBackgroundColor"
+            android:backgroundTint="@color/buttonColor"
             android:clickable="true"
-            android:focusable="true">
+            android:focusable="true"
+            app:cardCornerRadius="12dp"
+            app:cardElevation="6dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -50,9 +70,9 @@
                     android:layout_height="wrap_content"
                     android:gravity="center"
                     android:text="CRIAR NOVO PERFIL"
-                    android:textSize="18sp"
-                    android:textStyle="bold"
-                    android:textColor="@color/primaryTextColor" />
+                    android:textColor="@color/black"
+                    android:textSize="15sp"
+                    android:textStyle="bold" />
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
 
@@ -62,12 +82,12 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="16dp"
+            android:backgroundTint="@color/bgColor2"
+            android:clickable="true"
+            android:focusable="true"
             android:visibility="gone"
             app:cardCornerRadius="12dp"
-            app:cardElevation="6dp"
-            android:backgroundTint="@color/cardBackgroundColor"
-            android:clickable="true"
-            android:focusable="true">
+            app:cardElevation="6dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -80,36 +100,42 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Preencha os dados:"
-                    android:textSize="18sp"
-                    android:textStyle="bold"
-                    android:textColor="@color/primaryTextColor" />
+                    android:textColor="@color/black"
+                    android:textSize="15sp"
+                    android:textStyle="bold" />
 
                 <EditText
                     android:id="@+id/edit_nome"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:backgroundTint="@color/primaryColor"
                     android:hint="Nome"
                     android:padding="12dp"
-                    android:backgroundTint="@color/primaryColor"
-                    android:textColor="@color/primaryTextColor" />
+                    android:textColor="@color/black"
+                    android:textSize="15sp"
+                    android:textStyle="bold" />
 
                 <EditText
                     android:id="@+id/edit_idade"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:backgroundTint="@color/primaryColor"
                     android:hint="Idade"
                     android:padding="12dp"
-                    android:backgroundTint="@color/primaryColor"
-                    android:textColor="@color/primaryTextColor" />
+                    android:textColor="@color/black"
+                    android:textSize="15sp"
+                    android:textStyle="bold" />
 
                 <EditText
                     android:id="@+id/edit_preferencias"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:backgroundTint="@color/primaryColor"
                     android:hint="Preferências"
                     android:padding="12dp"
-                    android:backgroundTint="@color/primaryColor"
-                    android:textColor="@color/primaryTextColor" />
+                    android:textColor="@color/black"
+                    android:textSize="15sp"
+                    android:textStyle="bold" />
 
                 <Button
                     android:id="@+id/btn_criar_perfil"
@@ -117,9 +143,11 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="end"
                     android:layout_marginTop="8dp"
+                    android:backgroundTint="@color/buttonColor"
                     android:text="SALVAR"
-                    android:backgroundTint="@color/primaryColor"
-                    android:textColor="@color/white" />
+                    android:textColor="@color/black"
+                    android:textSize="15sp"
+                    android:textStyle="bold" />
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
 
@@ -128,13 +156,13 @@
             android:id="@+id/card_perfis_existentes"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="32dp"
+            android:backgroundTint="@color/bgColor2"
+            android:clickable="true"
+            android:focusable="true"
             android:visibility="gone"
             app:cardCornerRadius="12dp"
-            app:cardElevation="6dp"
-            android:backgroundTint="@color/cardBackgroundColor"
-            android:layout_marginBottom="32dp"
-            android:clickable="true"
-            android:focusable="true">
+            app:cardElevation="6dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -152,39 +180,13 @@
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
 
-        <!-- Dicas -->
-        <com.google.android.material.card.MaterialCardView
-            android:id="@+id/card_dicas"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="32dp"
-            app:cardCornerRadius="12dp"
-            app:cardElevation="6dp"
-            android:backgroundTint="@color/cardBackgroundColor">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:padding="16dp">
-
-                <!-- Exibe a imagem do perfil da rede social -->
-                <ImageView
-                    android:id="@+id/img_perfil_social"
-                    android:layout_width="match_parent"
-                    android:layout_height="200dp"
-                    android:layout_marginBottom="8dp"
-                    android:src="@drawable/sample_recipe_image" />
-            </LinearLayout>
-        </com.google.android.material.card.MaterialCardView>
-
         <!-- Links úteis-->
         <com.google.android.material.card.MaterialCardView
             android:id="@+id/card_links"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="16dp"
-            android:backgroundTint="@color/cardBackgroundColor"
+            android:backgroundTint="@color/bgColor2"
             app:cardCornerRadius="12dp"
             app:cardElevation="6dp">
 
@@ -199,8 +201,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Links Úteis"
-                    android:textColor="@color/primaryTextColor"
-                    android:textSize="18sp"
+                    android:textColor="@color/black"
+                    android:textSize="15sp"
                     android:textStyle="bold" />
 
                 <TextView
@@ -209,7 +211,9 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
                     android:text="Organização Mundial da Saúde (OMS)"
-                    android:textColor="@color/linkColor" />
+                    android:textColor="@color/linkColor"
+                    android:textSize="15sp"
+                    android:textStyle="bold" />
 
                 <TextView
                     android:id="@+id/link_2"
@@ -217,17 +221,9 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
                     android:text="Blog: Alimentação Infantil Saudável"
-                    android:textColor="@color/linkColor" />
-
-                <Button
-                    android:id="@+id/btnLogout"
-                    android:layout_width="38dp"
-                    android:layout_height="37dp"
-                    android:layout_gravity="start"
-                    android:layout_marginTop="20dp"
-                    android:layout_marginBottom="5dp"
-                    android:backgroundTint="@color/white"
-                    android:drawableTop="@drawable/ic_logout" />
+                    android:textColor="@color/linkColor"
+                    android:textSize="15sp"
+                    android:textStyle="bold" />
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
 

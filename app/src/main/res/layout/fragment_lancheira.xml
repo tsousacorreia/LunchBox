@@ -4,21 +4,21 @@
     android:id="@+id/fragment_lancheira"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/backgroundColor"
+    android:background="@color/bgColor"
     android:orientation="vertical"
     android:padding="8dp"
     tools:context=".lunchbox.LancheiraFragment">
 
-    <!-- Título da lancheira -->
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:padding="16dp"
-        android:text="LANCHEIRA"
-        android:textColor="?attr/colorPrimary"
-        android:textSize="24sp"
-        android:textStyle="bold" />
+    <!-- Espaço para o logo do app -->
+    <ImageView
+        android:id="@+id/logo_app"
+        android:layout_width="200dp"
+        android:layout_height="150dp"
+        android:layout_gravity="center"
+        android:layout_marginBottom="16dp"
+        android:contentDescription="Logo do app"
+        android:scaleType="fitCenter"
+        android:src="@drawable/icon" />
 
     <!-- RecyclerView para mostrar os alimentos da lancheira -->
     <androidx.recyclerview.widget.RecyclerView

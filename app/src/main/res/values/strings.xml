@@ -1,5 +1,4 @@
 <resources>
-    <string name="app_name">LunchBox</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="usuario">Usuário</string>
     <string name="senha">Senha</string>
@@ -9,7 +8,6 @@
     <string name="entrar">Entrar</string>
     <string name="login">Login</string>
     <string name="cadastro">Cadastro</string>
-    <string name="voltar">Voltar</string>
     <string name="sair">Sair</string>
     <string name="logo">logo</string>
     <string name="email">E-mail</string>
@@ -18,4 +16,35 @@
     <string name="template">template</string>
     <string name="passwordStr">A senha deve conter letras e números.</string>
     <string name="senhaCurta">A senha deve conter pelo menos 8 caracteres!</string>
+
+    <!-- Geral -->
+    <string name="app_name">LunchboxApp</string>
+    <string name="app_logo_description">Logo do aplicativo LunchboxApp</string>
+    <string name="img_description">Imagem ilustrativa de uma receita ou dica alimentar</string>
+
+    <!-- Textos da Tela Inicial -->
+    <string name="criar_novo_perfil">Criar Novo Perfil</string>
+    <string name="preencha_dados">Preencha os dados abaixo:</string>
+    <string name="hint_nome">Nome</string>
+    <string name="hint_idade">Idade (em anos)</string>
+    <string name="hint_preferencias">Preferências alimentares</string>
+    <string name="salvar">Salvar</string>
+    <string name="links_uteis">Links Úteis</string>
+    <string name="logout">Logout</string>
+
+    <!-- Links Úteis -->
+    <string name="link_oms">Recomendações da OMS</string>
+    <string name="link_blog">Blog de Nutrição Infantil</string>
+
+    <!-- Mensagens de Validação -->
+    <string name="nome_obrigatorio">O nome é obrigatório.</string>
+    <string name="idade_obrigatoria">A idade deve ser preenchida.</string>
+    <string name="perfil_criado_sucesso">Perfil criado com sucesso!</string>
+    <string name="erro_ao_criar_perfil">Erro ao criar perfil. Tente novamente.</string>
+    <string name="perfil_excluido">Perfil excluído com sucesso!</string>
+    <string name="erro_ao_excluir_perfil">Erro ao excluir perfil. Tente novamente.</string>
+
+    <!-- Navegação -->
+    <string name="voltar">Voltar</string>
+    <string name="continuar">Continuar</string>
 </resources>
