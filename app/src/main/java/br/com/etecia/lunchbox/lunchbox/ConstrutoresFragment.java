@@ -30,7 +30,7 @@ public class ConstrutoresFragment extends Fragment implements OnAlimentoClickLis
     private OnAlimentoSelectedListener listener;
     private PerfilViewModel perfilViewModel;
     private SharedViewModel sharedViewModel;
-    private Button btnVisualizarLancheira;  // Botão para navegar para a Lancheira
+    private Button btnVisualizarLancheira;
 
     @Nullable
     @Override

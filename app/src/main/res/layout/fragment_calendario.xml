@@ -8,6 +8,17 @@
     android:padding="8dp"
     tools:context=".lunchbox.CalendarioFragment">
 
+    <!-- Espaço para o logo do app -->
+    <ImageView
+        android:id="@+id/logo_app"
+        android:layout_width="wrap_content"
+        android:layout_height="100dp"
+        android:layout_gravity="center"
+        android:layout_marginBottom="8dp"
+        android:contentDescription="Logo do app"
+        android:scaleType="fitCenter"
+        android:src="@drawable/icon" />
+
     <!-- ViewPager2 para a exibição dos conteúdos de cada dia -->
     <androidx.viewpager2.widget.ViewPager2
         android:id="@+id/viewPager"
@@ -29,8 +40,9 @@
         android:layout_marginTop="8dp"
         android:layout_marginBottom="8dp"
         android:padding="12dp"
+        android:backgroundTint="@color/button"
         android:text="SELECIONAR DATA"
-        android:textColor="?attr/colorPrimary"
+        android:textColor="@color/black"
         android:textSize="18sp"
         android:textStyle="bold" />
 

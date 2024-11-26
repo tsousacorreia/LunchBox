@@ -4,4 +4,6 @@ public interface OnAlimentoSelectedListener {
     void onAlimentoSelected(Alimentos alimento);
     void onVisualizarLancheira();
     void onSelectLancheira();
+    void onVisualizarCalendario();
+    void onSelectCalendario();
 }

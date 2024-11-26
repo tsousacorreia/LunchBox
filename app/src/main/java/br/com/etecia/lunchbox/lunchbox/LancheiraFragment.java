@@ -1,6 +1,7 @@
 package br.com.etecia.lunchbox.lunchbox;
 
 import android.app.DatePickerDialog;
+import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;  // Adicione esta linha
 import android.view.LayoutInflater;
@@ -36,6 +37,7 @@ public class LancheiraFragment extends Fragment {
     private PerfilViewModel perfilViewModel;
     private SharedViewModel sharedViewModel;
     private String dataSelecionada;
+    private OnAlimentoSelectedListener listener;
 
     @Nullable
     @Override
@@ -72,10 +74,17 @@ public class LancheiraFragment extends Fragment {
 
         // Configuração dos botões
         btnFinalizarLancheira = view.findViewById(R.id.btn_finalizar_lancheira);
-        btnFinalizarLancheira.setOnClickListener(v -> finalizarLancheira());
+        btnFinalizarLancheira.setOnClickListener(v -> {
+            if (listener != null) {
+                listener.onVisualizarCalendario();
+                listener.onSelectCalendario();
+            }
+            finalizarLancheira();
+        });
 
         btnLimparLancheira = view.findViewById(R.id.btn_limpar_lancheira);
         btnLimparLancheira.setOnClickListener(v -> limparLancheira());
+
 
         // Inicializa o ViewModel do perfil para compartilhamento de dados entre fragments
         perfilViewModel = new ViewModelProvider(requireActivity()).get(PerfilViewModel.class);
@@ -108,6 +117,8 @@ public class LancheiraFragment extends Fragment {
                         sharedViewModel.limparAlimentos();
                         dataSelecionada = null;
                         textData.setText("Selecione uma data");
+
+
                     } else {
                         Log.e("LancheiraFragment", "Erro ao salvar a lancheira: ID retornado -1"); // Log do erro
                         Toast.makeText(getContext(), "Erro ao salvar a lancheira", Toast.LENGTH_SHORT).show();
@@ -149,5 +160,16 @@ public class LancheiraFragment extends Fragment {
         Alimentos alimentoRemovido = alimentosNaLancheira.get(position);
         sharedViewModel.limparAlimento(alimentoRemovido);
         Toast.makeText(getContext(), alimentoRemovido.getNome() + " removido da lancheira", Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onAttach(@NonNull Context context) {
+        super.onAttach(context);
+        if (context instanceof OnAlimentoSelectedListener) {
+            listener = (OnAlimentoSelectedListener) context;
+        } else {
+            throw new RuntimeException(context.toString()
+                    + " deve implementar OnAlimentoSelectedListener");
+        }
     }
 }

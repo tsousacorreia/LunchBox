@@ -75,6 +75,18 @@ public class MainActivity extends AppCompatActivity implements OnAlimentoSelecte
     }
 
     @Override
+    public void onVisualizarCalendario() {
+        CalendarioFragment calendarioFragment = new CalendarioFragment();
+        getSupportFragmentManager().beginTransaction()
+                .replace(R.id.fragment_container, calendarioFragment)
+                .addToBackStack(null)
+                .commit();
+
+        // Atualizar o BottomNavigationView para a aba da lancheira
+        bottomNavigationView.setSelectedItemId(R.id.nav_calendario);
+    }
+
+    @Override
     public void onBackPressed() {
         // Se o tempo entre os pressionamentos for menor que 2 segundos, sai do app
         if (backPressedTime + 2500 > System.currentTimeMillis()) {
@@ -89,8 +101,13 @@ public class MainActivity extends AppCompatActivity implements OnAlimentoSelecte
         backPressedTime = System.currentTimeMillis();
     }
 
-    // Novo método para selecionar a lancheira
+    // Método para selecionar a lancheira
     public void onSelectLancheira() {
         bottomNavigationView.setSelectedItemId(R.id.nav_lancheira);
+    }
+
+    // Método para selecionar a calendario
+    public void onSelectCalendario() {
+        bottomNavigationView.setSelectedItemId(R.id.nav_calendario);
     }
 }
