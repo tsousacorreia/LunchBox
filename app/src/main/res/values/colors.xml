@@ -20,4 +20,5 @@
     <color name="bgColor">#ffca64</color>
     <color name="bgColor2">#FFEBCD</color>
     <color name="buttonColor">#fb5e32</color>
+    <color name="button">#E7DDF7</color>
 </resources>
