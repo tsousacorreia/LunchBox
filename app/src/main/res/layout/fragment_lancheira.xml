@@ -27,7 +27,8 @@
         android:layout_height="0dp"
         android:layout_marginBottom="16dp"
         android:layout_weight="1"
-        android:scrollbars="vertical" />
+        android:scrollbars="vertical"
+        android:background="@color/bgColor2"/>
 
     <!-- Seleção de Data dentro de um Card -->
     <com.google.android.material.card.MaterialCardView
