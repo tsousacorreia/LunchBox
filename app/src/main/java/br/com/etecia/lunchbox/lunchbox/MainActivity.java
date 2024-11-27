@@ -31,7 +31,7 @@ public class MainActivity extends AppCompatActivity implements OnAlimentoSelecte
 
         bottomNavigationView = findViewById(R.id.bottom_navigation);
 
-        bottomNavigationView.setOnNavigationItemSelectedListener(item -> {
+        bottomNavigationView.setOnItemSelectedListener(item -> {
             Fragment selectedFragment = null;
 
             if (item.getItemId() == R.id.nav_home) {
@@ -101,12 +101,10 @@ public class MainActivity extends AppCompatActivity implements OnAlimentoSelecte
         backPressedTime = System.currentTimeMillis();
     }
 
-    // Método para selecionar a lancheira
     public void onSelectLancheira() {
         bottomNavigationView.setSelectedItemId(R.id.nav_lancheira);
     }
 
-    // Método para selecionar a calendario
     public void onSelectCalendario() {
         bottomNavigationView.setSelectedItemId(R.id.nav_calendario);
     }
